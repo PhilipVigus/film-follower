@@ -3,6 +3,8 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
+use App\Models\Film;
+use App\Models\Trailer;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -18,5 +20,14 @@ class TrailerTest extends TestCase
                 'id', 'guid', 'title', 'slug', 'type', 'image', 'link', 'uploaded_at',
             ])
         );
+    }
+
+    /** @test */
+    public function a_trailer_is_from_a_film()
+    {
+        $film = Film::factory()->create();
+        $trailer = Trailer::factory()->create(['film_id' => $film->id]);
+
+        $this->assertEquals($film->id, $trailer->film->id);
     }
 }
