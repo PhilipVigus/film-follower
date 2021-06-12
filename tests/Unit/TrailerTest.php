@@ -37,6 +37,6 @@ class TrailerTest extends TestCase
     {
         $this->expectException(Exception::class);
 
-        $trailer = Trailer::factory()->create(['film_id' => null]);
+        Trailer::factory()->create(['film_id' => null]);
     }
 }
