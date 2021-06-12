@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use Exception;
 use Tests\TestCase;
 use App\Models\Film;
 use App\Models\Trailer;
@@ -29,5 +30,13 @@ class TrailerTest extends TestCase
         $trailer = Trailer::factory()->create(['film_id' => $film->id]);
 
         $this->assertEquals($film->id, $trailer->film->id);
+    }
+
+    /** @test */
+    public function a_trailer_must_be_from_a_film()
+    {
+        $this->expectException(Exception::class);
+
+        $trailer = Trailer::factory()->create(['film_id' => null]);
     }
 }
