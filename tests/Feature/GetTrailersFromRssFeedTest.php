@@ -52,8 +52,12 @@ class GetTrailersFromRssFeedTest extends TestCase
 
         $this->get(route('get-trailers'));
 
-        $this->assertCount(3, Trailer::all());
-        $this->assertEquals('itemId1', Trailer::first()->guid);
+        $trailers = Trailer::all();
+
+        $this->assertCount(3, $trailers);
+        $this->assertEquals('itemId1', $trailers->getNth(0)->guid);
+        $this->assertEquals('itemId2', $trailers->getNth(1)->guid);
+        $this->assertEquals('itemId3', $trailers->getNth(2)->guid);
     }
 
     /** @test */
@@ -73,5 +77,23 @@ class GetTrailersFromRssFeedTest extends TestCase
         $this->assertEquals($trailers->getNth(0)->film->id, $films->getNth(0)->id);
         $this->assertEquals($trailers->getNth(1)->film->id, $films->getNth(1)->id);
         $this->assertEquals($trailers->getNth(2)->film->id, $films->getNth(1)->id);
+    }
+
+    /** @test */
+    public function it_doesnt_create_duplicate_trailers()
+    {
+        $mockFeedResponse = new MockFeedResponse($this->mockFeedData);
+
+        FeedReader::shouldReceive('read')->andReturn($mockFeedResponse);
+
+        $this->get(route('get-trailers'));
+        $this->get(route('get-trailers'));
+
+        $trailers = Trailer::all();
+
+        $this->assertCount(3, $trailers);
+        $this->assertEquals('itemId1', $trailers->getNth(0)->guid);
+        $this->assertEquals('itemId2', $trailers->getNth(1)->guid);
+        $this->assertEquals('itemId3', $trailers->getNth(2)->guid);
     }
 }
