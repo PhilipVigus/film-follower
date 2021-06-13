@@ -10,6 +10,8 @@ class Film extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function trailers(): HasMany
     {
         return $this->hasMany(Trailer::class);

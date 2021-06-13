@@ -10,6 +10,8 @@ class Trailer extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function film(): BelongsTo
     {
         return $this->belongsTo(Film::class);
