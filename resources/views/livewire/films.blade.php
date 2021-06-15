@@ -11,15 +11,16 @@
                 <div class="mt-4 border">
                     <div>{{ $film->title }}</div>
 
-                    <div>
+                    <div class="flex space-x-2">
                         @foreach ($film->trailers as $trailer)
                             <div>
                                 <div>{{ $trailer->type }}</div>
+
+                                <a href="{{ $trailer->link }}" target="_blank">
+                                    <img class="h-32" src="{{ $trailer->image }}" />
+                                </a>
                             </div>
 
-                            <a href="{{ $trailer->link }}" target="_blank">
-                                <img class="h-32" src="{{ $trailer->image }}" />
-                            </a>
                         @endforeach
                     </div>
                 </div>
