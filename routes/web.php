@@ -12,3 +12,4 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 Route::get('/get-trailers', Controllers\GetTrailersController::class)->name('get-trailers');
+Route::get('/films', Controllers\ShowFilmsController::class)->name('films');
