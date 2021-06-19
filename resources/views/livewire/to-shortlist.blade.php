@@ -22,6 +22,10 @@
                             </div>
                         @endforeach
                     </div>
+
+                    <div>
+                        <button wire:click="shortlist({{ $film }})">Shortlist</button>
+                    </div>
                 </div>
             @endforeach
         </div>

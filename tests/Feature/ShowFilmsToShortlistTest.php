@@ -9,12 +9,12 @@ use Livewire\Livewire;
 use App\Http\Livewire\ToShortlist;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ShowFilmsTest extends TestCase
+class ShowFilmsToShortlistTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    public function a_logged_in_user_can_view_page()
+    public function a_logged_in_user_can_view_the_page()
     {
         $user = User::factory()->create();
 
@@ -33,7 +33,7 @@ class ShowFilmsTest extends TestCase
     }
 
     /** @test */
-    public function the_list_includes_all_movies_the_user_has_to_shortlist()
+    public function the_list_includes_all_films_the_user_has_to_shortlist()
     {
         $firstFilm = Film::factory()->create();
         $secondFilm = Film::factory()->create();
@@ -48,5 +48,20 @@ class ShowFilmsTest extends TestCase
         $this->assertCount(2, $response->films);
         $this->assertEquals($response->films[0]->id, $firstFilm->id);
         $this->assertEquals($response->films[1]->id, $secondFilm->id);
+    }
+
+    /** @test */
+    public function you_can_shortlist_a_film()
+    {
+        $film = Film::factory()->create();
+        $user = User::factory()->create();
+
+        Livewire::actingAs($user)
+            ->test(ToShortlist::class)
+            ->call('shortlist', $film)
+        ;
+
+        $this->assertEmpty($user->filmsToShortlist);
+        $this->assertCount(1, $user->shortlistedFilms);
     }
 }
