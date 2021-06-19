@@ -14,12 +14,22 @@ class ShowFilmsTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function a_user_can_view_page()
+    public function a_logged_in_user_can_view_page()
     {
-        $response = $this->actingAs(User::factory()->create())->get(route('films'));
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->get(route('films'));
 
         $response->assertSuccessful();
         $response->assertViewIs('films');
+    }
+
+    /** @test */
+    public function a_guest_user_is_redirected_to_the_login_page()
+    {
+        $response = $this->get(route('films'));
+
+        $response->assertRedirect('login');
     }
 
     /** @test */
@@ -27,8 +37,13 @@ class ShowFilmsTest extends TestCase
     {
         $firstFilm = Film::factory()->create();
         $secondFilm = Film::factory()->create();
+        $shortlistedFilm = Film::factory()->create();
 
-        $response = Livewire::test(Films::class);
+        $user = User::factory()->create();
+
+        $user->films()->updateExistingPivot($shortlistedFilm, ['status' => Film::SHORTLISTED]);
+
+        $response = Livewire::actingAs($user)->test(Films::class);
 
         $this->assertCount(2, $response->films);
         $this->assertEquals($response->films[0]->id, $firstFilm->id);
