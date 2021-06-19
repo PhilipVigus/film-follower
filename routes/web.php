@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers as Controllers;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(route('to-shortlist'));
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
@@ -12,4 +12,5 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 Route::get('/get-trailers', Controllers\GetTrailersController::class)->name('get-trailers');
-Route::get('/films', Controllers\ShowFilmsController::class)->name('films');
+Route::get('/to-shortlist', Controllers\ShowFilmsToShortlistController::class)->name('to-shortlist')->middleware('auth');
+Route::get('/shortlist', Controllers\ShowFilmsShortlistController::class)->name('shortlist')->middleware('auth');

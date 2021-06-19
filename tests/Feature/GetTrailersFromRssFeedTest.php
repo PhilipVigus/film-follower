@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Film;
+use App\Models\User;
 use App\Models\Trailer;
 use Tests\Support\MockFeedResponse;
 use Vedmant\FeedReader\Facades\FeedReader;
@@ -95,5 +96,20 @@ class GetTrailersFromRssFeedTest extends TestCase
         $this->assertEquals('itemId1', $trailers->getNth(0)->guid);
         $this->assertEquals('itemId2', $trailers->getNth(1)->guid);
         $this->assertEquals('itemId3', $trailers->getNth(2)->guid);
+    }
+
+    /** @test */
+    public function it_adds_new_films_to_each_registered_user()
+    {
+        $userA = User::factory()->create();
+        $userB = User::factory()->create();
+
+        $mockFeedResponse = new MockFeedResponse($this->mockFeedData);
+
+        FeedReader::shouldReceive('read')->andReturn($mockFeedResponse);
+
+        $this->get(route('get-trailers'));
+
+        $this->assertCount(2, $userA->films);
     }
 }
