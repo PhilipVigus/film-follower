@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Film;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -17,6 +18,8 @@ class CreateFollowersFilmsTable extends Migration
             $table->foreignId('film_id')->constrained('films')->cascadeOnDelete();
 
             // Data
+            $table->enum('status', [Film::TO_SHORTLIST, Film::SHORTLISTED])->default('to_shortlist');
+
             $table->timestamps();
         });
     }

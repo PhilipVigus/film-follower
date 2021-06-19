@@ -31,4 +31,15 @@ class UserTest extends TestCase
 
         $this->assertEmpty($user->films);
     }
+
+    /** @test */
+    public function a_film_added_to_a_user_is_given_the_to_shortlist_status_by_default()
+    {
+        $user = User::factory()->create();
+        $film = Film::factory()->create();
+
+        $user->films()->attach($film);
+
+        $this->assertCount(1, $user->films()->wherePivot('status', Film::TO_SHORTLIST)->get());
+    }
 }

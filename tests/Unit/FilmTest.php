@@ -60,4 +60,15 @@ class FilmTest extends TestCase
 
         $this->assertEmpty($film->followers);
     }
+
+    /** @test */
+    public function a_follower_added_to_a_film_is_given_the_to_shortlist_status_by_default()
+    {
+        $user = User::factory()->create();
+        $film = Film::factory()->create();
+
+        $film->followers()->attach($user);
+
+        $this->assertCount(1, $film->followers()->wherePivot('status', Film::TO_SHORTLIST)->get());
+    }
 }

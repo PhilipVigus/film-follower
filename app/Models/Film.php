@@ -11,6 +11,9 @@ class Film extends Model
 {
     use HasFactory;
 
+    const TO_SHORTLIST = 'to_shortlist';
+    const SHORTLISTED = 'shortlisted';
+
     protected $guarded = [];
 
     public function trailers(): HasMany
