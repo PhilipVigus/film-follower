@@ -21,6 +21,9 @@ class CreateFollowersFilmsTable extends Migration
             $table->enum('status', [Film::TO_SHORTLIST, Film::SHORTLISTED])->default('to_shortlist');
 
             $table->timestamps();
+
+            // Constraints
+            $table->unique(['user_id', 'film_id']);
         });
     }
 

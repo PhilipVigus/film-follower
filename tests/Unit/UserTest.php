@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\Models\Film;
 use App\Models\User;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserTest extends TestCase
@@ -30,6 +31,19 @@ class UserTest extends TestCase
         $user = User::factory()->create();
 
         $this->assertEmpty($user->films);
+    }
+
+    /** @test */
+    public function a_user_cannot_have_duplicate_films()
+    {
+        $user = User::factory()->create();
+        $film = Film::factory()->create();
+
+        $user->films()->attach($film);
+
+        $this->expectException(QueryException::class);
+
+        $user->films()->attach($film);
     }
 
     /** @test */

@@ -7,6 +7,7 @@ use App\Models\Film;
 use App\Models\User;
 use App\Models\Trailer;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class FilmTest extends TestCase
@@ -59,6 +60,19 @@ class FilmTest extends TestCase
         $film = Film::factory()->create();
 
         $this->assertEmpty($film->followers);
+    }
+
+    /** @test */
+    public function a_film_cannot_have_duplicate_followers()
+    {
+        $user = User::factory()->create();
+        $film = Film::factory()->create();
+
+        $film->followers()->attach($user);
+
+        $this->expectException(QueryException::class);
+
+        $film->followers()->attach($user);
     }
 
     /** @test */
