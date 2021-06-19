@@ -6,7 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
 
-class Films extends Component
+class ToShortlist extends Component
 {
     /** @var Collection */
     public $films;
@@ -22,6 +22,6 @@ class Films extends Component
 
     public function render()
     {
-        return view('livewire.films');
+        return view('livewire.to-shortlist');
     }
 }

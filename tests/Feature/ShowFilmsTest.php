@@ -6,7 +6,7 @@ use Tests\TestCase;
 use App\Models\Film;
 use App\Models\User;
 use Livewire\Livewire;
-use App\Http\Livewire\Films;
+use App\Http\Livewire\ToShortlist;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowFilmsTest extends TestCase
@@ -18,16 +18,16 @@ class ShowFilmsTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->get(route('films'));
+        $response = $this->actingAs($user)->get(route('to-shortlist'));
 
         $response->assertSuccessful();
-        $response->assertViewIs('films');
+        $response->assertViewIs('to-shortlist');
     }
 
     /** @test */
     public function a_guest_user_is_redirected_to_the_login_page()
     {
-        $response = $this->get(route('films'));
+        $response = $this->get(route('to-shortlist'));
 
         $response->assertRedirect('login');
     }
@@ -43,7 +43,7 @@ class ShowFilmsTest extends TestCase
 
         $user->films()->updateExistingPivot($shortlistedFilm, ['status' => Film::SHORTLISTED]);
 
-        $response = Livewire::actingAs($user)->test(Films::class);
+        $response = Livewire::actingAs($user)->test(ToShortlist::class);
 
         $this->assertCount(2, $response->films);
         $this->assertEquals($response->films[0]->id, $firstFilm->id);
