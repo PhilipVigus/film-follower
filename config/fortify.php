@@ -1,10 +1,8 @@
 <?php
 
-use App\Providers\RouteServiceProvider;
 use Laravel\Fortify\Features;
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Fortify Guard
@@ -61,7 +59,7 @@ return [
     |
     */
 
-    'home' => RouteServiceProvider::HOME,
+    'home' => '/films',
 
     /*
     |--------------------------------------------------------------------------
@@ -141,5 +139,4 @@ return [
             'confirmPassword' => true,
         ]),
     ],
-
 ];
