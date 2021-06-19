@@ -44,9 +44,9 @@ class FilmTest extends TestCase
     /** @test */
     public function a_film_can_have_many_followers()
     {
-        $film = Film::factory()->create();
         $userA = User::factory()->create();
         $userB = User::factory()->create();
+        $film = Film::factory()->create();
 
         $film->followers()->attach($userA);
         $film->followers()->attach($userB);

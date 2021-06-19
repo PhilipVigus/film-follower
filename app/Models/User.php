@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Livewire\Films;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
@@ -38,6 +39,13 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    protected static function booted()
+    {
+        static::created(function (self $user) {
+            $user->films()->attach(Film::all());
+        });
+    }
 
     public function films(): BelongsToMany
     {

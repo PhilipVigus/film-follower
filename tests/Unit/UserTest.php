@@ -90,4 +90,13 @@ class UserTest extends TestCase
         $this->assertCount(1, $shortlistedFilms);
         $this->assertEquals($shortlistedFilm->id, $shortlistedFilms->first()->id);
     }
+
+    /** @test */
+    public function a_new_user_has_all_existing_films_added_to_their_films()
+    {
+        Film::factory(5)->create();
+        $user = User::factory()->create();
+
+        $this->assertCount(5, $user->films);
+    }
 }
