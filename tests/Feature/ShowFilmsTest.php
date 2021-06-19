@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Film;
+use App\Models\User;
 use Livewire\Livewire;
 use App\Http\Livewire\Films;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -15,7 +16,7 @@ class ShowFilmsTest extends TestCase
     /** @test */
     public function a_user_can_view_page()
     {
-        $response = $this->get(route('films'));
+        $response = $this->actingAs(User::factory()->create())->get(route('films'));
 
         $response->assertSuccessful();
         $response->assertViewIs('films');
