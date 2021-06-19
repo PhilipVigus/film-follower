@@ -43,4 +43,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Film::class, 'followers_films');
     }
+
+    public function filmsToShortlist(): BelongsToMany
+    {
+        return $this->belongsToMany(Film::class, 'followers_films')->wherePivot('status', Film::TO_SHORTLIST);
+    }
+
+    public function shortlistedFilms(): BelongsToMany
+    {
+        return $this->belongsToMany(Film::class, 'followers_films')->wherePivot('status', Film::SHORTLISTED);
+    }
 }

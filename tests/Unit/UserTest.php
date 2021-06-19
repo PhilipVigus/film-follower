@@ -42,4 +42,38 @@ class UserTest extends TestCase
 
         $this->assertCount(1, $user->films()->wherePivot('status', Film::TO_SHORTLIST)->get());
     }
+
+    /** @test */
+    public function you_can_get_all_films_to_shortlist_by_a_user()
+    {
+        $user = User::factory()->create();
+        $shortlistedFilm = Film::factory()->create();
+        $filmToShortlist = Film::factory()->create();
+
+        $user->films()->attach($shortlistedFilm);
+        $user->films()->attach($filmToShortlist);
+        $user->films()->updateExistingPivot($shortlistedFilm, ['status' => Film::SHORTLISTED]);
+
+        $filmsToShortlist = $user->filmsToShortlist()->get();
+
+        $this->assertCount(1, $filmsToShortlist);
+        $this->assertEquals($filmToShortlist->id, $filmsToShortlist->first()->id);
+    }
+
+    /** @test */
+    public function you_can_get_all_films_shortlisted_by_a_user()
+    {
+        $user = User::factory()->create();
+        $shortlistedFilm = Film::factory()->create();
+        $filmToShortlist = Film::factory()->create();
+
+        $user->films()->attach($shortlistedFilm);
+        $user->films()->attach($filmToShortlist);
+        $user->films()->updateExistingPivot($shortlistedFilm, ['status' => Film::SHORTLISTED]);
+
+        $shortlistedFilms = $user->shortlistedFilms()->get();
+
+        $this->assertCount(1, $shortlistedFilms);
+        $this->assertEquals($shortlistedFilm->id, $shortlistedFilms->first()->id);
+    }
 }
