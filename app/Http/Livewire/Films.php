@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Film;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
 
 class Films extends Component
@@ -13,7 +13,11 @@ class Films extends Component
 
     public function mount()
     {
-        $this->films = Film::all();
+        $this->films = Auth::user()
+            ->filmsToShortlist()
+            ->with('trailers')
+            ->get()
+        ;
     }
 
     public function render()
