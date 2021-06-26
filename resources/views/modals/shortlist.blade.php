@@ -1,6 +1,5 @@
 <div @click.away="close()" class="bg-white rounded shadow-lg p-8 relative">
-    {{ $film['guid'] }}
-    <p>I'm a perfectly centered and focused modal. I'm not letting you scroll until you read me!</p>
+    <h1 class="text-center">{{ $film['title']}}</h1>
     <button @click="close()">
         Cancel
     </button>
