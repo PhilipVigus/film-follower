@@ -24,7 +24,7 @@
                     </div>
 
                     <div>
-                        <button wire:click="$emitTo('modal', 'show', 'shortlist')">Shortlist</button>
+                        <button wire:click="showShortlistModal({{ $film->id }})">Shortlist</button>
                     </div>
                 </div>
             @endforeach

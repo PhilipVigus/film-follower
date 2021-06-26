@@ -35,6 +35,11 @@ class ToShortlist extends Component
         ;
     }
 
+    public function showShortlistModal(Film $film)
+    {
+        $this->emitTo('modal', 'show', 'shortlist', ['film' => $film]);
+    }
+
     public function render()
     {
         return view('livewire.to-shortlist');
