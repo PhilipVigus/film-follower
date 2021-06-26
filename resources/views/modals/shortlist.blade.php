@@ -1,4 +1,4 @@
-<div @click.away="open = false; $dispatch('body-scroll', {})" class="bg-white rounded shadow-lg p-8 relative">
+<div @click.away="close()" class="bg-white rounded shadow-lg p-8 relative">
     {{ $film['guid'] }}
     <p>I'm a perfectly centered and focused modal. I'm not letting you scroll until you read me!</p>
     <button @click="close()">
