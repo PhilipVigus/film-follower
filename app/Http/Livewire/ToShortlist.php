@@ -12,7 +12,7 @@ class ToShortlist extends Component
     /** @var Collection */
     public $films;
 
-    protected $listeners = ['shortlist' => 'shortlistFilm'];
+    protected $listeners = ['shortlist' => 'shortlist'];
 
     public function mount()
     {

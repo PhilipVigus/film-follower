@@ -1,5 +1,5 @@
 <div 
-    x-data="{ open: @entangle('open') }"
+    x-data="{ open: @entangle('open'), close() { open = false; $dispatch('body-scroll', {}); } }"
     x-init="$watch('open', () => $dispatch('toggle-background-scroll', {}))"
     @toggle-background-scroll="document.body.style.overflowY = open ? 'hidden' : ''"
 >
