@@ -7,25 +7,25 @@ use Livewire\Component;
 class Modal extends Component
 {
     /** @var bool */
-    public $show;
+    public $open = false;
 
     /** @var string */
-    public $view;
+    public $view = '';
 
     /** @var array */
-    public $data;
+    public $data = [];
 
-    protected $listeners = ['show' => 'show'];
+    protected $listeners = ['open' => 'open'];
 
-    public function show(string $view, array $data = [])
+    public function open(string $view, array $data = [])
     {
-        $this->show = true;
+        $this->open = true;
 
         $this->view = $view;
         $this->data = $data;
     }
 
-    public function hide()
+    public function close()
     {
         $this->view = '';
         $this->data = [];

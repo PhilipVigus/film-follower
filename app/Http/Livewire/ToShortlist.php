@@ -35,9 +35,9 @@ class ToShortlist extends Component
         ;
     }
 
-    public function showShortlistModal(Film $film)
+    public function openShortlistModal(Film $film)
     {
-        $this->emitTo('modal', 'show', 'shortlist', ['film' => $film]);
+        $this->emitTo('modal', 'open', 'shortlist', ['film' => $film]);
     }
 
     public function render()
