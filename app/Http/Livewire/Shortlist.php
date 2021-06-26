@@ -28,7 +28,9 @@ class Shortlist extends Component
     {
         return Auth::user()
             ->shortlistedFilms()
-            ->with('trailers')
+            ->with(['priorities' => function($query) {
+                $query->where('user_id', '=', Auth::id());
+            }])
             ->get()
         ;
     }

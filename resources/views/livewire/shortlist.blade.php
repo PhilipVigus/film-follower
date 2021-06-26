@@ -9,23 +9,13 @@
         <div class="max-w-7xl mx-auto px-4">
             @foreach ($films as $film)
                 <div class="mt-4 border">
-                    <div>{{ $film->title }}</div>
+                    <div class="font-bold text-lg">{{ $film->title }}</div>
+                    <div>Priority - {{$film->priorities->first()->priority }}</div>
+                    <div>{{$film->priorities->first()->comment }}</div>
 
-                    <div class="flex space-x-2">
-                        @foreach ($film->trailers as $trailer)
-                            <div>
-                                <div>{{ $trailer->type }}</div>
-
-                                <a href="{{ $trailer->link }}" target="_blank">
-                                    <img class="h-32" src="{{ $trailer->image }}" />
-                                </a>
-                            </div>
-                        @endforeach
+                    <div>
+                        <button wire:click="unshortlist({{ $film }})">Unshortlist</button>
                     </div>
-                </div>
-
-                <div>
-                    <button wire:click="unshortlist({{ $film }})">Unshortlist</button>
                 </div>
             @endforeach
         </div>
