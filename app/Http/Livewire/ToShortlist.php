@@ -19,8 +19,9 @@ class ToShortlist extends Component
         $this->films = $this->getFilmsToShortlist();
     }
 
-    public function shortlist(Film $film)
+    public function shortlist(Film $film, string $priority, string $comment)
     {
+        Auth::user()->priorities()->updateOrCreate(['film_id' => $film->id], ['priority' => $priority, 'comment' => $comment]);
         Auth::user()->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
 
         $this->films = $this->getFilmsToShortlist();

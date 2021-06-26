@@ -12,9 +12,9 @@ class Priority extends Model
 
     protected $guarded = [];
 
-    public const LOW = 1;
-    public const MEDIUM = 2;
-    public const HIGH = 3;
+    public const LOW = 'low';
+    public const MEDIUM = 'medium';
+    public const HIGH = 'high';
 
     public function user(): BelongsTo
     {
