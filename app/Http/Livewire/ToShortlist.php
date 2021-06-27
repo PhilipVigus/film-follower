@@ -36,9 +36,23 @@ class ToShortlist extends Component
         ;
     }
 
-    public function openShortlistModal(Film $film)
+    public function openShortlistPriorityModal(Film $film)
     {
-        $this->emitTo('modal', 'open', 'shortlist', ['film' => $film]);
+        $priority = Auth::user()
+            ->priorities()
+            ->where('film_id', '=', $film->id)
+            ->first()
+        ;
+
+        $this->emitTo(
+            'modal',
+            'open',
+            'shortlistPriority',
+            [
+                'film' => $film,
+                'priority' => $priority
+            ]
+        );
     }
 
     public function render()

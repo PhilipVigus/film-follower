@@ -24,7 +24,7 @@
                     </div>
 
                     <div>
-                        <button wire:click="openShortlistModal({{ $film->id }})">Shortlist</button>
+                        <button wire:click="openShortlistPriorityModal({{ $film->id }})">Shortlist</button>
                     </div>
                 </div>
             @endforeach

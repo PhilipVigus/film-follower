@@ -1,7 +1,7 @@
 <div @click.away="close()" class="bg-white rounded shadow-lg p-4 w-1/3">
     <h1 class="text-center font-bold text-lg">{{ $film['title']}}</h1>
 
-    <div x-data="{ priority: 'low', comment: '' }">
+    <div x-data="{ priority: '{{ $priority['priority'] ?? 'low' }}', comment: '{{ $priority['comment'] ?? '' }}' }">
         <h2 class="text-center">Set priority</h2>
 
         <div class="flex justify-stretch mt-2">
