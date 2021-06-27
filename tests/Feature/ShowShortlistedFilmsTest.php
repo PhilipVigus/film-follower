@@ -7,6 +7,7 @@ use App\Models\Film;
 use App\Models\User;
 use Livewire\Livewire;
 use App\Http\Livewire\Shortlist;
+use App\Models\Priority;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowShortlistedFilmsTest extends TestCase
@@ -35,12 +36,14 @@ class ShowShortlistedFilmsTest extends TestCase
     /** @test */
     public function the_list_includes_all_films_the_user_has_shortlisted()
     {
+        $this->withoutExceptionHandling();
         Film::factory()->create();
         $shortlistedFilm = Film::factory()->create();
 
         $user = User::factory()->create();
 
         $user->films()->updateExistingPivot($shortlistedFilm, ['status' => Film::SHORTLISTED]);
+        $user->priorities()->create(['film_id' => $shortlistedFilm->id, 'priority' => Priority::MEDIUM]);
 
         $response = Livewire::actingAs($user)->test(Shortlist::class);
 

@@ -19,7 +19,7 @@ class PriorityTest extends TestCase
     {
         $this->assertTrue(
             Schema::hasColumns('priorities', [
-                'id', 'user_id', 'film_id', 'level', 'note',
+                'id', 'user_id', 'film_id', 'priority', 'comment',
             ])
         );
     }

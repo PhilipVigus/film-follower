@@ -14,11 +14,13 @@ class PriorityFactory extends Factory
 
     public function definition(): array
     {
+        $priorities = [Priority::LOW, Priority::MEDIUM, Priority::HIGH];
+
         return [
             'user_id' => User::factory(),
             'film_id' => Film::factory(),
-            'level' => mt_rand(Priority::LOW, Priority::HIGH),
-            'note' => $this->faker->sentence,
+            'priority' => $priorities[mt_rand(0, 2)],
+            'comment' => $this->faker->sentence,
         ];
     }
 }
