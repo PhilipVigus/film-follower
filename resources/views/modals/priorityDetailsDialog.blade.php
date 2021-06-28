@@ -40,7 +40,7 @@
             <button @click="$parent.close()">
                 Cancel
             </button>
-            <button @click="Livewire.emitTo('to-shortlist', 'shortlist', {{ $film['id'] }}, priority, comment ); $parent.close()">
+            <button @click="Livewire.emit('shortlist', {{ $film['id'] }}, priority, comment ); $parent.close()">
                 Shortlist
             </button>
         </div>

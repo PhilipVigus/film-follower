@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Livewire\Traits\CanCreateOrEditPriority;
+use App\Http\Livewire\Traits\CanCreateOrEditShortlistPriority;
 use App\Models\Film;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +11,9 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ToShortlist extends Component
 {
+
+    use CanCreateOrEditShortlistPriority;
+
     /** @var Collection */
     public $films;
 
@@ -16,43 +21,16 @@ class ToShortlist extends Component
 
     public function mount()
     {
-        $this->films = $this->getFilmsToShortlist();
+        $this->films = $this->getFilms();
     }
 
-    public function shortlist(Film $film, string $priority, string $comment)
-    {
-        Auth::user()->priorities()->updateOrCreate(['film_id' => $film->id], ['priority' => $priority, 'comment' => $comment]);
-        Auth::user()->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
-
-        $this->films = $this->getFilmsToShortlist();
-    }
-
-    public function getFilmsToShortlist()
+    public function getFilms()
     {
         return Auth::user()
             ->filmsToShortlist()
             ->with('trailers')
             ->get()
         ;
-    }
-
-    public function openPriorityDetailsDialog(Film $film)
-    {
-        $priority = Auth::user()
-            ->priorities()
-            ->where('film_id', '=', $film->id)
-            ->first()
-        ;
-
-        $this->emitTo(
-            'modal',
-            'open',
-            'priorityDetailsDialog',
-            [
-                'film' => $film,
-                'priority' => $priority
-            ]
-        );
     }
 
     public function render()
