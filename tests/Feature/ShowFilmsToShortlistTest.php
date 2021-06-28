@@ -94,7 +94,7 @@ class ShowFilmsToShortlistTest extends TestCase
         
         $response = Livewire::actingAs($user)
             ->test(ToShortlist::class)
-            ->call('openShortlistPriorityModal', $film)
+            ->call('openPriorityDetailsDialog', $film)
         ;
 
         $this->assertEquals($film->id, $response->payload['effects']['emits'][0]['params'][1]['film']['id']);
@@ -110,7 +110,7 @@ class ShowFilmsToShortlistTest extends TestCase
         
         $response = Livewire::actingAs($user)
             ->test(ToShortlist::class)
-            ->call('openShortlistPriorityModal', $film)
+            ->call('openPriorityDetailsDialog', $film)
         ;
 
         $this->assertEquals($priority->id, $response->payload['effects']['emits'][0]['params'][1]['priority']['id']);

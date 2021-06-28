@@ -36,7 +36,7 @@ class ToShortlist extends Component
         ;
     }
 
-    public function openShortlistPriorityModal(Film $film)
+    public function openPriorityDetailsDialog(Film $film)
     {
         $priority = Auth::user()
             ->priorities()
@@ -47,7 +47,7 @@ class ToShortlist extends Component
         $this->emitTo(
             'modal',
             'open',
-            'shortlistPriority',
+            'priorityDetailsDialog',
             [
                 'film' => $film,
                 'priority' => $priority
