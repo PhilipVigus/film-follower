@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Http\Livewire\Traits\CanCreateOrEditPriority;
 use App\Http\Livewire\Traits\CanCreateOrEditShortlistPriority;
 use App\Models\Film;
 use Livewire\Component;
