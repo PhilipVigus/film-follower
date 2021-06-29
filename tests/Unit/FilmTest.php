@@ -95,8 +95,8 @@ class FilmTest extends TestCase
 
         $film = Film::factory()->create();
 
-        $userA->priorities()->save(new Priority(['film_id' => $film->id, 'priority' => Priority::MEDIUM]));
-        $userB->priorities()->save(new Priority(['film_id' => $film->id, 'priority' => Priority::MEDIUM]));
+        $userA->priorities()->save(new Priority(['film_id' => $film->id, 'level' => Priority::MEDIUM]));
+        $userB->priorities()->save(new Priority(['film_id' => $film->id, 'level' => Priority::MEDIUM]));
 
         $this->assertCount(2, $film->priorities);
     }

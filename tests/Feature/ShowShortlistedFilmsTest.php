@@ -43,7 +43,7 @@ class ShowShortlistedFilmsTest extends TestCase
         $user = User::factory()->create();
 
         $user->films()->updateExistingPivot($shortlistedFilm, ['status' => Film::SHORTLISTED]);
-        $user->priorities()->create(['film_id' => $shortlistedFilm->id, 'priority' => Priority::MEDIUM]);
+        $user->priorities()->create(['film_id' => $shortlistedFilm->id, 'level' => Priority::MEDIUM]);
 
         $response = Livewire::actingAs($user)->test(Shortlist::class);
 
@@ -86,7 +86,7 @@ class ShowShortlistedFilmsTest extends TestCase
         $film = Film::factory()->create();
         $user = User::factory()->create();
 
-        $priority = Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'priority' => Priority::HIGH, 'comment' => 'A comment']);
+        $priority = Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
         
         $response = Livewire::actingAs($user)
             ->test(Shortlist::class)

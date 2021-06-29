@@ -6,10 +6,22 @@ use App\Models\Film;
 use Illuminate\Support\Facades\Auth;
 
 trait CanCreateOrEditShortlistPriority {
-    public function shortlist(Film $film, string $priority, string $comment)
+    public function shortlist(Film $film, string $level, string $comment)
     {
-        Auth::user()->priorities()->updateOrCreate(['film_id' => $film->id], ['priority' => $priority, 'comment' => $comment]);
-        Auth::user()->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
+        Auth::user()
+            ->priorities()
+            ->updateOrCreate(
+                ['film_id' => $film->id],
+                ['level' => $level, 'comment' => $comment]
+            )
+        ;
+
+        Auth::user()
+            ->films()
+            ->updateExistingPivot(
+                $film,
+                ['status' => Film::SHORTLISTED]
+        );
 
         $this->films = $this->getFilms();
     }

@@ -82,7 +82,7 @@ class ShowFilmsToShortlistTest extends TestCase
 
         $priority = $user->priorities->first();
         $this->assertEquals($film->id, $priority->film_id);
-        $this->assertEquals(Priority::HIGH, $priority->priority);
+        $this->assertEquals(Priority::HIGH, $priority->level);
         $this->assertEquals('A comment', $priority->comment);
     }
 
@@ -106,7 +106,7 @@ class ShowFilmsToShortlistTest extends TestCase
         $film = Film::factory()->create();
         $user = User::factory()->create();
 
-        $priority = Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'priority' => Priority::HIGH, 'comment' => 'A comment']);
+        $priority = Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
         
         $response = Livewire::actingAs($user)
             ->test(ToShortlist::class)

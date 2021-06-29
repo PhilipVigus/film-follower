@@ -10,7 +10,7 @@
             @foreach ($films as $film)
                 <div class="mt-4 border">
                     <div class="font-bold text-lg">{{ $film->title }}</div>
-                    <div>Priority - {{$film->priorities->first()->priority }}</div>
+                    <div>Level - {{$film->priorities->first()->level }}</div>
                     <div>{{$film->priorities->first()->comment }}</div>
 
                     <div>

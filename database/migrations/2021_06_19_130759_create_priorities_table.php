@@ -18,7 +18,7 @@ class CreatePrioritiesTable extends Migration
             $table->foreignId('film_id')->constrained('films')->cascadeOnDelete();
 
             // Data
-            $table->enum('priority', [Priority::LOW, Priority::MEDIUM, Priority::HIGH]);
+            $table->enum('level', Priority::LEVELS);
             $table->text('comment')->nullable();
 
             $table->timestamps();
