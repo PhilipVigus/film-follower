@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\Models\Film;
 use App\Models\User;
+use App\Models\Priority;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -98,5 +99,27 @@ class UserTest extends TestCase
         $user = User::factory()->create();
 
         $this->assertCount(5, $user->films);
+    }
+
+    /** @test */
+    public function a_user_can_prioritie_by_many_films()
+    {
+        $user = User::factory()->create();
+
+        $filmA = Film::factory()->create();
+        $filmB = Film::factory()->create();
+
+        $filmA->priorities()->save(new Priority(['user_id' => $user->id, 'level' => Priority::MEDIUM]));
+        $filmB->priorities()->save(new Priority(['user_id' => $user->id, 'level' => Priority::MEDIUM]));
+
+        $this->assertCount(2, $user->priorities);
+    }
+
+    /** @test */
+    public function a_user_can_prioritise_by_no_films()
+    {
+        $user = User::factory()->create();
+
+        $this->assertEmpty($user->priorities);
     }
 }

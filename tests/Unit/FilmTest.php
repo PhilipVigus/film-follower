@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Film;
 use App\Models\User;
 use App\Models\Trailer;
+use App\Models\Priority;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -84,5 +85,27 @@ class FilmTest extends TestCase
         $film->followers()->attach($user);
 
         $this->assertCount(1, $film->followers()->wherePivot('status', Film::TO_SHORTLIST)->get());
+    }
+
+    /** @test */
+    public function a_film_can_be_prioritised_by_many_users()
+    {
+        $userA = User::factory()->create();
+        $userB = User::factory()->create();
+
+        $film = Film::factory()->create();
+
+        $userA->priorities()->save(new Priority(['film_id' => $film->id, 'level' => Priority::MEDIUM]));
+        $userB->priorities()->save(new Priority(['film_id' => $film->id, 'level' => Priority::MEDIUM]));
+
+        $this->assertCount(2, $film->priorities);
+    }
+
+    /** @test */
+    public function a_film_can_be_prioritised_by_no_users()
+    {
+        $film = Film::factory()->create();
+
+        $this->assertEmpty($film->priorities);
     }
 }

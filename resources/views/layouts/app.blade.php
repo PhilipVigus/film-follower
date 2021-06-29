@@ -39,6 +39,8 @@
             </main>
         </div>
 
+        <livewire:modal />
+
         @stack('modals')
 
         @livewireScripts

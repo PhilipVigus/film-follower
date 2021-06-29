@@ -25,4 +25,9 @@ class Film extends Model
     {
         return $this->belongsToMany(User::class, 'followers_films');
     }
+
+    public function priorities(): HasMany
+    {
+        return $this->hasMany(Priority::class);
+    }
 }

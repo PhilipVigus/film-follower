@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Livewire\Traits\CanCreateOrEditShortlistPriority;
 use App\Models\Film;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -9,22 +10,20 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ToShortlist extends Component
 {
+
+    use CanCreateOrEditShortlistPriority;
+
     /** @var Collection */
     public $films;
 
+    protected $listeners = ['shortlist' => 'shortlist'];
+
     public function mount()
     {
-        $this->films = $this->getFilmsToShortlist();
+        $this->films = $this->getFilms();
     }
 
-    public function shortlist(Film $film)
-    {
-        Auth::user()->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
-
-        $this->films = $this->getFilmsToShortlist();
-    }
-
-    public function getFilmsToShortlist()
+    public function getFilms()
     {
         return Auth::user()
             ->filmsToShortlist()

@@ -7,6 +7,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -60,5 +61,10 @@ class User extends Authenticatable
     public function shortlistedFilms(): BelongsToMany
     {
         return $this->belongsToMany(Film::class, 'followers_films')->wherePivot('status', Film::SHORTLISTED);
+    }
+
+    public function priorities(): HasMany
+    {
+        return $this->hasMany(Priority::class);
     }
 }
