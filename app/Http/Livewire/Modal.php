@@ -20,7 +20,6 @@ class Modal extends Component
     public function open(string $view, array $data = [])
     {
         $this->open = true;
-
         $this->view = $view;
         $this->data = $data;
     }
