@@ -20,8 +20,11 @@
                                     <img class="h-32" src="{{ $trailer->image }}" />
                                 </a>
                             </div>
-
                         @endforeach
+                    </div>
+
+                    <div>
+                        <button wire:click="openPriorityDetailsDialog({{ $film->id }})">Shortlist</button>
                     </div>
                 </div>
             @endforeach

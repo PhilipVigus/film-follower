@@ -1,3 +1,3 @@
 <x-app-layout>
-    <livewire:films />
+    <livewire:to-shortlist />
 </x-app-layout>
