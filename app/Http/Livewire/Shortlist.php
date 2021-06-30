@@ -15,7 +15,13 @@ class Shortlist extends Component
     /** @var Collection */
     public $films;
 
-    protected $listeners = ['shortlist' => 'shortlist'];
+    /** @var bool */
+    public $deletePriorityDetails = true;
+
+    protected $listeners = [
+        'shortlist' => 'shortlist',
+        'remove-from-shortlist' => 'removeFromShortlist',
+    ];
 
     public function mount()
     {
@@ -38,6 +44,38 @@ class Shortlist extends Component
             }])
             ->get()
         ;
+    }
+
+    public function openRemoveFromShortlistDialog(Film $film)
+    {
+        $this->emitTo(
+            'modal',
+            'open',
+            'removeFromShortlistDialog',
+            [
+                'film' => $film,
+            ]
+        );
+    }
+
+    public function removeFromShortlist(Film $film, bool $deletePriorityDetails)
+    {
+        if ($deletePriorityDetails) {
+            Auth::user()
+                ->priorities()
+                ->where('film_id', '=', $film->id)
+                ->delete()
+            ;
+        }
+
+        Auth::user()
+            ->films()
+            ->updateExistingPivot(
+                $film,
+                ['status' => Film::TO_SHORTLIST]
+        );
+
+        $this->films = $this->getFilms();
     }
 
     public function render()

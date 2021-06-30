@@ -9,6 +9,7 @@ use Livewire\Livewire;
 use App\Http\Livewire\Shortlist;
 use App\Models\Priority;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Auth;
 
 class ShowShortlistedFilmsTest extends TestCase
 {
@@ -94,5 +95,41 @@ class ShowShortlistedFilmsTest extends TestCase
         ;
 
         $this->assertEquals($priority->id, $response->payload['effects']['emits'][0]['params'][1]['priority']['id']);
+    }
+
+    /** @test */
+    public function a_user_can_delete_priority_details_when_removing_a_film_from_their_shortlist()
+    {
+        $film = Film::factory()->create();
+        $user = User::factory()->create();
+
+        Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
+        
+        $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
+
+        $response = Livewire::actingAs($user)
+            ->test(Shortlist::class)
+            ->call('removeFromShortlist', $film, true)
+        ;
+
+        $this->assertEmpty($user->priorities);
+    }
+
+    /** @test */
+    public function a_user_can_keep_priority_details_when_removing_a_film_from_their_shortlist()
+    {
+        $film = Film::factory()->create();
+        $user = User::factory()->create();
+
+        Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
+        
+        $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
+
+        $response = Livewire::actingAs($user)
+            ->test(Shortlist::class)
+            ->call('removeFromShortlist', $film, false)
+        ;
+
+        $this->assertCount(1, $user->priorities);
     }
 }
