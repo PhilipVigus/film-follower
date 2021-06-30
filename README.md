@@ -49,13 +49,13 @@ https://trello.com/b/Xxo9CwvF/movies
 -   Display my shortlist
 -   Display all films I haven't shortlisted yet
 -   Shortlist a film with a priority and optional comment
+-   Edit a shortlisted film
+  - Change its priority and/or comment
 
 ## Sprint 2
 
 - Unshortlist a film
   - Decide whether to delete existing priority or not
-- Edit a shortlisted film
-  - Change its priority and/or comment
 - Display films I've seen
 - Add a review to a film
   - Stars out of 5
