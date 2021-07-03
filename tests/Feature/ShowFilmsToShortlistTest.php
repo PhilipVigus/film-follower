@@ -6,8 +6,8 @@ use Tests\TestCase;
 use App\Models\Film;
 use App\Models\User;
 use Livewire\Livewire;
-use App\Http\Livewire\ToShortlist;
 use App\Models\Priority;
+use App\Http\Livewire\ToShortlist;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShowFilmsToShortlistTest extends TestCase
@@ -67,7 +67,7 @@ class ShowFilmsToShortlistTest extends TestCase
     }
 
     /** @test */
-    public function shortlisting_a_film_gives_it_a_priority()
+    public function shortlisting_a_film_gives_it_a_priority_and_comment()
     {
         $film = Film::factory()->create();
         $user = User::factory()->create();
@@ -81,6 +81,7 @@ class ShowFilmsToShortlistTest extends TestCase
         $this->assertCount(1, $user->priorities);
 
         $priority = $user->priorities->first();
+
         $this->assertEquals($film->id, $priority->film_id);
         $this->assertEquals(Priority::HIGH, $priority->level);
         $this->assertEquals('A comment', $priority->comment);
@@ -91,7 +92,7 @@ class ShowFilmsToShortlistTest extends TestCase
     {
         $film = Film::factory()->create();
         $user = User::factory()->create();
-        
+
         $response = Livewire::actingAs($user)
             ->test(ToShortlist::class)
             ->call('openPriorityDetailsDialog', $film)
@@ -107,7 +108,7 @@ class ShowFilmsToShortlistTest extends TestCase
         $user = User::factory()->create();
 
         $priority = Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
-        
+
         $response = Livewire::actingAs($user)
             ->test(ToShortlist::class)
             ->call('openPriorityDetailsDialog', $film)
