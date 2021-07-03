@@ -2,16 +2,14 @@
 
 namespace App\Http\Livewire;
 
-use App\Http\Livewire\Traits\CanCreateOrEditShortlistPriority;
-use App\Models\Film;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
+use App\Http\Livewire\Traits\UsesPriorityDetailsModal;
 
 class ToShortlist extends Component
 {
-
-    use CanCreateOrEditShortlistPriority;
+    use UsesPriorityDetailsModal;
 
     /** @var Collection */
     public $films;

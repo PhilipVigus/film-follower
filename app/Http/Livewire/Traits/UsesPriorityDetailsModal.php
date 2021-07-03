@@ -5,7 +5,8 @@ namespace App\Http\Livewire\Traits;
 use App\Models\Film;
 use Illuminate\Support\Facades\Auth;
 
-trait CanCreateOrEditShortlistPriority {
+trait UsesPriorityDetailsModal
+{
     public function shortlist(Film $film, string $level, string $comment)
     {
         Auth::user()
@@ -21,7 +22,8 @@ trait CanCreateOrEditShortlistPriority {
             ->updateExistingPivot(
                 $film,
                 ['status' => Film::SHORTLISTED]
-        );
+            )
+        ;
 
         $this->films = $this->getFilms();
     }
@@ -40,7 +42,7 @@ trait CanCreateOrEditShortlistPriority {
             'priorityDetailsDialog',
             [
                 'film' => $film,
-                'priority' => $priority
+                'priority' => $priority,
             ]
         );
     }

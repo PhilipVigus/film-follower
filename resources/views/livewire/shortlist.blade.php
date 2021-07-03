@@ -18,7 +18,7 @@
                     </div>
 
                     <div>
-                        <button wire:click="unshortlist({{ $film }})">Unshortlist</button>
+                        <button wire:click="openRemoveFromShortlistDialog({{ $film->id }})">Remove from shortlist</button>
                     </div>
                 </div>
             @endforeach
