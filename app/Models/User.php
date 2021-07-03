@@ -67,4 +67,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Priority::class);
     }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
 }

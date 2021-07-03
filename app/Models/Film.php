@@ -13,6 +13,7 @@ class Film extends Model
 
     const TO_SHORTLIST = 'to_shortlist';
     const SHORTLISTED = 'shortlisted';
+    const REVIEWED = 'reviewed';
 
     protected $guarded = [];
 
@@ -29,5 +30,10 @@ class Film extends Model
     public function priorities(): HasMany
     {
         return $this->hasMany(Priority::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
     }
 }
