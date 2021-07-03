@@ -13,6 +13,10 @@
                     <div>Rating - {{$film->reviews->first()->rating }}</div>
                     <div>{{$film->reviews->first()->comment }}</div>
                 </div>
+
+                <div>
+                    <button wire:click="openRemoveReviewDialog({{ $film->id }})">Remove review</button>
+                </div>
             @endforeach
         </div>
     </div>

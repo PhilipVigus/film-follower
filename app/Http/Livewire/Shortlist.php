@@ -21,6 +21,7 @@ class Shortlist extends Component
     protected $listeners = [
         'shortlist' => 'shortlist',
         'remove-from-shortlist' => 'removeFromShortlist',
+        'add-review' => 'addReview',
     ];
 
     public function mount()
@@ -58,6 +59,25 @@ class Shortlist extends Component
         );
     }
 
+    public function openReviewDetailsDialog(Film $film)
+    {
+        $review = Auth::user()
+            ->reviews()
+            ->where('film_id', '=', $film->id)
+            ->first()
+        ;
+
+        $this->emitTo(
+            'modal',
+            'open',
+            'reviewDetailDialog',
+            [
+                'film' => $film,
+                'review' => $review,
+            ]
+        );
+    }
+
     public function removeFromShortlist(Film $film, bool $deletePriorityDetails)
     {
         if ($deletePriorityDetails) {
@@ -73,6 +93,27 @@ class Shortlist extends Component
             ->updateExistingPivot(
                 $film,
                 ['status' => Film::TO_SHORTLIST]
+            )
+        ;
+
+        $this->films = $this->getFilms();
+    }
+
+    public function addReview(Film $film, string $rating, string $comment)
+    {
+        Auth::user()
+            ->reviews()
+            ->updateOrCreate(
+                ['film_id' => $film->id],
+                ['rating' => $rating, 'comment' => $comment]
+            )
+        ;
+
+        Auth::user()
+            ->films()
+            ->updateExistingPivot(
+                $film,
+                ['status' => Film::WATCHED]
             )
         ;
 

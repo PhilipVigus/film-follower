@@ -14,6 +14,10 @@
                     <div>{{$film->priorities->first()->comment }}</div>
 
                     <div>
+                        <button wire:click="openReviewDetailsDialog({{ $film->id }})">Review film</button>
+                    </div>
+
+                    <div>
                         <button wire:click="openPriorityDetailsDialog({{ $film->id }})">Edit details</button>
                     </div>
 

@@ -130,4 +130,62 @@ class ShowShortlistedFilmsTest extends TestCase
 
         $this->assertCount(1, $user->priorities);
     }
+
+    /** @test */
+    public function a_user_can_review_a_film()
+    {
+        $film = Film::factory()->create();
+        $user = User::factory()->create();
+
+        Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
+
+        $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
+
+        Livewire::actingAs($user)
+            ->test(Shortlist::class)
+            ->call('addReview', $film, 5, 'A comment')
+        ;
+
+        $this->assertEmpty($user->shortlistedFilms);
+        $this->assertCount(1, $user->watchedFilms);
+    }
+
+    /** @test */
+    public function reviewing_a_film_gives_it_a_rating_and_comment()
+    {
+        $film = Film::factory()->create();
+        $user = User::factory()->create();
+
+        Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
+
+        $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
+
+        Livewire::actingAs($user)
+            ->test(Shortlist::class)
+            ->call('addReview', $film, 5, 'A comment')
+        ;
+
+        $this->assertEmpty($user->shortlistedFilms);
+        $this->assertCount(1, $user->watchedFilms);
+
+        $review = $user->reviews->first();
+
+        $this->assertEquals($film->id, $review->film_id);
+        $this->assertEquals(5, $review->rating);
+        $this->assertEquals('A comment', $review->comment);
+    }
+
+    /** @test */
+    public function reviewing_a_film_opens_the_modal_dialog_with_that_film()
+    {
+        $film = Film::factory()->create();
+        $user = User::factory()->create();
+
+        $response = Livewire::actingAs($user)
+            ->test(Shortlist::class)
+            ->call('openReviewDetailsDialog', $film)
+        ;
+
+        $this->assertEquals($film->id, $response->payload['effects']['emits'][0]['params'][1]['film']['id']);
+    }
 }
