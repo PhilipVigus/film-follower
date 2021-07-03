@@ -5,25 +5,24 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
-use App\Http\Livewire\Traits\UsesPriorityDetailsModal;
 
 class ToShortlist extends Component
 {
-    use UsesPriorityDetailsModal;
-
     /** @var Collection */
     public $films;
 
-    protected $listeners = ['shortlist' => 'shortlist'];
+    protected $listeners = [
+        'refresh-film-list' => 'refreshFilms',
+    ];
 
     public function mount()
     {
-        $this->films = $this->getFilms();
+        $this->refreshFilms();
     }
 
-    public function getFilms()
+    public function refreshFilms()
     {
-        return Auth::user()
+        $this->films = Auth::user()
             ->filmsToShortlist()
             ->with('trailers')
             ->get()

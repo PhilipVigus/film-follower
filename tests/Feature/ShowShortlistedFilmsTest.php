@@ -50,142 +50,142 @@ class ShowShortlistedFilmsTest extends TestCase
         $this->assertEquals($response->films[0]->id, $shortlistedFilm->id);
     }
 
+    // /** @test */
+    // public function you_can_unshortlist_a_film()
+    // {
+    //     $film = Film::factory()->create();
+    //     $user = User::factory()->create();
+
+    //     Livewire::actingAs($user)
+    //         ->test(Shortlist::class)
+    //         ->call('unshortlist', $film)
+    //     ;
+
+    //     $this->assertEmpty($user->shortlistedFilms);
+    //     $this->assertCount(1, $user->filmsToShortlist);
+    // }
+
+    // /** @test */
+    // public function editing_a_shortlisted_film_opens_the_modal_dialog_with_that_film()
+    // {
+    //     $film = Film::factory()->create();
+    //     $user = User::factory()->create();
+
+    //     $response = Livewire::actingAs($user)
+    //         ->test(Shortlist::class)
+    //         ->call('openPriorityDetailsDialog', $film)
+    //     ;
+
+    //     $this->assertEquals($film->id, $response->payload['effects']['emits'][0]['params'][1]['film']['id']);
+    // }
+
+    // /** @test */
+    // public function editing_a_shortlisted_film_that_has_already_been_prioritised_opens_the_modal_dialog_with_the_existing_priority()
+    // {
+    //     $film = Film::factory()->create();
+    //     $user = User::factory()->create();
+
+    //     $priority = Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
+
+    //     $response = Livewire::actingAs($user)
+    //         ->test(Shortlist::class)
+    //         ->call('openPriorityDetailsDialog', $film)
+    //     ;
+
+    //     $this->assertEquals($priority->id, $response->payload['effects']['emits'][0]['params'][1]['priority']['id']);
+    // }
+
+    // /** @test */
+    // public function a_user_can_delete_priority_details_when_removing_a_film_from_their_shortlist()
+    // {
+    //     $film = Film::factory()->create();
+    //     $user = User::factory()->create();
+
+    //     Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
+
+    //     $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
+
+    //     $response = Livewire::actingAs($user)
+    //         ->test(Shortlist::class)
+    //         ->call('removeFromShortlist', $film, true)
+    //     ;
+
+    //     $this->assertEmpty($user->priorities);
+    // }
+
+    // /** @test */
+    // public function a_user_can_keep_priority_details_when_removing_a_film_from_their_shortlist()
+    // {
+    //     $film = Film::factory()->create();
+    //     $user = User::factory()->create();
+
+    //     Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
+
+    //     $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
+
+    //     $response = Livewire::actingAs($user)
+    //         ->test(Shortlist::class)
+    //         ->call('removeFromShortlist', $film, false)
+    //     ;
+
+    //     $this->assertCount(1, $user->priorities);
+    // }
+
+    // /** @test */
+    // public function a_user_can_review_a_film()
+    // {
+    //     $film = Film::factory()->create();
+    //     $user = User::factory()->create();
+
+    //     Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
+
+    //     $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
+
+    //     Livewire::actingAs($user)
+    //         ->test(Shortlist::class)
+    //         ->call('addReview', $film, 5, 'A comment')
+    //     ;
+
+    //     $this->assertEmpty($user->shortlistedFilms);
+    //     $this->assertCount(1, $user->watchedFilms);
+    // }
+
+    // /** @test */
+    // public function reviewing_a_film_gives_it_a_rating_and_comment()
+    // {
+    //     $film = Film::factory()->create();
+    //     $user = User::factory()->create();
+
+    //     Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
+
+    //     $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
+
+    //     Livewire::actingAs($user)
+    //         ->test(Shortlist::class)
+    //         ->call('addReview', $film, 5, 'A comment')
+    //     ;
+
+    //     $this->assertEmpty($user->shortlistedFilms);
+    //     $this->assertCount(1, $user->watchedFilms);
+
+    //     $review = $user->reviews->first();
+
+    //     $this->assertEquals($film->id, $review->film_id);
+    //     $this->assertEquals(5, $review->rating);
+    //     $this->assertEquals('A comment', $review->comment);
+    // }
+
     /** @test */
-    public function you_can_unshortlist_a_film()
-    {
-        $film = Film::factory()->create();
-        $user = User::factory()->create();
+    // public function reviewing_a_film_opens_the_modal_dialog_with_that_film()
+    // {
+    //     $film = Film::factory()->create();
+    //     $user = User::factory()->create();
 
-        Livewire::actingAs($user)
-            ->test(Shortlist::class)
-            ->call('unshortlist', $film)
-        ;
+    //     $response = Livewire::actingAs($user)
+    //         ->test(Shortlist::class)
+    //         ->call('openReviewDetailsDialog', $film)
+    //     ;
 
-        $this->assertEmpty($user->shortlistedFilms);
-        $this->assertCount(1, $user->filmsToShortlist);
-    }
-
-    /** @test */
-    public function editing_a_shortlisted_film_opens_the_modal_dialog_with_that_film()
-    {
-        $film = Film::factory()->create();
-        $user = User::factory()->create();
-
-        $response = Livewire::actingAs($user)
-            ->test(Shortlist::class)
-            ->call('openPriorityDetailsDialog', $film)
-        ;
-
-        $this->assertEquals($film->id, $response->payload['effects']['emits'][0]['params'][1]['film']['id']);
-    }
-
-    /** @test */
-    public function editing_a_shortlisted_film_that_has_already_been_prioritised_opens_the_modal_dialog_with_the_existing_priority()
-    {
-        $film = Film::factory()->create();
-        $user = User::factory()->create();
-
-        $priority = Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
-
-        $response = Livewire::actingAs($user)
-            ->test(Shortlist::class)
-            ->call('openPriorityDetailsDialog', $film)
-        ;
-
-        $this->assertEquals($priority->id, $response->payload['effects']['emits'][0]['params'][1]['priority']['id']);
-    }
-
-    /** @test */
-    public function a_user_can_delete_priority_details_when_removing_a_film_from_their_shortlist()
-    {
-        $film = Film::factory()->create();
-        $user = User::factory()->create();
-
-        Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
-
-        $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
-
-        $response = Livewire::actingAs($user)
-            ->test(Shortlist::class)
-            ->call('removeFromShortlist', $film, true)
-        ;
-
-        $this->assertEmpty($user->priorities);
-    }
-
-    /** @test */
-    public function a_user_can_keep_priority_details_when_removing_a_film_from_their_shortlist()
-    {
-        $film = Film::factory()->create();
-        $user = User::factory()->create();
-
-        Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
-
-        $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
-
-        $response = Livewire::actingAs($user)
-            ->test(Shortlist::class)
-            ->call('removeFromShortlist', $film, false)
-        ;
-
-        $this->assertCount(1, $user->priorities);
-    }
-
-    /** @test */
-    public function a_user_can_review_a_film()
-    {
-        $film = Film::factory()->create();
-        $user = User::factory()->create();
-
-        Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
-
-        $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
-
-        Livewire::actingAs($user)
-            ->test(Shortlist::class)
-            ->call('addReview', $film, 5, 'A comment')
-        ;
-
-        $this->assertEmpty($user->shortlistedFilms);
-        $this->assertCount(1, $user->watchedFilms);
-    }
-
-    /** @test */
-    public function reviewing_a_film_gives_it_a_rating_and_comment()
-    {
-        $film = Film::factory()->create();
-        $user = User::factory()->create();
-
-        Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
-
-        $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
-
-        Livewire::actingAs($user)
-            ->test(Shortlist::class)
-            ->call('addReview', $film, 5, 'A comment')
-        ;
-
-        $this->assertEmpty($user->shortlistedFilms);
-        $this->assertCount(1, $user->watchedFilms);
-
-        $review = $user->reviews->first();
-
-        $this->assertEquals($film->id, $review->film_id);
-        $this->assertEquals(5, $review->rating);
-        $this->assertEquals('A comment', $review->comment);
-    }
-
-    /** @test */
-    public function reviewing_a_film_opens_the_modal_dialog_with_that_film()
-    {
-        $film = Film::factory()->create();
-        $user = User::factory()->create();
-
-        $response = Livewire::actingAs($user)
-            ->test(Shortlist::class)
-            ->call('openReviewDetailsDialog', $film)
-        ;
-
-        $this->assertEquals($film->id, $response->payload['effects']['emits'][0]['params'][1]['film']['id']);
-    }
+    //     $this->assertEquals($film->id, $response->payload['effects']['emits'][0]['params'][1]['film']['id']);
+    // }
 }

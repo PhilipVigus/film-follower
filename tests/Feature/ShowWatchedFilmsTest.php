@@ -51,85 +51,85 @@ class ShowWatchedFilmsTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_removing_a_review()
-    {
-        $film = Film::factory()->create();
-        $user = User::factory()->create();
+    // public function a_user_can_removing_a_review()
+    // {
+    //     $film = Film::factory()->create();
+    //     $user = User::factory()->create();
 
-        Review::create([
-            'user_id' => $user->id,
-            'film_id' => $film->id,
-            'rating' => 3,
-            'comment' => 'A comment',
-        ]);
+    //     Review::create([
+    //         'user_id' => $user->id,
+    //         'film_id' => $film->id,
+    //         'rating' => 3,
+    //         'comment' => 'A comment',
+    //     ]);
 
-        $user->films()->updateExistingPivot($film, ['status' => Film::WATCHED]);
+    //     $user->films()->updateExistingPivot($film, ['status' => Film::WATCHED]);
 
-        $response = Livewire::actingAs($user)
-            ->test(Watched::class)
-            ->call('removeReview', $film, true)
-        ;
+    //     $response = Livewire::actingAs($user)
+    //         ->test(Watched::class)
+    //         ->call('removeReview', $film, true)
+    //     ;
 
-        $this->assertEmpty($user->watchedFilms);
-    }
+    //     $this->assertEmpty($user->watchedFilms);
+    // }
 
-    /** @test */
-    public function a_user_can_delete_review_details_when_removing_a_review()
-    {
-        $film = Film::factory()->create();
-        $user = User::factory()->create();
+    // /** @test */
+    // public function a_user_can_delete_review_details_when_removing_a_review()
+    // {
+    //     $film = Film::factory()->create();
+    //     $user = User::factory()->create();
 
-        Review::create([
-            'user_id' => $user->id,
-            'film_id' => $film->id,
-            'rating' => 3,
-            'comment' => 'A comment',
-        ]);
+    //     Review::create([
+    //         'user_id' => $user->id,
+    //         'film_id' => $film->id,
+    //         'rating' => 3,
+    //         'comment' => 'A comment',
+    //     ]);
 
-        $user->films()->updateExistingPivot($film, ['status' => Film::WATCHED]);
+    //     $user->films()->updateExistingPivot($film, ['status' => Film::WATCHED]);
 
-        $response = Livewire::actingAs($user)
-            ->test(Watched::class)
-            ->call('removeReview', $film, true)
-        ;
+    //     $response = Livewire::actingAs($user)
+    //         ->test(Watched::class)
+    //         ->call('removeReview', $film, true)
+    //     ;
 
-        $this->assertEmpty($user->reviews);
-    }
+    //     $this->assertEmpty($user->reviews);
+    // }
 
-    /** @test */
-    public function a_user_can_keep_review_details_when_removing_a_review()
-    {
-        $film = Film::factory()->create();
-        $user = User::factory()->create();
+    // /** @test */
+    // public function a_user_can_keep_review_details_when_removing_a_review()
+    // {
+    //     $film = Film::factory()->create();
+    //     $user = User::factory()->create();
 
-        Review::create([
-            'user_id' => $user->id,
-            'film_id' => $film->id,
-            'rating' => 3,
-            'comment' => 'A comment',
-        ]);
+    //     Review::create([
+    //         'user_id' => $user->id,
+    //         'film_id' => $film->id,
+    //         'rating' => 3,
+    //         'comment' => 'A comment',
+    //     ]);
 
-        $user->films()->updateExistingPivot($film, ['status' => Film::WATCHED]);
+    //     $user->films()->updateExistingPivot($film, ['status' => Film::WATCHED]);
 
-        $response = Livewire::actingAs($user)
-            ->test(Watched::class)
-            ->call('removeReview', $film, false)
-        ;
+    //     $response = Livewire::actingAs($user)
+    //         ->test(Watched::class)
+    //         ->call('removeReview', $film, false)
+    //     ;
 
-        $this->assertCount(1, $user->reviews);
-    }
+    //     $this->assertCount(1, $user->reviews);
+    // }
 
-    /** @test */
-    public function removing_a_review_opens_the_modal_dialog_with_that_review()
-    {
-        $film = Film::factory()->create();
-        $user = User::factory()->create();
+    // /** @test */
+    // public function removing_a_review_opens_the_modal_dialog_with_that_review()
+    // {
+    //     $film = Film::factory()->create();
+    //     $user = User::factory()->create();
 
-        $response = Livewire::actingAs($user)
-            ->test(Watched::class)
-            ->call('openRemoveReviewDialog', $film)
-        ;
+    //     $response = Livewire::actingAs($user)
+    //         ->test(Watched::class)
+    //         ->call('openRemoveReviewDialog', $film)
+    //     ;
 
-        $this->assertEquals($film->id, $response->payload['effects']['emits'][0]['params'][1]['film']['id']);
-    }
+    //     $this->assertEquals($film->id, $response->payload['effects']['emits'][0]['params'][1]['film']['id']);
+    // }
 }

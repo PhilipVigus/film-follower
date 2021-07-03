@@ -15,7 +15,7 @@
                 </div>
 
                 <div>
-                    <button wire:click="openRemoveReviewDialog({{ $film->id }})">Remove review</button>
+                    <button wire:click="$emitTo('modal', 'open', 'remove-review', { film: {{ $film }} })">Remove review</button>
                 </div>
             @endforeach
         </div>

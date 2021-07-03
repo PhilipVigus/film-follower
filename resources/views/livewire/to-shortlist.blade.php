@@ -24,7 +24,7 @@
                     </div>
 
                     <div>
-                        <button wire:click="openPriorityDetailsDialog({{ $film->id }})">Shortlist</button>
+                        <button wire:click="$emitTo('modal', 'open', 'priority-details', { film: {{ $film }} })">Shortlist</button>
                     </div>
                 </div>
             @endforeach

@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Film;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
@@ -13,62 +12,22 @@ class Watched extends Component
     public $films;
 
     protected $listeners = [
-        'remove-review' => 'removeReview',
+        'refresh-film-list' => 'refreshFilms',
     ];
 
     public function mount()
     {
-        $this->films = $this->getFilms();
+        $this->refreshFilms();
     }
 
-    public function getFilms()
+    public function refreshFilms()
     {
-        return Auth::user()
+        $this->films = Auth::user()
             ->watchedFilms()
             ->with(['reviews' => function ($query) {
                 $query->where('user_id', '=', Auth::id());
             }])->get()
         ;
-    }
-
-    public function openRemoveReviewDialog(Film $film)
-    {
-        $review = Auth::user()
-            ->reviews()
-            ->where('film_id', '=', $film->id)
-            ->first()
-        ;
-
-        $this->emitTo(
-            'modal',
-            'open',
-            'removeReviewDialog',
-            [
-                'film' => $film,
-                'review' => $review,
-            ]
-        );
-    }
-
-    public function removeReview(Film $film, bool $removeReviewDetails)
-    {
-        if ($removeReviewDetails) {
-            Auth::user()
-                ->reviews()
-                ->where('film_id', '=', $film->id)
-                ->delete()
-            ;
-        }
-
-        Auth::user()
-            ->films()
-            ->updateExistingPivot(
-                $film,
-                ['status' => Film::SHORTLISTED]
-            )
-        ;
-
-        $this->films = $this->getFilms();
     }
 
     public function render()
