@@ -6,10 +6,9 @@ use Tests\TestCase;
 use App\Models\Film;
 use App\Models\User;
 use Livewire\Livewire;
-use App\Http\Livewire\Shortlist;
 use App\Models\Priority;
+use App\Http\Livewire\Shortlist;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Auth;
 
 class ShowShortlistedFilmsTest extends TestCase
 {
@@ -37,7 +36,6 @@ class ShowShortlistedFilmsTest extends TestCase
     /** @test */
     public function the_list_includes_all_films_the_user_has_shortlisted()
     {
-        $this->withoutExceptionHandling();
         Film::factory()->create();
         $shortlistedFilm = Film::factory()->create();
 
@@ -72,7 +70,7 @@ class ShowShortlistedFilmsTest extends TestCase
     {
         $film = Film::factory()->create();
         $user = User::factory()->create();
-        
+
         $response = Livewire::actingAs($user)
             ->test(Shortlist::class)
             ->call('openPriorityDetailsDialog', $film)
@@ -88,7 +86,7 @@ class ShowShortlistedFilmsTest extends TestCase
         $user = User::factory()->create();
 
         $priority = Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
-        
+
         $response = Livewire::actingAs($user)
             ->test(Shortlist::class)
             ->call('openPriorityDetailsDialog', $film)
@@ -104,7 +102,7 @@ class ShowShortlistedFilmsTest extends TestCase
         $user = User::factory()->create();
 
         Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
-        
+
         $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
 
         $response = Livewire::actingAs($user)
@@ -122,7 +120,7 @@ class ShowShortlistedFilmsTest extends TestCase
         $user = User::factory()->create();
 
         Priority::create(['user_id' => $user->id, 'film_id' => $film->id, 'level' => Priority::HIGH, 'comment' => 'A comment']);
-        
+
         $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
 
         $response = Livewire::actingAs($user)

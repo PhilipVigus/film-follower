@@ -63,6 +63,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Film::class, 'followers_films')->wherePivot('status', Film::SHORTLISTED);
     }
 
+    public function watchedFilms(): BelongsToMany
+    {
+        return $this->belongsToMany(Film::class, 'followers_films')->wherePivot('status', Film::WATCHED);
+    }
+
     public function priorities(): HasMany
     {
         return $this->hasMany(Priority::class);

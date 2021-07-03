@@ -13,7 +13,7 @@ class Film extends Model
 
     const TO_SHORTLIST = 'to_shortlist';
     const SHORTLISTED = 'shortlisted';
-    const REVIEWED = 'reviewed';
+    const WATCHED = 'watched';
 
     protected $guarded = [];
 
