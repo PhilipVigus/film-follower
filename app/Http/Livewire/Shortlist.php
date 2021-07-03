@@ -2,15 +2,15 @@
 
 namespace App\Http\Livewire;
 
-use App\Http\Livewire\Traits\CanCreateOrEditShortlistPriority;
 use App\Models\Film;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
+use App\Http\Livewire\Traits\UsesPriorityDetailsModal;
 
 class Shortlist extends Component
 {
-    use CanCreateOrEditShortlistPriority;
+    use UsesPriorityDetailsModal;
 
     /** @var Collection */
     public $films;
@@ -39,7 +39,7 @@ class Shortlist extends Component
     {
         return Auth::user()
             ->shortlistedFilms()
-            ->with(['priorities' => function($query) {
+            ->with(['priorities' => function ($query) {
                 $query->where('user_id', '=', Auth::id());
             }])
             ->get()
@@ -73,7 +73,8 @@ class Shortlist extends Component
             ->updateExistingPivot(
                 $film,
                 ['status' => Film::TO_SHORTLIST]
-        );
+            )
+        ;
 
         $this->films = $this->getFilms();
     }
