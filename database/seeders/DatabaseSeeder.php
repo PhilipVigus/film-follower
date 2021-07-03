@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
             FilmSeeder::class,
             TrailerSeeder::class,
             PrioritySeeder::class,
+            ReviewSeeder::class,
         ]);
     }
 }
