@@ -2,38 +2,29 @@
 
 namespace App\Http\Livewire;
 
-use App\Http\Livewire\Traits\CanCreateOrEditShortlistPriority;
-use App\Models\Film;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
 
 class Shortlist extends Component
 {
-    use CanCreateOrEditShortlistPriority;
-
     /** @var Collection */
     public $films;
 
-    protected $listeners = ['shortlist' => 'shortlist'];
+    protected $listeners = [
+        'refresh-film-list' => 'refreshFilms',
+    ];
 
     public function mount()
     {
-        $this->films = $this->getFilms();
+        $this->refreshFilms();
     }
 
-    public function unshortlist(Film $film)
+    public function refreshFilms()
     {
-        Auth::user()->films()->updateExistingPivot($film, ['status' => Film::TO_SHORTLIST]);
-
-        $this->films = $this->getFilms();
-    }
-
-    public function getFilms()
-    {
-        return Auth::user()
+        $this->films = Auth::user()
             ->shortlistedFilms()
-            ->with(['priorities' => function($query) {
+            ->with(['priorities' => function ($query) {
                 $query->where('user_id', '=', Auth::id());
             }])
             ->get()

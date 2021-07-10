@@ -6,7 +6,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
 
-class ToShortlist extends Component
+class Watched extends Component
 {
     /** @var Collection */
     public $films;
@@ -23,14 +23,15 @@ class ToShortlist extends Component
     public function refreshFilms()
     {
         $this->films = Auth::user()
-            ->filmsToShortlist()
-            ->with('trailers')
-            ->get()
+            ->watchedFilms()
+            ->with(['reviews' => function ($query) {
+                $query->where('user_id', '=', Auth::id());
+            }])->get()
         ;
     }
 
     public function render()
     {
-        return view('livewire.to-shortlist');
+        return view('livewire.watched');
     }
 }

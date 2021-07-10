@@ -5,7 +5,7 @@
 >
     @if($open)
         <div class="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-75">
-            @includeWhen($open, 'modals.' . $view, $data)
+            <x-dynamic-component :component="$view" :data="$data"/>
         </div>
     @endif
 </div>

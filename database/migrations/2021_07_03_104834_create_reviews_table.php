@@ -1,15 +1,14 @@
 <?php
 
-use App\Models\Film;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFollowersFilmsTable extends Migration
+class CreateReviewsTable extends Migration
 {
     public function up()
     {
-        Schema::create('followers_films', function (Blueprint $table) {
+        Schema::create('reviews', function (Blueprint $table) {
             // ID
             $table->id();
 
@@ -18,17 +17,15 @@ class CreateFollowersFilmsTable extends Migration
             $table->foreignId('film_id')->constrained('films')->cascadeOnDelete();
 
             // Data
-            $table->enum('status', [Film::TO_SHORTLIST, Film::SHORTLISTED, Film::WATCHED])->default('to_shortlist');
+            $table->integer('rating');
+            $table->text('comment')->nullable();
 
             $table->timestamps();
-
-            // Constraints
-            $table->unique(['user_id', 'film_id']);
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('followers_films');
+        Schema::dropIfExists('reviews');
     }
 }

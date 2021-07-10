@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use Tests\TestCase;
 use App\Models\Film;
 use App\Models\User;
+use App\Models\Review;
 use App\Models\Trailer;
 use App\Models\Priority;
 use Illuminate\Support\Facades\Schema;
@@ -107,5 +108,27 @@ class FilmTest extends TestCase
         $film = Film::factory()->create();
 
         $this->assertEmpty($film->priorities);
+    }
+
+    /** @test */
+    public function a_film_can_be_reviewed_by_many_users()
+    {
+        $userA = User::factory()->create();
+        $userB = User::factory()->create();
+
+        $film = Film::factory()->create();
+
+        $userA->reviews()->save(new Review(['film_id' => $film->id, 'rating' => 2]));
+        $userB->reviews()->save(new Review(['film_id' => $film->id, 'rating' => 2]));
+
+        $this->assertCount(2, $film->reviews);
+    }
+
+    /** @test */
+    public function a_film_can_be_reviewed_by_no_users()
+    {
+        $film = Film::factory()->create();
+
+        $this->assertEmpty($film->reviews);
     }
 }
