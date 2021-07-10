@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Tag;
 use Tests\TestCase;
 use App\Models\Film;
 use App\Models\User;
@@ -130,5 +131,26 @@ class FilmTest extends TestCase
         $film = Film::factory()->create();
 
         $this->assertEmpty($film->reviews);
+    }
+
+    /** @test */
+    public function a_film_can_have_many_tags()
+    {
+        $tagA = Tag::factory()->create();
+        $tagB = Tag::factory()->create();
+        $film = Film::factory()->create();
+
+        $film->tags()->attach($tagA);
+        $film->tags()->attach($tagB);
+
+        $this->assertCount(2, $film->tags);
+    }
+
+    /** @test */
+    public function a_film_can_have_no_tags()
+    {
+        $film = Film::factory()->create();
+
+        $this->assertEmpty($film->tags);
     }
 }

@@ -25,7 +25,7 @@ class ToShortlist extends Component
     {
         $this->films = Auth::user()
             ->filmsToShortlist()
-            ->with('trailers')
+            ->with('trailers', 'tags')
             ->get()
         ;
     }

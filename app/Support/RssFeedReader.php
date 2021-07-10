@@ -46,6 +46,7 @@ class RssFeedReader
                     'uploaded_at' => Carbon::parse($rssItem->get_date()),
                 ],
                 'film' => self::getFilmData($trailerContent),
+                'tags' => self::getTagsData($trailerContent),
             ];
         }
 
@@ -66,5 +67,26 @@ class RssFeedReader
     private static function decodeRssString($string)
     {
         return mb_convert_encoding($string, 'windows-1252');
+    }
+
+    private static function getTagsData($content)
+    {
+        if (self::trailerHasTags($content)) {
+            preg_match_all('/<a href=".*?">(.*?)<\/a>/', explode('Tags: ', $content)[1], $tags);
+
+            return array_map(function ($tagName) {
+                return [
+                    'name' => $tagName,
+                    'slug' => Str::slug($tagName),
+                ];
+            }, $tags[1]);
+        }
+
+        return [];
+    }
+
+    private static function trailerHasTags($content)
+    {
+        return 2 === count(explode('Tags: ', $content));
     }
 }

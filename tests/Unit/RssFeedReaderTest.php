@@ -52,6 +52,10 @@ class RssFeedReaderTest extends TestCase
                 'title' => 'Movie Title 1',
                 'slug' => 'movie-title-1',
             ],
+            'tags' => [
+                ['name' => 'Tag 1', 'slug' => 'tag-1'],
+                ['name' => 'Tag 2', 'slug' => 'tag-2'],
+            ],
         ];
 
         $mockFeedResponse = new MockFeedResponse($mockFeedData);
