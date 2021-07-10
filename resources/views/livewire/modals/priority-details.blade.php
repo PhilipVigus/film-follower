@@ -40,7 +40,7 @@
         </button>
         
         <button x-on:click="$wire.shortlist({{ $film['id'] }}, level, comment); $parent.close()">
-            Shortlist
+            Save
         </button>
     </div>
 </div>
