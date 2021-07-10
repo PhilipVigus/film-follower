@@ -25,7 +25,7 @@
         </button>
         
         <button x-on:click="$wire.addReview({{ $film['id'] }}, rating, comment); $parent.close()">
-            Add review
+            {{ $review ? 'Edit review' : 'Add review' }}
         </button>
     </div>
 </div>

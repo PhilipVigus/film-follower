@@ -17,6 +17,10 @@
                 <div>
                     <button wire:click="$emitTo('modal', 'open', 'remove-review', { film: {{ $film }} })">Remove review</button>
                 </div>
+
+                <div>
+                    <button wire:click="$emitTo('modal', 'open', 'review-details', { film: {{ $film }} })">Edit review</button>
+                </div>
             @endforeach
         </div>
     </div>
