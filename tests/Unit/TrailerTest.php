@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use Exception;
+use App\Models\Tag;
 use Tests\TestCase;
 use App\Models\Film;
 use App\Models\Trailer;
@@ -38,5 +39,26 @@ class TrailerTest extends TestCase
         $this->expectException(Exception::class);
 
         Trailer::factory()->create(['film_id' => null]);
+    }
+
+    /** @test */
+    public function a_trailer_can_have_many_tags()
+    {
+        $tagA = Tag::factory()->create();
+        $tagB = Tag::factory()->create();
+        $trailer = Trailer::factory()->create();
+
+        $trailer->tags()->attach($tagA);
+        $trailer->tags()->attach($tagB);
+
+        $this->assertCount(2, $trailer->tags);
+    }
+
+    /** @test */
+    public function a_trailer_can_have_no_tags()
+    {
+        $trailer = Trailer::factory()->create();
+
+        $this->assertEmpty($trailer->tags);
     }
 }
