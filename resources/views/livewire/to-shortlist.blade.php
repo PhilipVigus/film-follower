@@ -24,6 +24,16 @@
                     </div>
 
                     <div>
+                        @forelse ($film->tags as $tag)
+                            {{ $tag->name }}@if (! $loop->last),@endif
+                        @empty
+                            <span>
+                                none
+                            </span>
+                        @endforelse
+                    </div>
+
+                    <div>
                         <button wire:click="$emitTo('modal', 'open', 'priority-details', { film: {{ $film }} })">Shortlist</button>
                     </div>
 
