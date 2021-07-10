@@ -12,7 +12,11 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 })->name('dashboard');
 
 Route::get('/get-trailers', Controllers\GetTrailersController::class)->name('get-trailers');
-Route::get('/to-shortlist', Controllers\ShowFilmsToShortlistController::class)->name('to-shortlist')->middleware('auth');
-Route::get('/shortlist', Controllers\ShowFilmsShortlistController::class)->name('shortlist')->middleware('auth');
-Route::get('/watched', Controllers\ShowFilmsWatchedController::class)->name('watched')->middleware('auth');
-Route::get('/ignored', Controllers\ShowFilmsIgnoredController::class)->name('ignored')->middleware('auth');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/to-shortlist', Controllers\ShowFilmsToShortlistController::class)->name('to-shortlist');
+    Route::get('/shortlist', Controllers\ShowFilmsShortlistController::class)->name('shortlist');
+    Route::get('/watched', Controllers\ShowFilmsWatchedController::class)->name('watched');
+    Route::get('/ignored', Controllers\ShowFilmsIgnoredController::class)->name('ignored');
+    Route::get('/tags/{tag:name}', Controllers\ShowTagController::class)->name('tag');
+});
