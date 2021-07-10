@@ -94,6 +94,23 @@ class UserTest extends TestCase
     }
 
     /** @test */
+    public function you_can_get_all_films_ignored_by_a_user()
+    {
+        $user = User::factory()->create();
+        $ignoredFilm = Film::factory()->create();
+        $filmToShortlist = Film::factory()->create();
+
+        $user->films()->attach($ignoredFilm);
+        $user->films()->attach($filmToShortlist);
+        $user->films()->updateExistingPivot($ignoredFilm, ['status' => Film::IGNORED]);
+
+        $ignoredFilms = $user->ignoredFilms()->get();
+
+        $this->assertCount(1, $ignoredFilms);
+        $this->assertEquals($ignoredFilm->id, $ignoredFilms->first()->id);
+    }
+
+    /** @test */
     public function a_new_user_has_all_existing_films_added_to_their_films()
     {
         Film::factory(5)->create();
@@ -103,7 +120,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_prioritie_many_films()
+    public function a_user_can_have_prioritised_films()
     {
         $user = User::factory()->create();
 
@@ -117,7 +134,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_prioritise_no_films()
+    public function a_user_can_have_no_prioritised_films()
     {
         $user = User::factory()->create();
 
@@ -125,7 +142,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_review_many_films()
+    public function a_user_can_have_reviewed_films()
     {
         $user = User::factory()->create();
 
@@ -139,7 +156,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function a_user_can_review_no_films()
+    public function a_user_can_have_no_reviewed_films()
     {
         $user = User::factory()->create();
 
