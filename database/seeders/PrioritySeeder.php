@@ -18,7 +18,7 @@ class PrioritySeeder extends Seeder
 
         $user = User::first();
 
-        foreach (Film::all() as $film) {
+        foreach ($user->filmsToShortlist as $film) {
             if (mt_rand(0, 1)) {
                 $user->priorities()->save(Priority::factory()->create(['film_id' => $film->id]));
 
