@@ -23,10 +23,15 @@
                     </x-jet-nav-link>
                 </div>
 
-
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-jet-nav-link href="{{ route('watched') }}" :active="request()->routeIs('watched')">
                         Watched
+                    </x-jet-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-jet-nav-link href="{{ route('ignored') }}" :active="request()->routeIs('ignored')">
+                        Ignored
                     </x-jet-nav-link>
                 </div>
             </div>
