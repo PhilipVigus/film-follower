@@ -14,11 +14,15 @@
                     <div>{{$film->priorities->first()->comment }}</div>
 
                     <div>
-                        <button wire:click="openPriorityDetailsDialog({{ $film->id }})">Edit details</button>
+                        <button wire:click="$emitTo('modal', 'open', 'review-details', { film: {{ $film }} })">Review film</button>
                     </div>
 
                     <div>
-                        <button wire:click="openRemoveFromShortlistDialog({{ $film->id }})">Remove from shortlist</button>
+                        <button wire:click="$emitTo('modal', 'open', 'priority-details', { film: {{ $film }} })">Edit details</button>
+                    </div>
+
+                    <div>
+                        <button wire:click="$emitTo('modal', 'open', 'remove-from-shortlist', { film: {{ $film }} })">Remove from shortlist</button>
                     </div>
                 </div>
             @endforeach
