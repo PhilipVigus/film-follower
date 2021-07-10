@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             TrailerSeeder::class,
             PrioritySeeder::class,
             ReviewSeeder::class,
+            IgnoredSeeder::class,
         ]);
     }
 }

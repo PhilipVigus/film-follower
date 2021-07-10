@@ -64,3 +64,14 @@ https://trello.com/b/Xxo9CwvF/movies
   - Decide whether to delete existing stars and comment or not
 - Edit a review
   - Change its existing stars and comment
+
+## Sprint 3
+
+-   Display films I'm ignoring
+-   Put a film on my ignore list
+-   Take a film off my ignore list
+-   Display all films that have a specific tag or tags
+
+## Sprint 4
+-   Specify tags to ignore/highlight
+-   Specify trailer types to ignore/highlight
