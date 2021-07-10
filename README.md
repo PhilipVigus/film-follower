@@ -71,4 +71,7 @@ https://trello.com/b/Xxo9CwvF/movies
 -   Put a film on my ignore list
 -   Take a film off my ignore list
 -   Display all films that have a specific tag or tags
+
+## Sprint 4
 -   Specify tags to ignore/highlight
+-   Specify trailer types to ignore/highlight
