@@ -14,6 +14,14 @@ class Film extends Model
     const TO_SHORTLIST = 'to_shortlist';
     const SHORTLISTED = 'shortlisted';
     const WATCHED = 'watched';
+    const IGNORED = 'ignored';
+
+    const STATUSES = [
+        self::TO_SHORTLIST,
+        self::SHORTLISTED,
+        self::WATCHED,
+        self::IGNORED,
+    ];
 
     protected $guarded = [];
 

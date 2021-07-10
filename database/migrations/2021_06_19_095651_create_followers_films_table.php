@@ -18,7 +18,7 @@ class CreateFollowersFilmsTable extends Migration
             $table->foreignId('film_id')->constrained('films')->cascadeOnDelete();
 
             // Data
-            $table->enum('status', [Film::TO_SHORTLIST, Film::SHORTLISTED, Film::WATCHED])->default('to_shortlist');
+            $table->enum('status', Film::STATUSES)->default('to_shortlist');
 
             $table->timestamps();
 

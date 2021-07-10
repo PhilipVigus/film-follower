@@ -5,10 +5,9 @@ namespace Database\Seeders;
 use Exception;
 use App\Models\Film;
 use App\Models\User;
-use App\Models\Review;
 use Illuminate\Database\Seeder;
 
-class ReviewSeeder extends Seeder
+class IgnoredSeeder extends Seeder
 {
     public function run()
     {
@@ -18,14 +17,12 @@ class ReviewSeeder extends Seeder
 
         $user = User::first();
 
-        foreach ($user->shortlistedFilms as $film) {
+        foreach ($user->filmsToShortlist as $film) {
             if (mt_rand(0, 1)) {
-                $user->reviews()->save(Review::factory()->create(['film_id' => $film->id]));
-
                 $user->films()
                     ->updateExistingPivot(
                         $film,
-                        ['status' => Film::WATCHED]
+                        ['status' => Film::IGNORED]
                     )
                 ;
             }
