@@ -11,6 +11,7 @@ class Shortlist extends Component
     /** @var Collection */
     public $films;
 
+    /** @var array */
     protected $listeners = [
         'refresh-film-list' => 'refreshFilms',
     ];

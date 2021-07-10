@@ -15,6 +15,7 @@ class Modal extends Component
     /** @var array */
     public $data = [];
 
+    /** @var array */
     protected $listeners = ['open' => 'open'];
 
     public function open(string $view, array $data = [])
