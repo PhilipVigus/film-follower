@@ -8,7 +8,7 @@
     <div class="py-8">
         <div class="max-w-7xl mx-auto px-4">
             @foreach ($films as $film)
-                <div class="mt-4 border">
+                <div class="mt-4 border" wire:key="$film->guid">
                     <div class="font-bold text-lg">{{ $film->title }}</div>
                     <div>Rating - {{$film->reviews->first()->rating }}</div>
                     <div>{{$film->reviews->first()->comment }}</div>
