@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Tag;
 use Tests\TestCase;
 use App\Models\Film;
 use App\Models\User;
@@ -44,7 +45,26 @@ class ShowIgnoredFilmsTest extends TestCase
 
         $response = Livewire::actingAs($user)->test(Ignored::class);
 
-        $this->assertCount(1, $response->films);
-        $this->assertEquals($response->films[0]->id, $ignoredFilm->id);
+        $this->assertCount(1, $response->ignoredFilms);
+        $this->assertEquals($response->ignoredFilms[0]->id, $ignoredFilm->id);
+    }
+
+    /** @test */
+    public function the_list_includes_all_films_with_tags_the_user_has_ignored()
+    {
+        $user = User::factory()->create();
+
+        Film::factory()->create();
+        $filmWithIgnoredTag = Film::factory()->create();
+
+        $tag = Tag::factory()->create();
+
+        $filmWithIgnoredTag->tags()->attach($tag);
+        $user->ignoredFilmTags()->attach($tag);
+
+        $response = Livewire::actingAs($user)->test(Ignored::class);
+
+        $this->assertCount(1, $response->filmsWithIgnoredTags);
+        $this->assertEquals($response->filmsWithIgnoredTags[0]->id, $filmWithIgnoredTag->id);
     }
 }

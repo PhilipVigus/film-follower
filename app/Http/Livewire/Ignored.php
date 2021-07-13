@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Film;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
@@ -9,7 +10,13 @@ use Illuminate\Database\Eloquent\Collection;
 class Ignored extends Component
 {
     /** @var Collection */
-    public $films;
+    public $ignoredFilms;
+
+    /** @var Collection */
+    public $filmsWithIgnoredTags;
+
+    /** @var Collection */
+    public $ignoredTagsIds;
 
     /** @var array */
     protected $listeners = [
@@ -18,12 +25,29 @@ class Ignored extends Component
 
     public function mount()
     {
+        $this->ignoredTagsIds = Auth::user()->ignoredFilmTags->pluck('id');
+
         $this->refreshFilms();
     }
 
     public function refreshFilms()
     {
-        $this->films = Auth::user()
+        $this->filmsWithIgnoredTags = Film::whereHas('tags', function ($query) {
+            $query->whereIn(
+                'id',
+                $this->ignoredTagsIds
+            );
+        })
+            ->with(['tags' => function ($query) {
+                $query->whereIn(
+                    'id',
+                    $this->ignoredTagsIds
+                );
+            }])
+            ->get()
+        ;
+
+        $this->ignoredFilms = Auth::user()
             ->ignoredFilms()
             ->get()
         ;
