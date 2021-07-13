@@ -3,9 +3,8 @@
 namespace Database\Seeders;
 
 use Exception;
+use App\Models\Tag;
 use App\Models\Film;
-use App\Models\Priority;
-use App\Models\Trailer;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -23,6 +22,10 @@ class FilmSeeder extends Seeder
             $user = User::first();
 
             $film->followers()->sync([$user->id]);
+
+            $tagIds = Tag::inRandomOrder()->limit(mt_rand(1, 5))->get()->pluck('id');
+
+            $film->tags()->attach($tagIds);
         }
     }
 }

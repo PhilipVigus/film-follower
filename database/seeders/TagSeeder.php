@@ -2,17 +2,18 @@
 
 namespace Database\Seeders;
 
+use Exception;
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
 class TagSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
-    public function run()
+    function run()
     {
-        //
+        if (app()->environment('production')) {
+            throw new Exception("You can't run this seeder in production!");
+        }
+
+        Tag::factory()->count(50)->create();
     }
 }
