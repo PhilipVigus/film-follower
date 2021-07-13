@@ -70,7 +70,7 @@ https://trello.com/b/Xxo9CwvF/movies
 -   Display films I'm ignoring
 -   Put a film on my ignore list
 -   Take a film off my ignore list
--   Display all films that have a specific tag or tags
+-   Display all films that have a specific tag
 
 ## Sprint 4
 -   Specify tags to ignore/highlight
