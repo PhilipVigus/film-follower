@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Models\Tag;
 use Tests\TestCase;
 use App\Models\Film;
 use App\Models\User;
@@ -161,5 +162,19 @@ class UserTest extends TestCase
         $user = User::factory()->create();
 
         $this->assertEmpty($user->reviews);
+    }
+
+    /** @test */
+    public function a_user_can_have_ignored_film_tags()
+    {
+        $user = User::factory()->create();
+
+        $tagA = Tag::factory()->create();
+        $tagB = Tag::factory()->create();
+
+        $user->ignoredFilmTags()->attach($tagA);
+        $user->ignoredFilmTags()->attach($tagB);
+
+        $this->assertCount(2, $user->ignoredFilmTags);
     }
 }

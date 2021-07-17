@@ -75,3 +75,8 @@ https://trello.com/b/Xxo9CwvF/movies
 ## Sprint 4
 -   Specify tags to ignore/highlight
 -   Specify trailer types to ignore/highlight
+
+- ignore films by tag
+  - create an ignored-film-tags table
+  - add relationships to the models
+  - update the ignored livewire view to include these ignored films
