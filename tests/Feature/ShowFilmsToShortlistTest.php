@@ -35,8 +35,8 @@ class ShowFilmsToShortlistTest extends TestCase
     /** @test */
     public function the_list_includes_all_films_the_user_has_to_shortlist()
     {
-        $firstFilm = Film::factory()->create();
-        $secondFilm = Film::factory()->create();
+        $firstFilm = Film::factory()->hasTrailers(1)->create();
+        $secondFilm = Film::factory()->hasTrailers(1)->create();
         $shortlistedFilm = Film::factory()->create();
 
         $user = User::factory()->create();
@@ -48,5 +48,19 @@ class ShowFilmsToShortlistTest extends TestCase
         $this->assertCount(2, $response->films);
         $this->assertEquals($response->films[0]->id, $firstFilm->id);
         $this->assertEquals($response->films[1]->id, $secondFilm->id);
+    }
+
+    /** @test */
+    public function the_list_does_not_include_films_with_no_trailers()
+    {
+        $filmWithTrailer = Film::factory()->hasTrailers(1)->create();
+        $filmWithoutTrailer = Film::factory()->create();
+
+        $user = User::factory()->create();
+
+        $response = Livewire::actingAs($user)->test(ToShortlist::class);
+
+        $this->assertCount(1, $response->films);
+        $this->assertEquals($response->films[0]->id, $filmWithTrailer->id);
     }
 }
