@@ -4,11 +4,11 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatedIgnoredFilmTagsTable extends Migration
+class CreateIgnoredTrailerTagsTable extends Migration
 {
     public function up()
     {
-        Schema::create('ignored_film_tags', function (Blueprint $table) {
+        Schema::create('ignored_trailer_tags', function (Blueprint $table) {
             // ID
             $table->id();
 
@@ -23,6 +23,6 @@ class CreatedIgnoredFilmTagsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('ignored_film_tags');
+        Schema::dropIfExists('ignored_trailer_tags');
     }
 }
