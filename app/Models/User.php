@@ -87,4 +87,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Tag::class, 'ignored_film_tags');
     }
+
+    public function ignoredTrailerTags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'ignored_trailer_tags');
+    }
 }
