@@ -21,6 +21,9 @@ class CreateReviewsTable extends Migration
             $table->text('comment')->nullable();
 
             $table->timestamps();
+
+            // Constraints
+            $table->unique(['user_id', 'film_id']);
         });
     }
 
