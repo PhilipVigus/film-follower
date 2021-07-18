@@ -80,3 +80,8 @@ https://trello.com/b/Xxo9CwvF/movies
   - create an ignored-film-tags table
   - add relationships to the models
   - update the ignored livewire view to include these ignored films
+
+- ignore trailers by tag
+  - create an ignored-trailer-tags table
+  - add relationships to the models
+  - hide films in lists where all trailers are ignored
