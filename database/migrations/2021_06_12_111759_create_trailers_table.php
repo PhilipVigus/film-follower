@@ -18,7 +18,6 @@ class CreateTrailersTable extends Migration
             // Data
             $table->string('guid')->unique();
             $table->string('title');
-            $table->string('slug')->unique();
             $table->string('type');
             $table->string('image');
             $table->string('link');

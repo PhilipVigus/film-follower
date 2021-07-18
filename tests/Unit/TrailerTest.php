@@ -19,7 +19,7 @@ class TrailerTest extends TestCase
     {
         $this->assertTrue(
             Schema::hasColumns('trailers', [
-                'id', 'guid', 'title', 'slug', 'type', 'image', 'link', 'uploaded_at',
+                'id', 'guid', 'title', 'type', 'image', 'link', 'uploaded_at',
             ])
         );
     }
