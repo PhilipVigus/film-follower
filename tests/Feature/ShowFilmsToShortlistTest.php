@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Tag;
 use Tests\TestCase;
 use App\Models\Film;
 use App\Models\User;
@@ -57,6 +58,26 @@ class ShowFilmsToShortlistTest extends TestCase
         $filmWithoutTrailer = Film::factory()->create();
 
         $user = User::factory()->create();
+
+        $response = Livewire::actingAs($user)->test(ToShortlist::class);
+
+        $this->assertCount(1, $response->films);
+        $this->assertEquals($response->films[0]->id, $filmWithTrailer->id);
+    }
+
+    /** @test */
+    public function the_list_does_not_include_films_with_tags_the_user_is_ignoring()
+    {
+        $filmWithTrailer = Film::factory()->hasTrailers(1)->create();
+        $filmWithIgnoredTag = Film::factory()->create();
+
+        $ignoredFilmTag = Tag::factory()->create();
+
+        $user = User::factory()->create();
+
+        $filmWithIgnoredTag->tags()->attach($ignoredFilmTag);
+
+        $user->ignoredFilmTags()->attach($ignoredFilmTag);
 
         $response = Livewire::actingAs($user)->test(ToShortlist::class);
 
