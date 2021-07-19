@@ -25,17 +25,15 @@ class ToShortlist extends Component
     {
         $this->films = Auth::user()
             ->filmsToShortlist()
-            ->has('trailers')
-            ->where(function ($query) {
-                $query->whereDoesntHave('tags', function ($query) {
-                    $query->whereIn(
-                        'id',
-                        Auth::user()->ignoredFilmTags->pluck('id')
-                    );
-                })->orDoesntHave('tags');
-            })
-            ->with('trailers', 'tags', 'trailers.tags')
+            ->withoutIgnoredTags(Auth::user())
+            ->with(['trailers' => function ($query) {
+                $query->withoutIgnoredTags(Auth::user());
+            }])
+            ->with('tags')
             ->get()
+            ->filter(function ($film) {
+                return $film->trailers->isNotEmpty();
+            })
         ;
     }
 

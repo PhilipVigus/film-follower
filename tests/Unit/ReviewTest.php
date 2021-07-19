@@ -46,7 +46,7 @@ class ReviewTest extends TestCase
     {
         $review = Review::factory()->create();
 
-        $this->assertInstanceOf(User::class, $review->reviewer);
+        $this->assertInstanceOf(User::class, $review->user);
     }
 
     /** @test */
