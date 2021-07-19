@@ -95,6 +95,6 @@ class User extends Authenticatable
 
     public function ignoredTrailerTitlePhrases(): HasMany
     {
-        return $this->hasMany(IgnoredTrailerTitlePhrases::class);
+        return $this->hasMany(IgnoredTrailerTitlePhrase::class);
     }
 }

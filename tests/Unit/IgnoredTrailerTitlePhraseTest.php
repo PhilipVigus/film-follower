@@ -6,7 +6,7 @@ use Tests\TestCase;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class IgnoredTrailerTitlePhrasesTest extends TestCase
+class IgnoredTrailerTitlePhraseTest extends TestCase
 {
     use RefreshDatabase;
 

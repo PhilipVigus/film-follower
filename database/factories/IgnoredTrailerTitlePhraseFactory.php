@@ -3,12 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use App\Models\IgnoredTrailerTitlePhrases;
+use App\Models\IgnoredTrailerTitlePhrase;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class IgnoredTrailerTitlePhrasesFactory extends Factory
+class IgnoredTrailerTitlePhraseFactory extends Factory
 {
-    protected $model = IgnoredTrailerTitlePhrases::class;
+    protected $model = IgnoredTrailerTitlePhrase::class;
 
     public function definition()
     {
