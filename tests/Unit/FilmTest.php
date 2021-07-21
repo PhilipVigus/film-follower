@@ -153,4 +153,36 @@ class FilmTest extends TestCase
 
         $this->assertEmpty($film->tags);
     }
+
+    /** @test */
+    public function you_can_get_all_films_without_ignored_tags()
+    {
+        $film = Film::factory()->create();
+
+        $ignoredFilmA = Film::factory()->create();
+        $ignoredFilmB = Film::factory()->create();
+
+        $user = User::factory()->create();
+
+        $tagA = Tag::factory()->create();
+        $tagB = Tag::factory()->create();
+
+        $ignoredTagA = Tag::factory()->create();
+        $ignoredTagB = Tag::factory()->create();
+
+        $film->tags()->attach($tagA);
+        $film->tags()->attach($tagB);
+
+        $ignoredFilmA->tags()->attach($ignoredTagA);
+        $ignoredFilmB->tags()->attach($ignoredTagB);
+        $ignoredFilmB->tags()->attach($tagA);
+
+        $user->ignoredFilmTags()->attach($ignoredTagA);
+        $user->ignoredFilmTags()->attach($ignoredTagB);
+
+        $films = Film::withoutIgnoredTags($user)->get();
+
+        $this->assertCount(1, $films);
+        $this->assertEquals($films->first()->id, $film->id);
+    }
 }
