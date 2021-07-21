@@ -9,6 +9,7 @@ use App\Models\Film;
 use App\Models\User;
 use App\Models\Trailer;
 use Illuminate\Support\Facades\Schema;
+use App\Models\IgnoredTrailerTitlePhrase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class TrailerTest extends TestCase
@@ -118,6 +119,25 @@ class TrailerTest extends TestCase
         $user->ignoredTrailerTags()->attach($ignoredTagB);
 
         $trailers = Trailer::withoutIgnoredTags($user)->get();
+
+        $this->assertCount(1, $trailers);
+        $this->assertEquals($trailer->id, $trailers->first()->id);
+    }
+
+    /** @test */
+    public function you_can_get_all_trailers_without_ignored_title_phrases()
+    {
+        $trailer = Trailer::factory()->create(['type' => 'This one is interesting']);
+
+        $ignoredTrailerA = Trailer::factory()->create(['type' => 'This is ignored']);
+        $ignoredTrailerB = Trailer::factory()->create(['type' => 'Unimportant type']);
+
+        $user = User::factory()->create();
+
+        IgnoredTrailerTitlePhrase::factory()->create(['user_id' => $user->id, 'phrase' => 'ignored']);
+        IgnoredTrailerTitlePhrase::factory()->create(['user_id' => $user->id, 'phrase' => 'unimportant']);
+
+        $trailers = Trailer::withoutIgnoredPhrases($user)->get();
 
         $this->assertCount(1, $trailers);
         $this->assertEquals($trailer->id, $trailers->first()->id);

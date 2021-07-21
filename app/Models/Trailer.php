@@ -25,13 +25,22 @@ class Trailer extends Model
 
     public function scopeWithoutIgnoredTags($query, User $user)
     {
-        $query->where(function ($query) use ($user) {
-            $query->whereDoesntHave('tags', function ($query) use ($user) {
-                $query->whereIn(
-                    'id',
-                    $user->ignoredTrailerTags->pluck('id')
-                );
-            })->orDoesntHave('tags');
+        $query->whereDoesntHave('tags', function ($query) use ($user) {
+            $query->whereIn(
+                'id',
+                $user->ignoredTrailerTags->pluck('id')
+            );
+        })->orDoesntHave('tags');
+    }
+
+    public function scopeWithoutIgnoredPhrases($query, User $user)
+    {
+        $ignoredPhrases = $user->ignoredTrailerTitlePhrases->pluck('phrase');
+
+        $query->where(function ($query) use ($ignoredPhrases) {
+            foreach ($ignoredPhrases as $phrase) {
+                $query->where('type', 'not like', '%' . $phrase . '%');
+            }
         });
     }
 }
