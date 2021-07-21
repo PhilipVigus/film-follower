@@ -183,6 +183,6 @@ class FilmTest extends TestCase
         $films = Film::withoutIgnoredTags($user)->get();
 
         $this->assertCount(1, $films);
-        $this->assertEquals($films->first()->id, $film->id);
+        $this->assertEquals($film->id, $films->first()->id);
     }
 }
