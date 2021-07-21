@@ -53,13 +53,11 @@ class Film extends Model
 
     public function scopeWithoutIgnoredTags($query, User $user)
     {
-        $query->where(function ($query) use ($user) {
-            $query->whereDoesntHave('tags', function ($query) use ($user) {
-                $query->whereIn(
-                    'id',
-                    $user->ignoredFilmTags->pluck('id')
-                );
-            })->orDoesntHave('tags');
-        });
+        $query->whereDoesntHave('tags', function ($query) use ($user) {
+            $query->whereIn(
+                'id',
+                $user->ignoredFilmTags->pluck('id')
+            );
+        })->orDoesntHave('tags');
     }
 }
