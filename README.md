@@ -85,3 +85,9 @@ https://trello.com/b/Xxo9CwvF/movies
   - create an ignored-trailer-tags table
   - add relationships to the models
   - hide films in lists where all trailers are ignored
+  - hide trailers which have an ignored tag in the to shortlist view
+
+- ignore trailers my words in trailer title
+  - create an ignored_trailer_words table
+  - add relationships to the models
+  - hide trailers which have ignored words in their titles from the to shortlist view

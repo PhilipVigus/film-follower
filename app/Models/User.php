@@ -92,4 +92,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Tag::class, 'ignored_trailer_tags');
     }
+
+    public function ignoredTrailerTitlePhrases(): HasMany
+    {
+        return $this->hasMany(IgnoredTrailerTitlePhrase::class);
+    }
 }

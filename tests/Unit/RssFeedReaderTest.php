@@ -41,7 +41,6 @@ class RssFeedReaderTest extends TestCase
             'trailer' => [
                 'guid' => 'itemId1',
                 'title' => 'Movie Title 1: type 1',
-                'slug' => 'movie-title-1-type-1',
                 'type' => 'type 1',
                 'image' => 'image1.jpg',
                 'link' => 'itemLink1',
