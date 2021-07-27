@@ -28,7 +28,6 @@ class RssFeedReader
             if (in_array($trailerGuid, $recentlyDownloadedTrailerGuids)) {
                 continue;
             }
-
             $trailerTitle = self::decodeRssString($rssItem->get_title());
             $trailerContent = self::decodeRssString($rssItem->get_content());
 
@@ -39,7 +38,6 @@ class RssFeedReader
                 'trailer' => [
                     'guid' => $trailerGuid,
                     'title' => $trailerTitle,
-                    'slug' => Str::slug($trailerTitle),
                     'type' => $trailerType[1],
                     'image' => $trailerImage[1],
                     'link' => self::decodeRssString($rssItem->get_link()),

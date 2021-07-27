@@ -70,8 +70,24 @@ https://trello.com/b/Xxo9CwvF/movies
 -   Display films I'm ignoring
 -   Put a film on my ignore list
 -   Take a film off my ignore list
--   Display all films that have a specific tag or tags
+-   Display all films that have a specific tag
 
 ## Sprint 4
 -   Specify tags to ignore/highlight
 -   Specify trailer types to ignore/highlight
+
+- ignore films by tag
+  - create an ignored-film-tags table
+  - add relationships to the models
+  - update the ignored livewire view to include these ignored films
+
+- ignore trailers by tag
+  - create an ignored-trailer-tags table
+  - add relationships to the models
+  - hide films in lists where all trailers are ignored
+  - hide trailers which have an ignored tag in the to shortlist view
+
+- ignore trailers my words in trailer title
+  - create an ignored_trailer_words table
+  - add relationships to the models
+  - hide trailers which have ignored words in their titles from the to shortlist view
