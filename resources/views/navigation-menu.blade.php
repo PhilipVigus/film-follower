@@ -1,31 +1,31 @@
 <nav x-data="{ open: false }" class="bg-gray-200 border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+        <div class="flex justify-between h-20">
             <div class="flex">
-                <x-icons.camera class="w-16 h-16"/>
+                <x-icons.camera class="w-20 h-20 p-2"/>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('to-shortlist') }}" :active="request()->routeIs('to-shortlist')">
+                    <x-nav-link href="{{ route('to-shortlist') }}" :active="request()->routeIs('to-shortlist')">
                         To Shortlist
-                    </x-jet-nav-link>
+                    </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('shortlist') }}" :active="request()->routeIs('shortlist')">
+                    <x-nav-link href="{{ route('shortlist') }}" :active="request()->routeIs('shortlist')">
                         Shortlist
-                    </x-jet-nav-link>
+                    </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('watched') }}" :active="request()->routeIs('watched')">
+                    <x-nav-link href="{{ route('watched') }}" :active="request()->routeIs('watched')">
                         Watched
-                    </x-jet-nav-link>
+                    </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('ignored') }}" :active="request()->routeIs('ignored')">
+                    <x-nav-link href="{{ route('ignored') }}" :active="request()->routeIs('ignored')">
                         Ignored
-                    </x-jet-nav-link>
+                    </x-nav-link>
                 </div>
             </div>
 
