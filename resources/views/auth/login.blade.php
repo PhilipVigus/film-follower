@@ -1,13 +1,7 @@
 <x-guest-layout>
     <div class="bg-gray-900 h-screen w-screen flex items-center justify-center">
         <div class="bg-gray-200 p-4 rounded shadow-sm w-1/5" x-data="{ guest: false, oldEmail: '{{ old('email') }}' , test: 'value' }">
-            <div class="flex items-center border-b border-gray-300 pb-2 justify-between">
-                <x-icons.camera class="w-16 h-16"/>
-                <h1 class="text-gray-900 text-2xl font-bold uppercase">
-                    Log in
-                </h1>
-                <x-icons.camera class="w-16 h-16"/>
-            </div>
+            <x-auth-heading>Log in</x-auth-heading>
 
             @if ($errors->any())
                 <div class="mt-4 text-sm text-red-600 w-full">
