@@ -11,12 +11,12 @@ class RssFeedReader
 {
     public static function getLatestItems()
     {
-        $rssItems = FeedReader::read(config('film-follower.rss_url'))->get_items();
+        $rssItems = FeedReader::read(config('film-follower.rss-url'))->get_items();
         $items = [];
 
         $recentlyDownloadedTrailerGuids = Trailer::query()
             ->orderByDesc('uploaded_at')
-            ->limit(config('film-follower.rss_items_per_request'))
+            ->limit(config('film-follower.rss-items-per-request'))
             ->get()
             ->pluck('guid')
             ->toArray()
