@@ -91,3 +91,9 @@ https://trello.com/b/Xxo9CwvF/movies
   - create an ignored_trailer_words table
   - add relationships to the models
   - hide trailers which have ignored words in their titles from the to shortlist view
+
+## Sprint 5
+- Draft gui
+  - basic colour scheme
+  - components
+  - layouts
