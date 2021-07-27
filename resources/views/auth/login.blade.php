@@ -1,16 +1,10 @@
 <x-guest-layout>
-    <div class="bg-gray-900 h-screen w-screen flex items-center justify-center">
-        <div class="bg-gray-200 p-4 rounded shadow-sm w-1/5" x-data="{ guest: false, oldEmail: '{{ old('email') }}' , test: 'value' }">
+    <x-auth-card>
+        <div class="bg-gray-200 p-4 rounded shadow-sm w-1/5" x-data="{ guest: false, oldEmail: '{{ old('email') }}' }">
             <x-auth-heading>Log in</x-auth-heading>
 
-            @if ($errors->any())
-                <div class="mt-4 text-sm text-red-600 w-full">
-                    @foreach ($errors->all() as $error)
-                        {{ $error }}
-                    @endforeach
-                </div>
-            @endif
-
+            <x-auth-errors />
+            
             @if (session('status'))
                 <div class="mb-4 font-medium text-sm text-green-600">
                     {{ session('status') }}
@@ -58,5 +52,5 @@
                 </div>
             </form>
         </div>
-    </div>
+    </x-auth-card>
 </x-guest-layout>
