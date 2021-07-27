@@ -1,6 +1,6 @@
 <x-guest-layout>
     <x-auth-card>
-        <div class="bg-gray-200 p-4 rounded shadow-sm w-1/5" x-data="{ guest: false, oldEmail: '{{ old('email') }}' }">
+        <div class="bg-gray-200 p-4 rounded shadow-sm w-1/5">
             <x-auth-heading>Log in</x-auth-heading>
 
             <x-auth-errors />
@@ -16,23 +16,18 @@
 
                 <div class="mt-4">
                     <x-label for="email" value="Email" />
-                    <x-input id="email" class="block mt-1 w-full" type="email" name="email" required autofocus x-bind:value="guest ? '{{ config('film-follower.guest-email') }}' : oldEmail"/>
+                    <x-input id="email" class="block mt-1 w-full" type="email" name="email" required autofocus :value="old('email')"/>
                 </div>
 
                 <div class="mt-4">
                     <x-label for="password" value="Password" />
-                    <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" x-bind:value="guest ? 'password' : ''"/>
+                    <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
                 </div>
 
                 <div class="block mt-4 flex items-center justify-between">
                     <label for="remember_me" class="flex items-center">
                         <x-checkbox id="remember_me" name="remember" />
                         <span class="ml-2 text-sm text-gray-600">Remember me</span>
-                    </label>
-
-                    <label for="guest_login" class="flex items-center">
-                        <x-checkbox id="guest_login" name="guest" x-model="guest"/>
-                        <span class="ml-2 text-sm text-gray-600">Log in as guest</span>
                     </label>
                 </div>
 
@@ -41,16 +36,29 @@
                         Log in
                     </x-button>
                 </div>
-
-                <div class="flex items-center justify-between mt-4">
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
-                        Forgot your password?
-                    </a>
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">
-                        Don't have an account?
-                    </a>
-                </div>
             </form>
+
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+
+                <div class="hidden">
+                    <x-input id="guest_email" type="text" name="email" value="{{ config('film-follower.guest-email') }}"/>
+                    <x-input id="guest_password" type="text" name="password" value="{{ config('film-follower.guest-password') }}"/>
+                </div>
+
+                <x-button class="mt-4 w-full justify-center">
+                    Log in as guest
+                </x-button>
+            </form>
+
+            <div class="flex items-center justify-between mt-4">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                    Forgot your password?
+                </a>
+                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">
+                    Don't have an account?
+                </a>
+            </div>
         </div>
     </x-auth-card>
 </x-guest-layout>
