@@ -45,26 +45,22 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-jet-dropdown-link href="{{ route('profile.show') }}">
-                                {{ __('Profile') }}
-                            </x-jet-dropdown-link>
+                            <x-dropdown-link href="{{ route('profile.show') }}">
+                                Profile
+                            </x-dropdown-link>
 
-                            <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
 
-                                <x-jet-dropdown-link href="{{ route('logout') }}"
-                                         onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                    {{ __('Log Out') }}
-                                </x-jet-dropdown-link>
+                                <x-dropdown-link href="{{ route('logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">
+                                    Log out
+                                </x-dropdown-link>
                             </form>
                         </x-slot>
-                    </x-jet-dropdown>
+                    </x-dropdown>
                 </div>
             </div>
 
-            <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden bg-gray-200 text-green-700">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none transition">
                     <svg class="h-12 w-12 stroke-current fill-current text-gray-400" viewBox="0 0 24 24">
@@ -76,64 +72,47 @@
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('to-shortlist') }}" :active="request()->routeIs('to-shortlist')">
+        <div class="pt-2">
+            <x-responsive-nav-link href="{{ route('to-shortlist') }}" :active="request()->routeIs('to-shortlist')">
                 To shortlist
-            </x-jet-responsive-nav-link>
+            </x-responsive-nav-link>
         </div>
 
-        <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('shortlist') }}" :active="request()->routeIs('shortlist')">
+        <div class="pt-2">
+            <x-responsive-nav-link href="{{ route('shortlist') }}" :active="request()->routeIs('shortlist')">
                 Shortlist
-            </x-jet-responsive-nav-link>
+            </x-responsive-nav-link>
         </div>
 
-        <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('watched') }}" :active="request()->routeIs('watched')">
+        <div class="pt-2">
+            <x-responsive-nav-link href="{{ route('watched') }}" :active="request()->routeIs('watched')">
                 Watched
-            </x-jet-responsive-nav-link>
+            </x-responsive-nav-link>
         </div>
 
-        <div class="pt-2 pb-3 space-y-1">
-            <x-jet-responsive-nav-link href="{{ route('ignored') }}" :active="request()->routeIs('ignored')">
+        <div class="pt-2 border-b border-gray-300">
+            <x-responsive-nav-link href="{{ route('ignored') }}" :active="request()->routeIs('ignored')">
                 Ignored
-            </x-jet-responsive-nav-link>
+            </x-responsive-nav-link>
         </div>
 
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="flex items-center px-4">
-                <div>
-                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-                </div>
-            </div>
+        <div class="pt-2">
+            <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
+                Profile
+            </x-responsive-nav-link>
+        </div>
 
-            <div class="mt-3 space-y-1">
-                <!-- Account Management -->
-                <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
-                    {{ __('Profile') }}
-                </x-jet-responsive-nav-link>
+        <div class="pt-2">
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
 
-                @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                    <x-jet-responsive-nav-link href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">
-                        {{ __('API Tokens') }}
-                    </x-jet-responsive-nav-link>
-                @endif
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-
-                    <x-jet-responsive-nav-link href="{{ route('logout') }}"
-                                   onclick="event.preventDefault();
-                                    this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-jet-responsive-nav-link>
-                </form>
-            </div>
+                <x-responsive-nav-link href="{{ route('logout') }}"
+                                onclick="event.preventDefault();
+                                this.closest('form').submit();">
+                    Log out
+                </x-responsive-nav-link>
+            </form>
         </div>
     </div>
 </nav>
