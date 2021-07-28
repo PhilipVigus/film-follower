@@ -14,8 +14,6 @@ class RssFeedReader
         $rssItems = FeedReader::read(config('film-follower.rss-url'))->get_items();
         $items = [];
 
-        // dd(self::fixWrongUTF8Encoding(mb_convert_encoding($rssItems[3]->get_content(), 'UTF-8')), mb_convert_encoding($rssItems[6]->get_content(), 'UTF-8'));
-
         $recentlyDownloadedTrailerGuids = Trailer::query()
             ->orderByDesc('uploaded_at')
             ->limit(config('film-follower.rss-items-per-request'))
