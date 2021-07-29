@@ -17,7 +17,7 @@ class PriorityFactory extends Factory
         return [
             'user_id' => User::factory(),
             'film_id' => Film::factory(),
-            'level' => Priority::LEVELS[array_rand(Priority::LEVELS)],
+            'rating' => $this->faker->numberBetween(1, 5),
             'comment' => $this->faker->sentence,
         ];
     }

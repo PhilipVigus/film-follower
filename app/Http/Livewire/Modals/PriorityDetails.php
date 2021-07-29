@@ -26,13 +26,13 @@ class PriorityDetails extends Component
         ;
     }
 
-    public function shortlist(Film $film, string $level, string $comment)
+    public function shortlist(Film $film, int $rating, string $comment)
     {
         Auth::user()
             ->priorities()
             ->updateOrCreate(
                 ['film_id' => $film->id],
-                ['level' => $level, 'comment' => $comment]
+                ['rating' => $rating, 'comment' => $comment]
             )
         ;
 

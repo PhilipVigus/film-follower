@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Priority;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -18,7 +17,7 @@ class CreatePrioritiesTable extends Migration
             $table->foreignId('film_id')->constrained('films')->cascadeOnDelete();
 
             // Data
-            $table->enum('level', Priority::LEVELS);
+            $table->integer('rating');
             $table->text('comment')->nullable();
 
             $table->timestamps();
