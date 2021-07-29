@@ -11,6 +11,13 @@
             <option value="4">4</option>
             <option value="5">5</option>
         </select>
+        <div>
+        <x-icons.star />
+        <x-icons.star />
+        <x-icons.star />
+        <x-icons.star />
+        <x-icons.star />
+        </div>
     </div>
 
     <div>
