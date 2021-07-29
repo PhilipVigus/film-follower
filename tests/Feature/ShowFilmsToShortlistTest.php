@@ -105,4 +105,35 @@ class ShowFilmsToShortlistTest extends TestCase
         $this->assertCount(1, $response->films);
         $this->assertEquals($response->films[0]->id, $film->id);
     }
+
+    /** @test */
+    public function you_can_ignore_a_film()
+    {
+        $film = Film::factory()->create();
+        $user = User::factory()->create();
+
+        Livewire::actingAs($user)
+            ->test(ToShortlist::class)
+            ->call('ignoreFilm', $film)
+        ;
+
+        $this->assertEmpty($user->filmsToShortlist);
+        $this->assertCount(1, $user->ignoredFilms);
+    }
+
+    /** @test */
+    public function you_can_unignore_a_film()
+    {
+        $film = Film::factory()->create();
+        $user = User::factory()->create();
+
+        Livewire::actingAs($user)
+            ->test(ToShortlist::class)
+            ->call('ignoreFilm', $film)
+            ->call('unignoreFilm', $film)
+        ;
+
+        $this->assertCount(1, $user->filmsToShortlist);
+        $this->assertEmpty($user->ignoredFilms);
+    }
 }

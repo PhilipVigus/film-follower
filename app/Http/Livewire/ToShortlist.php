@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Film;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
@@ -34,6 +35,28 @@ class ToShortlist extends Component
             ->filter(function ($film) {
                 return $film->trailers->isNotEmpty();
             })
+        ;
+    }
+
+    public function ignoreFilm(Film $film)
+    {
+        Auth::user()
+            ->films()
+            ->updateExistingPivot(
+                $film,
+                ['status' => Film::IGNORED]
+            )
+        ;
+    }
+
+    public function unignoreFilm(Film $film)
+    {
+        Auth::user()
+            ->films()
+            ->updateExistingPivot(
+                $film,
+                ['status' => Film::TO_SHORTLIST]
+            )
         ;
     }
 
