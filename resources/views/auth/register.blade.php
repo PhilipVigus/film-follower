@@ -29,9 +29,9 @@
                 </div>
 
                 <div>
-                    <x-button class="mt-6 w-full justify-center">
+                    <x-auth-button class="mt-6 w-full justify-center">
                         Register
-                    </x-button>
+                    </x-auth-button>
                 </div>
     
                 <div class="flex items-center justify-end mt-4">
