@@ -10,7 +10,7 @@
             @foreach ($films as $film)
                 <div class="mt-4 border" wire:key="{{ $loop->index }}">
                     <div class="font-bold text-lg">{{ $film->title }}</div>
-                    <div>Level - {{$film->priorities->first()->level }}</div>
+                    <div>Rating - {{$film->priorities->first()->rating }}</div>
                     <div>{{$film->priorities->first()->comment }}</div>
 
                     <div>

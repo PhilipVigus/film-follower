@@ -6,7 +6,6 @@ use Tests\TestCase;
 use App\Models\Film;
 use App\Models\User;
 use Livewire\Livewire;
-use App\Models\Priority;
 use App\Http\Livewire\Shortlist;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -42,7 +41,7 @@ class ShowShortlistedFilmsTest extends TestCase
         $user = User::factory()->create();
 
         $user->films()->updateExistingPivot($shortlistedFilm, ['status' => Film::SHORTLISTED]);
-        $user->priorities()->create(['film_id' => $shortlistedFilm->id, 'level' => Priority::MEDIUM]);
+        $user->priorities()->create(['film_id' => $shortlistedFilm->id, 'rating' => 3]);
 
         $response = Livewire::actingAs($user)->test(Shortlist::class);
 

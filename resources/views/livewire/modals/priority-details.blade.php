@@ -1,31 +1,16 @@
-<div x-data="{ level: '{{ $priority['level'] ?? 'low' }}', comment: '{{ $priority['comment'] ?? '' }}' }">
+<div x-data="{ rating: '{{ $priority['rating'] ?? '1' }}', comment: '{{ $priority['comment'] ?? '' }}' }">
     <h1 class="text-center font-bold text-lg">{{ $film['title']}}</h1>
-    <h2 class="text-center">Set priority</h2>
+    
+    <div>
+        <h2 class="text-center">Set rating</h2>
 
-    <div class="flex justify-stretch mt-2">
-        <button 
-            class="w-1/3 bg-blue-200 hover:bg-blue-300"
-            x-bind:class="{ 'border-2': level === 'low', 'border-blue-400': level === 'low', 'font-bold': level === 'low' }"
-            @click="level = 'low'"
-        >
-            Low
-        </button>
-
-        <button 
-            class="w-1/3 bg-yellow-300 hover:bg-yellow-400"
-            x-bind:class="{ 'border-2': level === 'medium', 'border-yellow-500': level === 'medium', 'font-bold': level === 'medium' }"
-            @click="level = 'medium'"
-        >
-            Medium
-        </button>
-
-        <button 
-            class="w-1/3 bg-red-600 hover:bg-red-700"
-            x-bind:class="{ 'border-2': level === 'high', 'border-red-800': level === 'high', 'font-bold': level === 'high' }"
-            @click="level = 'high'"
-        >
-            High
-        </button>
+        <select name="ratings" id="ratings" x-model="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
     </div>
 
     <div>
@@ -39,7 +24,7 @@
             Cancel
         </button>
         
-        <button x-on:click="$wire.shortlist({{ $film['id'] }}, level, comment); $parent.close()">
+        <button x-on:click="$wire.shortlist({{ $film['id'] }}, rating, comment); $parent.close()">
             Save
         </button>
     </div>
