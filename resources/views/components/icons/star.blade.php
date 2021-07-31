@@ -1,7 +1,6 @@
 @props(['filled' => false])
 
 @php
-
 @endphp
 
 <svg 

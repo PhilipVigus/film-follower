@@ -64,7 +64,8 @@ class AddShortlistPriorityDetailsTest extends TestCase
 
         Livewire::actingAs($user)
             ->test(PriorityDetails::class, ['data' => ['film' => $film->toArray()]])
-            ->assertSet('priority', $user->priorities->first())
+            ->assertSet('rating', 1)
+            ->assertSet('comment', 'First comment')
         ;
     }
 
