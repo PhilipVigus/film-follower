@@ -1,7 +1,7 @@
 <div x-data="{ comment: @entangle('comment').defer, rating: @entangle('rating').defer }">
-    <h1 class="text-center font-bold text-lg">{{ $film['title']}}</h1>
+    <h1 class="text-center font-bold text-lg border-b bg-gray-700 p-2 text-white">{{ $film['title']}}</h1>
     
-    <div class="mt-2">
+    <div class="p-4">
         <p class="text-center">How much do you want to see this film?</p>
 
         <div class="flex items-center justify-center">
@@ -20,21 +20,21 @@
 
             @error('rating') <span class="error">{{ $message }}</span> @enderror
         </div>
-    </div>
-
-    <label for="comment" class="mt-2">
-        Add a comment
-
-        <textarea class="w-full h-32 mt-2 resize-y" x-model="comment"></textarea>
-    </label>
-
-    <div class="mt-4 flex justify-around">
-        <button @click="$parent.close()">
-            Cancel
-        </button>
-        
-        <button x-on:click="$wire.submit()">
-            Save
-        </button>
+    
+        <label for="comment" class="mt-2">
+            Add a comment
+    
+            <textarea class="w-full h-32 mt-2 resize-y" x-model="comment"></textarea>
+        </label>
+    
+        <div class="mt-4 flex space-x-4">
+            <button @click="$parent.close()" class="w-full bg-gray-300 p-2 rounded-md hover:bg-gray-400">
+                Cancel
+            </button>
+            
+            <button x-on:click="$wire.submit()" class="w-full bg-blue-800 text-gray-100 p-2 rounded-md hover:bg-blue-900">
+                Save
+            </button>
+        </div>
     </div>
 </div>
