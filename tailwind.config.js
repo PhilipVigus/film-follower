@@ -20,6 +20,7 @@ module.exports = {
         extend: {
             opacity: ['disabled'],
         },
+        fill: ['hover'],
     },
 
     plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],

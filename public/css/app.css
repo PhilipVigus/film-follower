@@ -25679,6 +25679,10 @@ select {
   fill: currentColor;
 }
 
+.hover\:fill-current:hover {
+  fill: currentColor;
+}
+
 .stroke-current {
   stroke: currentColor;
 }
@@ -58325,10 +58329,6 @@ select {
     --tw-ring-opacity: 1;
   }
 
-  .sm\:fill-current {
-    fill: currentColor;
-  }
-
   .sm\:stroke-current {
     stroke: currentColor;
   }
@@ -90813,10 +90813,6 @@ select {
 
   .md\:focus\:ring-opacity-100:focus {
     --tw-ring-opacity: 1;
-  }
-
-  .md\:fill-current {
-    fill: currentColor;
   }
 
   .md\:stroke-current {
@@ -123305,10 +123301,6 @@ select {
     --tw-ring-opacity: 1;
   }
 
-  .lg\:fill-current {
-    fill: currentColor;
-  }
-
   .lg\:stroke-current {
     stroke: currentColor;
   }
@@ -155795,10 +155787,6 @@ select {
     --tw-ring-opacity: 1;
   }
 
-  .xl\:fill-current {
-    fill: currentColor;
-  }
-
   .xl\:stroke-current {
     stroke: currentColor;
   }
@@ -188283,10 +188271,6 @@ select {
 
   .\32xl\:focus\:ring-opacity-100:focus {
     --tw-ring-opacity: 1;
-  }
-
-  .\32xl\:fill-current {
-    fill: currentColor;
   }
 
   .\32xl\:stroke-current {
