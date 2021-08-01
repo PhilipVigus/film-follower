@@ -16,7 +16,10 @@ class Modal extends Component
     public $data = [];
 
     /** @var array */
-    protected $listeners = ['open' => 'open'];
+    protected $listeners = [
+        'open' => 'open',
+        'close' => 'close',
+    ];
 
     public function open(string $view, array $data = [])
     {
@@ -27,6 +30,7 @@ class Modal extends Component
 
     public function close()
     {
+        $this->open = false;
         $this->view = '';
         $this->data = [];
     }

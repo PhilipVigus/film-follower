@@ -13,6 +13,11 @@ class Priority extends Model
     /** @var array */
     protected $guarded = [];
 
+    protected $attributes = [
+        'rating' => 0,
+        'comment' => '',
+    ];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
