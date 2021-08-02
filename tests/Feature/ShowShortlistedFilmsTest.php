@@ -48,4 +48,30 @@ class ShowShortlistedFilmsTest extends TestCase
         $this->assertCount(1, $response->films);
         $this->assertEquals($response->films[0]->id, $shortlistedFilm->id);
     }
+
+    /** @test */
+    public function the_list_is_order_from_highest_to_lowest_rating()
+    {
+        $fiveStarFilm = Film::factory()->create();
+        $fourStarFilm = Film::factory()->create();
+        $threeStarFilm = Film::factory()->create();
+
+        $user = User::factory()->create();
+
+        $user->films()->updateExistingPivot($fiveStarFilm, ['status' => Film::SHORTLISTED]);
+        $user->priorities()->create(['film_id' => $fiveStarFilm->id, 'rating' => 5]);
+
+        $user->films()->updateExistingPivot($threeStarFilm, ['status' => Film::SHORTLISTED]);
+        $user->priorities()->create(['film_id' => $threeStarFilm->id, 'rating' => 3]);
+
+        $user->films()->updateExistingPivot($fourStarFilm, ['status' => Film::SHORTLISTED]);
+        $user->priorities()->create(['film_id' => $fourStarFilm->id, 'rating' => 4]);
+
+        $response = Livewire::actingAs($user)->test(Shortlist::class);
+
+        $this->assertCount(3, $response->films);
+        $this->assertEquals($response->films[0]->id, $fiveStarFilm->id);
+        $this->assertEquals($response->films[1]->id, $fourStarFilm->id);
+        $this->assertEquals($response->films[2]->id, $threeStarFilm->id);
+    }
 }
