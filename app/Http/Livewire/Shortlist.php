@@ -29,6 +29,9 @@ class Shortlist extends Component
                 $query->where('user_id', '=', Auth::id());
             }])
             ->get()
+            ->sortByDesc(function ($film, $key) {
+                return $film->priorities->first()->rating;
+            })
         ;
     }
 
