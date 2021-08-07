@@ -36,7 +36,7 @@ class ShowShortlistedFilmsTest extends TestCase
     public function the_list_includes_all_films_the_user_has_shortlisted()
     {
         Film::factory()->create();
-        $shortlistedFilm = Film::factory()->create();
+        $shortlistedFilm = Film::factory()->hasTrailers(2)->create();
 
         $user = User::factory()->create();
 
@@ -52,9 +52,9 @@ class ShowShortlistedFilmsTest extends TestCase
     /** @test */
     public function the_list_is_order_from_highest_to_lowest_rating()
     {
-        $fiveStarFilm = Film::factory()->create();
-        $fourStarFilm = Film::factory()->create();
-        $threeStarFilm = Film::factory()->create();
+        $fiveStarFilm = Film::factory()->hasTrailers(2)->create();
+        $fourStarFilm = Film::factory()->hasTrailers(2)->create();
+        $threeStarFilm = Film::factory()->hasTrailers(2)->create();
 
         $user = User::factory()->create();
 
