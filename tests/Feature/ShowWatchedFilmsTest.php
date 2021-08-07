@@ -35,12 +35,13 @@ class ShowWatchedFilmsTest extends TestCase
     /** @test */
     public function the_list_includes_all_films_the_user_has_watched()
     {
-        Film::factory()->create();
-        $watchedFilm = Film::factory()->create();
+        Film::factory()->hasTrailers(2)->create();
+        $watchedFilm = Film::factory()->hasTrailers(2)->create();
 
         $user = User::factory()->create();
 
         $user->films()->updateExistingPivot($watchedFilm, ['status' => Film::WATCHED]);
+        $user->priorities()->create(['film_id' => $watchedFilm->id, 'rating' => 2]);
         $user->reviews()->create(['film_id' => $watchedFilm->id, 'rating' => 2]);
 
         $response = Livewire::actingAs($user)->test(Watched::class);
