@@ -36,8 +36,8 @@ class ShowIgnoredFilmsTest extends TestCase
     /** @test */
     public function the_list_includes_all_films_the_user_has_ignored()
     {
-        Film::factory()->create();
-        $ignoredFilm = Film::factory()->create();
+        Film::factory()->hasTrailers(2)->create();
+        $ignoredFilm = Film::factory()->hasTrailers(2)->create();
 
         $user = User::factory()->create();
 

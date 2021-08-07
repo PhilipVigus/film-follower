@@ -53,6 +53,19 @@ class Ignored extends Component
         ;
     }
 
+    public function unignoreFilm(Film $film)
+    {
+        Auth::user()
+            ->films()
+            ->updateExistingPivot(
+                $film,
+                ['status' => Film::TO_SHORTLIST]
+            )
+        ;
+
+        $this->refreshFilms();
+    }
+
     public function render()
     {
         return view('livewire.ignored');
