@@ -23,7 +23,7 @@
 
                             <div class="mt-2">
                                 @forelse ($film->tags as $tag)
-                                    <a class="whitespace-nowrap" href="{{ route('tag', ['tag' => $tag]) }}">{{ $tag->name }}</a>@if (! $loop->last),@endif
+                                    <a class="whitespace-nowrap hover:underline" href="{{ route('tag', ['tag' => $tag]) }}">{{ $tag->name }}</a>@if (! $loop->last),@endif
                                 @empty
                                     <span>
                                         none
@@ -38,7 +38,7 @@
                             <ul class="">
                                 @foreach ($film->trailers as $trailer)
                                     <a href="{{ $trailer->link }}" target="_blank">
-                                        <li class="truncate">{{ $trailer->type }}</li>
+                                        <li class="hover:underline">{{ $trailer->type }}</li>
                                     </a>
                                 @endforeach
                             </ul>
