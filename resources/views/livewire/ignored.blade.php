@@ -1,46 +1,52 @@
-<div>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Films
-        </h2>
-    </x-slot>
+<div class="max-w-7xl mx-auto px-4">
+    @forelse ($ignoredFilms as $film)
+        <article class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6" wire:key="{{ $loop->index }}">
 
-    <div class="py-8">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Ignored films
-            </h2>
+            <h2 class="font-bold text-2xl">{{ $film->title }}</h2>
 
-            @forelse ($ignoredFilms as $film)
-                <div class="mt-4 border" wire:key="{{ $loop->index }}">
-                    <div class="font-bold text-lg">{{ $film->title }}</div>
+            <div class="flex space-x-6 mt-4">
+                <section class="w-1/2">
+                    <a href="{{ $film->trailers->first()->link }}" target="_blank">
+                        <img class="flex-grow-0" src="{{ $film->trailers->first()->image }}" />
+                    </a>
 
-                    <div>
-                        <button wire:click="$emitTo('modal', 'open', 'unignore', { film: {{ $film }} })">Unignore</button>
+                    <div class="mt-4 flex space-x-4">
+                        <button class="w-full bg-blue-800 text-gray-100 p-2 rounded-md hover:bg-blue-900" wire:click="unignoreFilm({{ $film }})">Unignore</button>
                     </div>
-                </div>
-            @empty
-                <div class="mt-4 border">
-                    <div class="font-bold text-lg">You are not ignoring any films</div>
-                </div>
-            @endforelse
+                </section>
 
-            <h2 class="mt-8 font-semibold text-xl text-gray-800 leading-tight">
-                Films with ignored tags
-            </h2>
+                <div class="w-1/2">
+                    <section>
+                        <h3 class="font-bold text-lg">Tags</h3>
 
-            @foreach ($filmsWithIgnoredTags as $film)
-                <div class="mt-4 border" wire:key="{{ $loop->index }}">
-                    <div class="font-bold text-lg">{{ $film->title }}</div>
-                    
-                    <div>
-                        <p>Ignored tags</p>
-                        @foreach ($film->tags as $tag)
-                            <a href="{{ route('tag', ['tag' => $tag]) }}">{{ $tag->name }}</a>@if (! $loop->last),@endif
-                        @endforeach
-                    </div>
+                        <div class="mt-2">
+                            @forelse ($film->tags as $tag)
+                                <a class="whitespace-nowrap hover:underline" href="{{ route('tag', ['tag' => $tag]) }}">{{ $tag->name }}</a>@if (! $loop->last),@endif
+                            @empty
+                                <span>
+                                    none
+                                </span>
+                            @endforelse
+                        </div>
+                    </section>
+
+                    <section class="mt-4">
+                        <h3 class="font-bold text-lg">Trailers</h3>
+
+                        <ul class="">
+                            @foreach ($film->trailers as $trailer)
+                                <a href="{{ $trailer->link }}" target="_blank">
+                                    <li class="hover:underline">{{ $trailer->type }}</li>
+                                </a>
+                            @endforeach
+                        </ul>
+                    </section>
                 </div>
-            @endforeach
+            </div>
+        </article>
+    @empty
+        <div class="mt-4 border">
+            <div class="font-bold text-lg">You are not ignoring any films</div>
         </div>
-    </div>
+    @endforelse
 </div>

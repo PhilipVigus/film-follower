@@ -36,8 +36,8 @@ class ShowIgnoredFilmsTest extends TestCase
     /** @test */
     public function the_list_includes_all_films_the_user_has_ignored()
     {
-        Film::factory()->create();
-        $ignoredFilm = Film::factory()->create();
+        Film::factory()->hasTrailers(2)->create();
+        $ignoredFilm = Film::factory()->hasTrailers(2)->create();
 
         $user = User::factory()->create();
 
@@ -66,5 +66,23 @@ class ShowIgnoredFilmsTest extends TestCase
 
         $this->assertCount(1, $response->filmsWithIgnoredTags);
         $this->assertEquals($response->filmsWithIgnoredTags[0]->id, $filmWithIgnoredTag->id);
+    }
+
+    /** @test */
+    public function you_can_unignore_a_film()
+    {
+        Film::factory()->hasTrailers(2)->create();
+        $ignoredFilm = Film::factory()->hasTrailers(2)->create();
+
+        $user = User::factory()->create();
+
+        $user->films()->updateExistingPivot($ignoredFilm, ['status' => Film::IGNORED]);
+
+        $response = Livewire::actingAs($user)
+            ->test(Ignored::class)
+            ->call('unignoreFilm', $ignoredFilm)
+        ;
+
+        $this->assertEmpty($response->ignoredFilms);
     }
 }
