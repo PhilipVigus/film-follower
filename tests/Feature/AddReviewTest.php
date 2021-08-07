@@ -21,7 +21,9 @@ class AddReviewTest extends TestCase
 
         Livewire::actingAs($user)
             ->test(ReviewDetails::class, ['data' => ['film' => $film->toArray()]])
-            ->call('addReview', $film, 1, 'A comment')
+            ->set('rating', 1)
+            ->set('comment', 'A comment')
+            ->call('submit')
         ;
 
         $this->assertEmpty($user->filmsToShortlist);
@@ -36,7 +38,9 @@ class AddReviewTest extends TestCase
 
         Livewire::actingAs($user)
             ->test(ReviewDetails::class, ['data' => ['film' => $film->toArray()]])
-            ->call('addReview', $film, 1, 'A comment')
+            ->set('rating', 1)
+            ->set('comment', 'A comment')
+            ->call('submit')
         ;
 
         $this->assertCount(1, $user->reviews);
@@ -64,7 +68,8 @@ class AddReviewTest extends TestCase
 
         Livewire::actingAs($user)
             ->test(ReviewDetails::class, ['data' => ['film' => $film->toArray()]])
-            ->assertSet('review', $user->reviews->first())
+            ->assertSet('rating', 1)
+            ->assertSet('comment', 'First comment')
         ;
     }
 
@@ -84,8 +89,10 @@ class AddReviewTest extends TestCase
 
         Livewire::actingAs($user)
             ->test(ReviewDetails::class, ['data' => ['film' => $film->toArray()]])
-            ->call('addReview', $film, 5, 'Second comment')
-        ;
+            ->set('rating', 5)
+            ->set('comment', 'Second comment')
+            ->call('submit')
+            ;
 
         $this->assertCount(1, $user->reviews);
 
@@ -94,5 +101,18 @@ class AddReviewTest extends TestCase
         $this->assertEquals($film->id, $review->film_id);
         $this->assertEquals(5, $review->rating);
         $this->assertEquals('Second comment', $review->comment);
+    }
+
+    /** @test */
+    public function you_must_choose_a_rating()
+    {
+        $film = Film::factory()->create();
+        $user = User::factory()->create();
+
+        Livewire::actingAs($user)
+            ->test(ReviewDetails::class, ['data' => ['film' => $film->toArray()]])
+            ->call('submit')
+            ->assertHasErrors('rating', 'min')
+        ;
     }
 }

@@ -4,16 +4,12 @@ namespace App\Http\Livewire\Modals;
 
 use App\Models\Film;
 use Livewire\Component;
-use App\Models\Priority;
 use Illuminate\Support\Facades\Auth;
 
 class PriorityDetails extends Component
 {
     /** @var Film */
     public $film;
-
-    // /** @var Priority */
-    // public $priority;
 
     /** @var int */
     public $rating = 0;
@@ -39,27 +35,6 @@ class PriorityDetails extends Component
 
         $this->rating = $priority->rating;
         $this->comment = $priority->comment;
-    }
-
-    public function shortlist(Film $film, int $rating, string $comment)
-    {
-        Auth::user()
-            ->priorities()
-            ->updateOrCreate(
-                ['film_id' => $film->id],
-                ['rating' => $rating, 'comment' => $comment]
-            )
-        ;
-
-        Auth::user()
-            ->films()
-            ->updateExistingPivot(
-                $film,
-                ['status' => Film::SHORTLISTED]
-            )
-        ;
-
-        $this->emit('refresh-film-list');
     }
 
     public function submit()

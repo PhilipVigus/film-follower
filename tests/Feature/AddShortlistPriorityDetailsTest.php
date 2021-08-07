@@ -21,7 +21,9 @@ class AddShortlistPriorityDetailsTest extends TestCase
 
         Livewire::actingAs($user)
             ->test(PriorityDetails::class, ['data' => ['film' => $film->toArray()]])
-            ->call('shortlist', $film, 5, 'A comment')
+            ->set('rating', 5)
+            ->set('comment', 'A comment')
+            ->call('submit')
         ;
 
         $this->assertEmpty($user->filmsToShortlist);
@@ -36,7 +38,9 @@ class AddShortlistPriorityDetailsTest extends TestCase
 
         Livewire::actingAs($user)
             ->test(PriorityDetails::class, ['data' => ['film' => $film->toArray()]])
-            ->call('shortlist', $film, 5, 'A comment')
+            ->set('rating', 5)
+            ->set('comment', 'A comment')
+            ->call('submit')
         ;
 
         $this->assertCount(1, $user->priorities);
@@ -85,7 +89,9 @@ class AddShortlistPriorityDetailsTest extends TestCase
 
         Livewire::actingAs($user)
             ->test(PriorityDetails::class, ['data' => ['film' => $film->toArray()]])
-            ->call('shortlist', $film, 5, 'Second comment')
+            ->set('rating', 5)
+            ->set('comment', 'Second comment')
+            ->call('submit')
         ;
 
         $this->assertCount(1, $user->priorities);
@@ -98,7 +104,7 @@ class AddShortlistPriorityDetailsTest extends TestCase
     }
 
     /** @test */
-    public function the_must_choose_a_rating()
+    public function you_must_choose_a_rating()
     {
         $film = Film::factory()->create();
         $user = User::factory()->create();
