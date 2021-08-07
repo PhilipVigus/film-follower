@@ -47,17 +47,8 @@ class ToShortlist extends Component
                 ['status' => Film::IGNORED]
             )
         ;
-    }
 
-    public function unignoreFilm(Film $film)
-    {
-        Auth::user()
-            ->films()
-            ->updateExistingPivot(
-                $film,
-                ['status' => Film::TO_SHORTLIST]
-            )
-        ;
+        $this->refreshFilms();
     }
 
     public function render()
