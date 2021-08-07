@@ -1,12 +1,12 @@
 <div>
     <div class="max-w-6xl mx-auto">
         @foreach ($films as $film)
-            <div class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6" wire:key="{{ $loop->index }}">
+            <article class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6" wire:key="{{ $loop->index }}">
 
                 <h2 class="font-bold text-2xl">{{ $film->title }}</h2>
 
                 <div class="flex space-x-6 mt-4">
-                    <div class="w-1/2">
+                    <section class="w-1/2">
                         <a href="{{ $film->trailers->first()->link }}" target="_blank">
                             <img class="flex-grow-0" src="{{ $film->trailers->first()->image }}" />
                         </a>
@@ -15,10 +15,10 @@
                             <button class="w-full bg-gray-300 p-2 rounded-md hover:bg-gray-400" wire:click="ignoreFilm({{ $film }})">Ignore</button>
                             <button class="w-full bg-blue-800 text-gray-100 p-2 rounded-md hover:bg-blue-900" wire:click="$emitTo('modal', 'open', 'priority-details', { film: {{ $film }} })">Shortlist</button>
                         </div>
-                    </div>
+                    </section>
 
                     <div class="w-1/2">
-                        <div>
+                        <section>
                             <h3 class="font-bold text-lg">Tags</h3>
 
                             <div class="mt-2">
@@ -30,9 +30,9 @@
                                     </span>
                                 @endforelse
                             </div>
-                        </div>
+                        </section>
 
-                        <div class="mt-4">
+                        <section class="mt-4">
                             <h3 class="font-bold text-lg">Trailers</h3>
 
                             <ul class="">
@@ -42,10 +42,10 @@
                                     </a>
                                 @endforeach
                             </ul>
-                        </div>
+                        </section>
                     </div>
                 </div>
-            </div>
+            </article>
         @endforeach
     </div>
 </div>
