@@ -98,4 +98,9 @@ https://trello.com/b/Xxo9CwvF/movies
   - components
   - layouts
 
-blah
+## Sprint 6
+- Tags
+  - Add/remove ignored tags
+  - Individual tag view
+- Search
+  - Add search/filter to each page
