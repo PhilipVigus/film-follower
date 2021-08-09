@@ -10,18 +10,13 @@ class Priority extends Model
 {
     use HasFactory;
 
-    public const LOW = 'low';
-    public const MEDIUM = 'medium';
-    public const HIGH = 'high';
-    
-    public const LEVELS = [
-        self::LOW => 'low',
-        self::MEDIUM => 'medium',
-        self::HIGH => 'high',
-    ];
-    
     /** @var array */
     protected $guarded = [];
+
+    protected $attributes = [
+        'rating' => 0,
+        'comment' => '',
+    ];
 
     public function user(): BelongsTo
     {

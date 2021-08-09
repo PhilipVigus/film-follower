@@ -6,7 +6,6 @@ use Tests\TestCase;
 use App\Models\Film;
 use App\Models\User;
 use Livewire\Livewire;
-use App\Models\Priority;
 use App\Http\Livewire\Shortlist;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -37,16 +36,42 @@ class ShowShortlistedFilmsTest extends TestCase
     public function the_list_includes_all_films_the_user_has_shortlisted()
     {
         Film::factory()->create();
-        $shortlistedFilm = Film::factory()->create();
+        $shortlistedFilm = Film::factory()->hasTrailers(2)->create();
 
         $user = User::factory()->create();
 
         $user->films()->updateExistingPivot($shortlistedFilm, ['status' => Film::SHORTLISTED]);
-        $user->priorities()->create(['film_id' => $shortlistedFilm->id, 'level' => Priority::MEDIUM]);
+        $user->priorities()->create(['film_id' => $shortlistedFilm->id, 'rating' => 3]);
 
         $response = Livewire::actingAs($user)->test(Shortlist::class);
 
         $this->assertCount(1, $response->films);
         $this->assertEquals($response->films[0]->id, $shortlistedFilm->id);
+    }
+
+    /** @test */
+    public function the_list_is_order_from_highest_to_lowest_rating()
+    {
+        $fiveStarFilm = Film::factory()->hasTrailers(2)->create();
+        $fourStarFilm = Film::factory()->hasTrailers(2)->create();
+        $threeStarFilm = Film::factory()->hasTrailers(2)->create();
+
+        $user = User::factory()->create();
+
+        $user->films()->updateExistingPivot($fiveStarFilm, ['status' => Film::SHORTLISTED]);
+        $user->priorities()->create(['film_id' => $fiveStarFilm->id, 'rating' => 5]);
+
+        $user->films()->updateExistingPivot($threeStarFilm, ['status' => Film::SHORTLISTED]);
+        $user->priorities()->create(['film_id' => $threeStarFilm->id, 'rating' => 3]);
+
+        $user->films()->updateExistingPivot($fourStarFilm, ['status' => Film::SHORTLISTED]);
+        $user->priorities()->create(['film_id' => $fourStarFilm->id, 'rating' => 4]);
+
+        $response = Livewire::actingAs($user)->test(Shortlist::class);
+
+        $this->assertCount(3, $response->films);
+        $this->assertEquals($response->films[0]->id, $fiveStarFilm->id);
+        $this->assertEquals($response->films[1]->id, $fourStarFilm->id);
+        $this->assertEquals($response->films[2]->id, $threeStarFilm->id);
     }
 }

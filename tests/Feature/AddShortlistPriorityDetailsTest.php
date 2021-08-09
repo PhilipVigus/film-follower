@@ -6,7 +6,6 @@ use Tests\TestCase;
 use App\Models\Film;
 use App\Models\User;
 use Livewire\Livewire;
-use App\Models\Priority;
 use App\Http\Livewire\Modals\PriorityDetails;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -22,7 +21,9 @@ class AddShortlistPriorityDetailsTest extends TestCase
 
         Livewire::actingAs($user)
             ->test(PriorityDetails::class, ['data' => ['film' => $film->toArray()]])
-            ->call('shortlist', $film, Priority::HIGH, 'A comment')
+            ->set('rating', 5)
+            ->set('comment', 'A comment')
+            ->call('submit')
         ;
 
         $this->assertEmpty($user->filmsToShortlist);
@@ -37,7 +38,9 @@ class AddShortlistPriorityDetailsTest extends TestCase
 
         Livewire::actingAs($user)
             ->test(PriorityDetails::class, ['data' => ['film' => $film->toArray()]])
-            ->call('shortlist', $film, Priority::HIGH, 'A comment')
+            ->set('rating', 5)
+            ->set('comment', 'A comment')
+            ->call('submit')
         ;
 
         $this->assertCount(1, $user->priorities);
@@ -45,7 +48,7 @@ class AddShortlistPriorityDetailsTest extends TestCase
         $priority = $user->priorities->first();
 
         $this->assertEquals($film->id, $priority->film_id);
-        $this->assertEquals(Priority::HIGH, $priority->level);
+        $this->assertEquals(5, $priority->rating);
         $this->assertEquals('A comment', $priority->comment);
     }
 
@@ -58,14 +61,15 @@ class AddShortlistPriorityDetailsTest extends TestCase
         $user->priorities()
             ->create([
                 'film_id' => $film->id,
-                'level' => PRIORITY::LOW,
+                'rating' => 1,
                 'comment' => 'First comment',
             ])
         ;
 
         Livewire::actingAs($user)
             ->test(PriorityDetails::class, ['data' => ['film' => $film->toArray()]])
-            ->assertSet('priority', $user->priorities->first())
+            ->assertSet('rating', 1)
+            ->assertSet('comment', 'First comment')
         ;
     }
 
@@ -78,14 +82,16 @@ class AddShortlistPriorityDetailsTest extends TestCase
         $user->priorities()
             ->create([
                 'film_id' => $film->id,
-                'level' => PRIORITY::LOW,
+                'rating' => 1,
                 'comment' => 'First comment',
             ])
         ;
 
         Livewire::actingAs($user)
             ->test(PriorityDetails::class, ['data' => ['film' => $film->toArray()]])
-            ->call('shortlist', $film, Priority::HIGH, 'Second comment')
+            ->set('rating', 5)
+            ->set('comment', 'Second comment')
+            ->call('submit')
         ;
 
         $this->assertCount(1, $user->priorities);
@@ -93,7 +99,20 @@ class AddShortlistPriorityDetailsTest extends TestCase
         $priority = $user->priorities->first();
 
         $this->assertEquals($film->id, $priority->film_id);
-        $this->assertEquals(Priority::HIGH, $priority->level);
+        $this->assertEquals(5, $priority->rating);
         $this->assertEquals('Second comment', $priority->comment);
+    }
+
+    /** @test */
+    public function you_must_choose_a_rating()
+    {
+        $film = Film::factory()->create();
+        $user = User::factory()->create();
+
+        Livewire::actingAs($user)
+            ->test(PriorityDetails::class, ['data' => ['film' => $film->toArray()]])
+            ->call('submit')
+            ->assertHasErrors('rating', 'min')
+        ;
     }
 }

@@ -6,7 +6,6 @@ use Tests\TestCase;
 use App\Models\Film;
 use App\Models\User;
 use Livewire\Livewire;
-use App\Models\Priority;
 use App\Http\Livewire\Modals\RemoveFromShortlist;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -30,7 +29,7 @@ class RemoveFromShortlistTest extends TestCase
         $user->priorities()
             ->create([
                 'film_id' => $film->id,
-                'level' => PRIORITY::LOW,
+                'rating' => 1,
                 'comment' => 'First comment',
             ])
         ;
@@ -60,7 +59,7 @@ class RemoveFromShortlistTest extends TestCase
         $user->priorities()
             ->create([
                 'film_id' => $film->id,
-                'level' => PRIORITY::LOW,
+                'rating' => 1,
                 'comment' => 'First comment',
             ])
         ;
@@ -89,7 +88,7 @@ class RemoveFromShortlistTest extends TestCase
         $user->priorities()
             ->create([
                 'film_id' => $film->id,
-                'level' => PRIORITY::LOW,
+                'rating' => 1,
                 'comment' => 'First comment',
             ])
         ;
