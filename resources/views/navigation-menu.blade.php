@@ -27,6 +27,12 @@
                         Ignored
                     </x-nav-link>
                 </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link href="{{ route('tags') }}" :active="request()->routeIs('tags')">
+                        Tags
+                    </x-nav-link>
+                </div>
             </div>
 
             <div class="hidden sm:flex sm:items-end sm:ml-6">
