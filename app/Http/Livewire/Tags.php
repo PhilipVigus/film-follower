@@ -43,7 +43,7 @@ class Tags extends Component
             ->get()
         ;
 
-        $this->allTags = Tag::all();
+        $this->allTags = Tag::orderBy('name')->get();
     }
 
     public function render()
