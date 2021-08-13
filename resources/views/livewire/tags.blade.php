@@ -14,12 +14,16 @@
         }
     }"
 >
-    <div class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6">   
-        <input class="w-full mb-4" type="search" x-model="filterTerm" x-on:input="updateFilter()"></input>
+    <div class="mt-8 bg-gray-200 h-auto shadow-md rounded-md p-6">
+        <div class="relative">   
+            <input class="w-full mb-2" type="search" x-model="filterTerm" x-on:input="updateFilter()"></input>
 
-        <template x-for="tag in filteredTags" :key="tag.slug">
-            <a x-bind:href="getTagUrl(tag)" class="inline-flex bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5" x-text="tag.name"></a>
-        </template>
+            <div class="bg-white border border-black rounded absolute w-full p-4" x-show="filterTerm !=''">
+                <template x-for="tag in filteredTags" :key="tag.slug">
+                    <a x-bind:href="getTagUrl(tag)" class="inline-flex bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5" x-text="tag.name"></a>
+                </template>
+            </div>
+        </div>
     </div>
 
     <div class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6">
