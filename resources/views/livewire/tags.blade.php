@@ -4,13 +4,31 @@
         filterTerm: '',
         tags: {{ $allTags }},
         filteredTags: {{ $allTags }},
+        ignoredFilmTags: {{ $ignoredFilmTags }},
         updateFilter() {
             this.filteredTags = this.tags.filter((tag) => {
                 return tag.name.toLowerCase().includes(this.filterTerm.toLowerCase());
             });
         },
-        getTagUrl(tag) {
-            return 'tags/' + tag.slug;
+        toggleIgnoredFilmTag(tag) {
+            let filmTagToRemove = null;
+
+            this.ignoredFilmTags.forEach((filmTag) => {
+                if (filmTag.id === tag.id) {
+                    filmTagToRemove = filmTag;
+                    return;
+                }
+            });
+
+
+            if (filmTagToRemove) {
+                const index = this.ignoredFilmTags.indexOf(filmTagToRemove);
+                this.ignoredFilmTags.splice(index, 1);
+            } else {
+                this.ignoredFilmTags.push(tag);
+            }
+
+            this.$wire.toggleIgnoredFilmTag(tag);
         }
     }"
 >
@@ -20,7 +38,13 @@
 
             <div class="bg-white border border-black rounded absolute w-full p-4" x-show="filterTerm !=''">
                 <template x-for="tag in filteredTags" :key="tag.slug">
-                    <a x-bind:href="getTagUrl(tag)" class="inline-flex bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5" x-text="tag.name"></a>
+                    <button 
+                        class="inline-flex bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5"
+                        x-bind:class="{ 'bg-green-300': ignoredFilmTags.includes(tag) }"
+                        x-text="tag.name" 
+                        x-on:click="toggleIgnoredFilmTag(tag)"
+                    >
+                    </button>
                 </template>
             </div>
         </div>
@@ -42,9 +66,9 @@
         <div class="mt-2">
             <h3 class="font-bold text-xl">Film</h3>
 
-            @foreach($ignoredFilmTags as $tag)
-                <a href="{{ route('tag', ['tag' => $tag]) }}" class="inline-flex bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5">{{ $tag->name }} x{{ $tag->films_count }}</a>
-            @endforeach
+            <template x-for="tag in ignoredFilmTags" :key="tag.slug">
+                <button class="inline-flex bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5" x-text="tag.name" ></button>
+            </template>
         </div>
 
         <div class="mt-2">

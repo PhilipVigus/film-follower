@@ -33,7 +33,6 @@ class Tags extends Component
 
         $this->ignoredFilmTags = Auth::user()
             ->ignoredFilmTags()
-            ->withCount('films')
             ->get()
         ;
 
@@ -44,6 +43,14 @@ class Tags extends Component
         ;
 
         $this->allTags = Tag::orderBy('name')->get();
+    }
+
+    public function toggleIgnoredFilmTag(Tag $tag)
+    {
+        Auth::user()->ignoredFilmTags()->where(['tags.id' => $tag->id])->exists() ?
+            Auth::user()->ignoredFilmTags()->detach($tag) :
+            Auth::user()->ignoredFilmTags()->attach($tag)
+        ;
     }
 
     public function render()
