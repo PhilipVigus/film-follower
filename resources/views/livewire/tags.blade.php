@@ -4,31 +4,24 @@
         filterTerm: '',
         tags: {{ $allTags }},
         filteredTags: {{ $allTags }},
-        ignoredFilmTags: {{ $ignoredFilmTags }},
+        ignoredFilmTagIds: {{ $ignoredFilmTagIds }},
         updateFilter() {
             this.filteredTags = this.tags.filter((tag) => {
                 return tag.name.toLowerCase().includes(this.filterTerm.toLowerCase());
             });
         },
         toggleIgnoredFilmTag(tag) {
-            let filmTagToRemove = null;
-
-            this.ignoredFilmTags.forEach((filmTag) => {
-                if (filmTag.id === tag.id) {
-                    filmTagToRemove = filmTag;
-                    return;
-                }
-            });
-
-
-            if (filmTagToRemove) {
-                const index = this.ignoredFilmTags.indexOf(filmTagToRemove);
-                this.ignoredFilmTags.splice(index, 1);
+            if (this.isIgnored(tag)) {
+                const index = this.ignoredFilmTagIds.indexOf(tag.id);
+                this.ignoredFilmTagIds.splice(index, 1);
             } else {
-                this.ignoredFilmTags.push(tag);
+                this.ignoredFilmTagIds.push(tag.id);
             }
 
             this.$wire.toggleIgnoredFilmTag(tag);
+        },
+        isIgnored(tag) {
+            return this.ignoredFilmTagIds.includes(tag.id);
         }
     }"
 >
@@ -40,7 +33,7 @@
                 <template x-for="tag in filteredTags" :key="tag.slug">
                     <button 
                         class="inline-flex bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5"
-                        x-bind:class="{ 'bg-green-300': ignoredFilmTags.includes(tag) }"
+                        x-bind:class="{ 'bg-green-300': isIgnored(tag) }"
                         x-text="tag.name" 
                         x-on:click="toggleIgnoredFilmTag(tag)"
                     >
@@ -66,8 +59,8 @@
         <div class="mt-2">
             <h3 class="font-bold text-xl">Film</h3>
 
-            <template x-for="tag in ignoredFilmTags" :key="tag.slug">
-                <button class="inline-flex bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5" x-text="tag.name" ></button>
+            <template x-for="tag in tags.filter((t) => ignoredFilmTagIds.includes(t.id))" :key="tag.slug">
+                <button class="inline-flex bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5" x-text="tag.name" x-on:click="toggleIgnoredFilmTag(tag)"></button>
             </template>
         </div>
 

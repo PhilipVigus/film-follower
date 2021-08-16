@@ -13,13 +13,13 @@ class Tags extends Component
     public $mostCommonTags;
 
     /** @var Collection */
-    public $ignoredFilmTags;
-
-    /** @var Collection */
     public $ignoredTrailerTags;
 
     /** @var Collection */
     public $allTags;
+
+    /** @var Collection */
+    public $ignoredFilmTagIds;
 
     public function mount()
     {
@@ -31,14 +31,15 @@ class Tags extends Component
             ->get()
         ;
 
-        $this->ignoredFilmTags = Auth::user()
+        $this->ignoredFilmTagIds = Auth::user()
             ->ignoredFilmTags()
             ->get()
+            ->makeHidden('pivot')
+            ->pluck('id')
         ;
 
         $this->ignoredTrailerTags = Auth::user()
             ->ignoredTrailerTags()
-            ->withCount('films')
             ->get()
         ;
 
