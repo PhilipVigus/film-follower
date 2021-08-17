@@ -4,7 +4,7 @@
     <div class="mt-8 bg-gray-200 h-auto shadow-md rounded-md p-6">
         <h2 class="font-bold text-2xl">Manage tags</h2>
 
-        @include ('livewire.partials.ignoredFilmTags')
+        @include ('livewire.partials._ignoredFilmTags')
     </div>
 
     <div class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6">
