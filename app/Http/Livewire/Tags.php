@@ -34,7 +34,6 @@ class Tags extends Component
         $this->ignoredFilmTagIds = Auth::user()
             ->ignoredFilmTags()
             ->get()
-            ->makeHidden('pivot')
             ->pluck('id')
         ;
 
@@ -52,6 +51,22 @@ class Tags extends Component
             Auth::user()->ignoredFilmTags()->detach($tag) :
             Auth::user()->ignoredFilmTags()->attach($tag)
         ;
+    }
+
+    public function hydrate()
+    {
+        $this->mostCommonTags = Tag::query()
+            ->withCount('films')
+            ->orderByDesc('films_count')
+            ->orderBy('name')
+            ->limit(50)
+            ->get()
+        ;
+    }
+
+    public function updating()
+    {
+        info('updating');
     }
 
     public function render()
