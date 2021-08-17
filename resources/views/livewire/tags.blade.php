@@ -11,7 +11,7 @@
     </div>
 
     <div class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6">
-        <h2 class="font-bold text-2xl">Top 50 tags by number of films</h2>
+        <h2 class="font-bold text-2xl">Top 50 tags</h2>
         
         <div>
             @foreach($mostCommonTags as $tag)
