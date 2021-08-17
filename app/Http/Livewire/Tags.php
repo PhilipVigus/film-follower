@@ -13,13 +13,13 @@ class Tags extends Component
     public $mostCommonTags;
 
     /** @var Collection */
-    public $ignoredTrailerTags;
-
-    /** @var Collection */
     public $allTags;
 
     /** @var Collection */
     public $ignoredFilmTagIds;
+
+    /** @var Collection */
+    public $ignoredTrailerTagIds;
 
     public function mount()
     {
@@ -37,9 +37,10 @@ class Tags extends Component
             ->pluck('id')
         ;
 
-        $this->ignoredTrailerTags = Auth::user()
+        $this->ignoredTrailerTagIds = Auth::user()
             ->ignoredTrailerTags()
             ->get()
+            ->pluck('id')
         ;
 
         $this->allTags = Tag::orderBy('name')->get();
@@ -50,6 +51,14 @@ class Tags extends Component
         Auth::user()->ignoredFilmTags()->where(['tags.id' => $tag->id])->exists() ?
             Auth::user()->ignoredFilmTags()->detach($tag) :
             Auth::user()->ignoredFilmTags()->attach($tag)
+        ;
+    }
+
+    public function toggleIgnoredTrailerTag(Tag $tag)
+    {
+        Auth::user()->ignoredTrailerTags()->where(['tags.id' => $tag->id])->exists() ?
+            Auth::user()->ignoredTrailerTags()->detach($tag) :
+            Auth::user()->ignoredTrailerTags()->attach($tag)
         ;
     }
 
