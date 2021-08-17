@@ -15,7 +15,7 @@
         
         <div>
             @foreach($mostCommonTags as $tag)
-                <a href="{{ route('tag', ['tag' => $tag]) }}" class="inline-flex bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5">{{ $tag->name }} x{{ $tag->films_count }}</a>
+                <a wire:key="{{ $tag->id }}" href="{{ route('tag', ['tag' => $tag]) }}" class="inline-flex bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5">{{ $tag->name }} x{{ $tag->films_count }}</a>
             @endforeach
         </div>
     </div>
