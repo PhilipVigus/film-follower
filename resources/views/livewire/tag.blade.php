@@ -1,47 +1,65 @@
-<div>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Tag - {{ $tag->name }}
-        </h2>
-    </x-slot>
+<div class="max-w-6xl mx-auto">
+    <div class="mt-8 bg-gray-200 h-auto shadow-md rounded-md p-6">
+        <h2 class="font-bold text-2xl">Films tagged with '{{ $tag->name }}'</h2>
+    </div>
 
-    <div class="py-8">
-        <div class="max-w-7xl mx-auto px-4">
-            @foreach ($tag->films as $film)
-                <div class="mt-4 border" wire:key="{{ $loop->index }}">
-                    <div>{{ $film->title }}</div>
+    <div class="mt-8 bg-gray-200 h-auto shadow-md rounded-md p-6">
+        <h3 class="font-bold text-xl">To shortlist</h2>
 
-                    <div class="flex space-x-2">
-                        @foreach ($film->trailers as $trailer)
-                            <div>
-                                <div>{{ $trailer->type }}</div>
+        <div class="flex flex-wrap">
+            @forelse ($filmsToShortlist as $film)
+                <div class="mt-4 border w-1/3" wire:key="{{ $loop->index }}">
+                    <h4 class="font-bold pl-4 truncate">{{ $film->title }}</h4>
 
-                                <a href="{{ $trailer->link }}" target="_blank">
-                                    <img class="h-32" src="{{ $trailer->image }}" />
-                                </a>
-                            </div>
-                        @endforeach
-                    </div>
-
-                    <div>
-                        @forelse ($film->tags as $tag)
-                            <a href="{{ route('tag', ['tag' => $tag]) }}">{{ $tag->name }}</a>@if (! $loop->last),@endif
-                        @empty
-                            <span>
-                                none
-                            </span>
-                        @endforelse
-                    </div>
-
-                    <div>
-                        <button wire:click="$emitTo('modal', 'open', 'priority-details', { film: {{ $film }} })">Shortlist</button>
-                    </div>
-
-                    <div>
-                        <button wire:click="$emitTo('modal', 'open', 'ignore', { film: {{ $film }} })">Ignore</button>
-                    </div>
+                    <a href="{{ $film->trailers->first()->link }}" target="_blank">
+                        <img class="object-contain p-4" src="{{ $film->trailers->first()->image }}" />
+                    </a>
                 </div>
-            @endforeach
+            @empty
+                <div class="mt-4 border"">
+                    None
+                </div>
+            @endforelse
+        </div>
+    </div>
+
+    <div class="mt-8 bg-gray-200 h-auto shadow-md rounded-md p-6">
+        <h3 class="font-bold text-xl">Shortlisted</h2>
+
+        <div class="flex flex-wrap">
+            @forelse ($shortlistedFilms as $film)
+                <div class="mt-4 border w-1/3" wire:key="{{ $loop->index }}">
+                    <h4 class="font-bold pl-4 truncate">{{ $film->title }}</h4>
+
+                    <a href="{{ $film->trailers->first()->link }}" target="_blank">
+                        <img class="object-contain p-4" src="{{ $film->trailers->first()->image }}" />
+                    </a>
+                </div>
+            @empty
+                <div class="mt-4 border"">
+                    None
+                </div>
+            @endforelse
+        </div>
+    </div>
+
+    <div class="mt-8 bg-gray-200 h-auto shadow-md rounded-md p-6">
+        <h3 class="font-bold text-xl">Watched</h2>
+
+        <div class="flex flex-wrap">
+            @forelse ($watchedFilms as $film)
+                <div class="mt-4 border w-1/3" wire:key="{{ $loop->index }}">
+                    <h4 class="font-bold pl-4 truncate">{{ $film->title }}</h4>
+
+                    <a href="{{ $film->trailers->first()->link }}" target="_blank">
+                        <img class="object-contain p-4" src="{{ $film->trailers->first()->image }}" />
+                    </a>
+                </div>
+            @empty
+                <div class="mt-4 border"">
+                    None
+                </div>
+            @endforelse
         </div>
     </div>
 </div>
