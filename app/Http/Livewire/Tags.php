@@ -32,13 +32,7 @@ class Tags extends Component
         ;
 
         $this->ignoredFilmTagIds = Auth::user()
-            ->ignoredFilmTags()
-            ->get()
-            ->pluck('id')
-        ;
-
-        $this->ignoredTrailerTagIds = Auth::user()
-            ->ignoredTrailerTags()
+            ->ignoredTags()
             ->get()
             ->pluck('id')
         ;
@@ -48,17 +42,9 @@ class Tags extends Component
 
     public function toggleIgnoredFilmTag(Tag $tag)
     {
-        Auth::user()->ignoredFilmTags()->where(['tags.id' => $tag->id])->exists() ?
-            Auth::user()->ignoredFilmTags()->detach($tag) :
-            Auth::user()->ignoredFilmTags()->attach($tag)
-        ;
-    }
-
-    public function toggleIgnoredTrailerTag(Tag $tag)
-    {
-        Auth::user()->ignoredTrailerTags()->where(['tags.id' => $tag->id])->exists() ?
-            Auth::user()->ignoredTrailerTags()->detach($tag) :
-            Auth::user()->ignoredTrailerTags()->attach($tag)
+        Auth::user()->ignoredTags()->where(['tags.id' => $tag->id])->exists() ?
+            Auth::user()->ignoredTags()->detach($tag) :
+            Auth::user()->ignoredTags()->attach($tag)
         ;
     }
 

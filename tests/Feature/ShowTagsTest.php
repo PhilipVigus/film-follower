@@ -46,8 +46,8 @@ class ShowTagsTest extends TestCase
             ->call('toggleIgnoredFilmTag', $tag)
         ;
 
-        $this->assertCount(1, $user->ignoredFilmTags);
-        $this->assertEquals($tag->id, $user->ignoredFilmTags->first()->id);
+        $this->assertCount(1, $user->ignoredTags);
+        $this->assertEquals($tag->id, $user->ignoredTags->first()->id);
     }
 
     /** @test */
@@ -63,38 +63,6 @@ class ShowTagsTest extends TestCase
             ->call('toggleIgnoredFilmTag', $tag)
         ;
 
-        $this->assertEmpty($user->ignoredFilmTags);
-    }
-
-    /** @test */
-    public function you_can_ignore_a_trailer_tag()
-    {
-        $user = User::factory()->create();
-
-        $tag = Tag::factory()->create();
-
-        Livewire::actingAs($user)
-            ->test(Tags::class)
-            ->call('toggleIgnoredTrailerTag', $tag)
-        ;
-
-        $this->assertCount(1, $user->ignoredTrailerTags);
-        $this->assertEquals($tag->id, $user->ignoredTrailerTags->first()->id);
-    }
-
-    /** @test */
-    public function you_can_unignore_a_trailer_tag()
-    {
-        $user = User::factory()->create();
-
-        $tag = Tag::factory()->create();
-
-        Livewire::actingAs($user)
-            ->test(Tags::class)
-            ->call('toggleIgnoredTrailerTag', $tag)
-            ->call('toggleIgnoredTrailerTag', $tag)
-        ;
-
-        $this->assertEmpty($user->ignoredTrailerTags);
+        $this->assertEmpty($user->ignoredTags);
     }
 }

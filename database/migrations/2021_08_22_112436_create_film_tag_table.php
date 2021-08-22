@@ -4,25 +4,35 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateIgnoredFilmTagsTable extends Migration
+class CreateFilmTagTable extends Migration
 {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
-        Schema::create('ignored_film_tags', function (Blueprint $table) {
+        Schema::create('film_tag', function (Blueprint $table) {
             // ID
             $table->id();
 
             // Relationships
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('film_id')->constrained('films')->cascadeOnDelete();
             $table->foreignId('tag_id')->constrained('tags')->cascadeOnDelete();
 
-            // Data
+            //Data
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
-        Schema::dropIfExists('ignored_film_tags');
+        Schema::dropIfExists('film_tag');
     }
 }

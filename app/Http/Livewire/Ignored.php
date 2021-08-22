@@ -25,30 +25,16 @@ class Ignored extends Component
 
     public function mount()
     {
-        $this->ignoredTagsIds = Auth::user()->ignoredFilmTags->pluck('id');
+        $this->ignoredTagsIds = Auth::user()->ignoredTags->pluck('id');
 
         $this->refreshFilms();
     }
 
     public function refreshFilms()
     {
-        $this->filmsWithIgnoredTags = Film::whereHas('tags', function ($query) {
-            $query->whereIn(
-                'id',
-                $this->ignoredTagsIds
-            );
-        })
-            ->with(['tags' => function ($query) {
-                $query->whereIn(
-                    'id',
-                    $this->ignoredTagsIds
-                );
-            }])
-            ->get()
-        ;
-
         $this->ignoredFilms = Auth::user()
             ->ignoredFilms()
+            ->with('tags')
             ->get()
         ;
     }

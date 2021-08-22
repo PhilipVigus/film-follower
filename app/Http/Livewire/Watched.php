@@ -27,7 +27,9 @@ class Watched extends Component
             ->watchedFilms()
             ->with(['reviews' => function ($query) {
                 $query->where('user_id', '=', Auth::id());
-            }])->get()
+            }])
+            ->with('tags')
+            ->get()
         ;
     }
 

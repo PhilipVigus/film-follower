@@ -83,14 +83,9 @@ class User extends Authenticatable
         return $this->hasMany(Review::class);
     }
 
-    public function ignoredFilmTags(): BelongsToMany
+    public function ignoredTags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, 'ignored_film_tags');
-    }
-
-    public function ignoredTrailerTags(): BelongsToMany
-    {
-        return $this->belongsToMany(Tag::class, 'ignored_trailer_tags');
+        return $this->belongsToMany(Tag::class, 'ignored_tags');
     }
 
     public function ignoredTrailerTitlePhrases(): HasMany

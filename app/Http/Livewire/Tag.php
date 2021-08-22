@@ -31,7 +31,7 @@ class Tag extends Component
             ->films()
             ->withPivot('status')
             ->whereHas('tags', function (Builder $query) use ($tag) {
-                $query->where('id', $tag->id);
+                $query->where('tags.id', $tag->id);
             })
             ->get()
             ->groupBy('pivot.status')

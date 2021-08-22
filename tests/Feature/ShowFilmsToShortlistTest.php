@@ -7,7 +7,6 @@ use Tests\TestCase;
 use App\Models\Film;
 use App\Models\User;
 use Livewire\Livewire;
-use App\Models\Trailer;
 use App\Http\Livewire\ToShortlist;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -78,32 +77,12 @@ class ShowFilmsToShortlistTest extends TestCase
 
         $filmWithIgnoredTag->tags()->attach($ignoredFilmTag);
 
-        $user->ignoredFilmTags()->attach($ignoredFilmTag);
+        $user->ignoredTags()->attach($ignoredFilmTag);
 
         $response = Livewire::actingAs($user)->test(ToShortlist::class);
 
         $this->assertCount(1, $response->films);
         $this->assertEquals($response->films[0]->id, $filmWithTrailer->id);
-    }
-
-    /** @test */
-    public function the_list_does_not_include_films_with_only_trailers_that_have_ignored_tags()
-    {
-        $filmWithIgnoredTrailerTagTrailer = Film::factory()->create();
-        $trailerWithIgnoredTag = Trailer::factory()->create(['film_id' => $filmWithIgnoredTrailerTagTrailer->id]);
-        $ignoredTag = Tag::factory()->create();
-        $trailerWithIgnoredTag->tags()->attach($ignoredTag);
-
-        $film = Film::factory()->hasTrailers(1)->create();
-
-        $user = User::factory()->create();
-
-        $user->ignoredTrailerTags()->attach($ignoredTag);
-
-        $response = Livewire::actingAs($user)->test(ToShortlist::class);
-
-        $this->assertCount(1, $response->films);
-        $this->assertEquals($response->films[0]->id, $film->id);
     }
 
     /** @test */

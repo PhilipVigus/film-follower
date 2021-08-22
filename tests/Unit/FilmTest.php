@@ -177,8 +177,8 @@ class FilmTest extends TestCase
         $ignoredFilmB->tags()->attach($ignoredTagB);
         $ignoredFilmB->tags()->attach($tagA);
 
-        $user->ignoredFilmTags()->attach($ignoredTagA);
-        $user->ignoredFilmTags()->attach($ignoredTagB);
+        $user->ignoredTags()->attach($ignoredTagA);
+        $user->ignoredTags()->attach($ignoredTagB);
 
         $films = Film::withoutIgnoredTags($user)->get();
 
@@ -205,8 +205,8 @@ class FilmTest extends TestCase
         $ignoredFilmB->tags()->attach($ignoredTagB);
         $ignoredFilmB->tags()->attach($tagA);
 
-        $user->ignoredFilmTags()->attach($ignoredTagA);
-        $user->ignoredFilmTags()->attach($ignoredTagB);
+        $user->ignoredTags()->attach($ignoredTagA);
+        $user->ignoredTags()->attach($ignoredTagB);
 
         $films = Film::withoutIgnoredTags($user)->get();
 
