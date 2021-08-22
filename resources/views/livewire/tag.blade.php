@@ -9,9 +9,9 @@
         <div class="flex flex-wrap">
             @forelse ($filmsToShortlist as $film)
                 <div class="mt-4 border w-1/3" wire:key="{{ $loop->index }}">
-                    <h4 class="font-bold pl-4 truncate">{{ $film->title }}</h4>
+                    <a href="{{ route('film', ['film' => $film]) }}">
+                        <h4 class="font-bold pl-4 truncate">{{ $film->title }}</h4>
 
-                    <a href="{{ $film->trailers->first()->link }}" target="_blank">
                         <img class="object-contain p-4" src="{{ $film->trailers->first()->image }}" />
                     </a>
                 </div>
