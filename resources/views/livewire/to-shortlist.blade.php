@@ -21,7 +21,7 @@
                         <h3 class="font-bold text-lg">Tags</h3>
 
                         <div class="mt-2">
-                            @forelse ($film->tags as $tag)
+                            @forelse ($film->newTags as $tag)
                                 <a class="whitespace-nowrap hover:underline" href="{{ route('tag', ['tag' => $tag]) }}">{{ $tag->name }}</a>@if (! $loop->last),@endif
                             @empty
                                 <span>

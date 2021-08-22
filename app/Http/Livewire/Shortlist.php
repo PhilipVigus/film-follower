@@ -28,6 +28,7 @@ class Shortlist extends Component
             ->with(['priorities' => function ($query) {
                 $query->where('user_id', '=', Auth::id());
             }])
+            ->with('newTags')
             ->get()
             ->sortByDesc(function ($film, $key) {
                 return $film->priorities->first()->rating;

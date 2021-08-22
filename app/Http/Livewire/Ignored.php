@@ -32,23 +32,9 @@ class Ignored extends Component
 
     public function refreshFilms()
     {
-        $this->filmsWithIgnoredTags = Film::whereHas('tags', function ($query) {
-            $query->whereIn(
-                'id',
-                $this->ignoredTagsIds
-            );
-        })
-            ->with(['tags' => function ($query) {
-                $query->whereIn(
-                    'id',
-                    $this->ignoredTagsIds
-                );
-            }])
-            ->get()
-        ;
-
         $this->ignoredFilms = Auth::user()
             ->ignoredFilms()
+            ->with('newTags')
             ->get()
         ;
     }

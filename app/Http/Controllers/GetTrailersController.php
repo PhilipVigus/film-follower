@@ -65,6 +65,7 @@ class GetTrailersController extends Controller
 
             if (! $trailer->film->tags->contains($tag)) {
                 $trailer->film->tags()->attach($tag);
+                $trailer->film->newTags()->attach($tag);
             }
         }
     }

@@ -30,7 +30,7 @@ class ToShortlist extends Component
             ->with(['trailers' => function ($query) {
                 $query->withoutIgnoredTags(Auth::user());
             }])
-            ->with('tags')
+            ->with('newTags')
             ->get()
             ->filter(function ($film) {
                 return $film->trailers->isNotEmpty();
