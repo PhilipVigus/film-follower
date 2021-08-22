@@ -35,7 +35,7 @@ class ShowTagsTest extends TestCase
     }
 
     /** @test */
-    public function you_can_ignore_a_film_tag()
+    public function you_can_ignore_a_tag()
     {
         $user = User::factory()->create();
 
@@ -51,7 +51,7 @@ class ShowTagsTest extends TestCase
     }
 
     /** @test */
-    public function you_can_unignore_a_film_tag()
+    public function you_can_unignore_a_tag()
     {
         $user = User::factory()->create();
 
