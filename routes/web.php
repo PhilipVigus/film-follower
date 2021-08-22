@@ -19,4 +19,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/watched', Controllers\ShowFilmsWatchedController::class)->name('watched');
     Route::get('/ignored', Controllers\ShowFilmsIgnoredController::class)->name('ignored');
     Route::get('/tags/{tag:slug}', Controllers\ShowTagController::class)->name('tag');
+    Route::get('/tags', Controllers\ShowTagsController::class)->name('tags');
 });

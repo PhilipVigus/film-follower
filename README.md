@@ -98,4 +98,16 @@ https://trello.com/b/Xxo9CwvF/movies
   - components
   - layouts
 
-blah
+## Sprint 6
+- Tags
+  - Add/remove ignored tags
+  - Individual tag view
+- Search
+  - Add search/filter to each page
+
+- Add a tags view
+- List the most common tags
+- Show ignored film tags
+- Show ignored trailer tags
+- Allow users to add/remove tags
+- Allow users to filter by trailer text
