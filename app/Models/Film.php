@@ -55,7 +55,7 @@ class Film extends Model
         $query->whereDoesntHave('tags', function ($query) use ($user) {
             $query->whereIn(
                 'tags.id',
-                $user->ignoredFilmTags->pluck('id')
+                $user->ignoredTags->pluck('id')
             );
         })->orDoesntHave('tags');
     }

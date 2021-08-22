@@ -46,8 +46,8 @@ class ShowTagsTest extends TestCase
             ->call('toggleIgnoredFilmTag', $tag)
         ;
 
-        $this->assertCount(1, $user->ignoredFilmTags);
-        $this->assertEquals($tag->id, $user->ignoredFilmTags->first()->id);
+        $this->assertCount(1, $user->ignoredTags);
+        $this->assertEquals($tag->id, $user->ignoredTags->first()->id);
     }
 
     /** @test */
@@ -63,6 +63,6 @@ class ShowTagsTest extends TestCase
             ->call('toggleIgnoredFilmTag', $tag)
         ;
 
-        $this->assertEmpty($user->ignoredFilmTags);
+        $this->assertEmpty($user->ignoredTags);
     }
 }

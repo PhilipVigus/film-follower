@@ -25,7 +25,7 @@ class Ignored extends Component
 
     public function mount()
     {
-        $this->ignoredTagsIds = Auth::user()->ignoredFilmTags->pluck('id');
+        $this->ignoredTagsIds = Auth::user()->ignoredTags->pluck('id');
 
         $this->refreshFilms();
     }

@@ -77,7 +77,7 @@ class ShowFilmsToShortlistTest extends TestCase
 
         $filmWithIgnoredTag->tags()->attach($ignoredFilmTag);
 
-        $user->ignoredFilmTags()->attach($ignoredFilmTag);
+        $user->ignoredTags()->attach($ignoredFilmTag);
 
         $response = Livewire::actingAs($user)->test(ToShortlist::class);
 
