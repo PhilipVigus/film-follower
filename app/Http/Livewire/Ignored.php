@@ -34,7 +34,7 @@ class Ignored extends Component
     {
         $this->ignoredFilms = Auth::user()
             ->ignoredFilms()
-            ->with('newTags')
+            ->with('tags')
             ->get()
         ;
     }

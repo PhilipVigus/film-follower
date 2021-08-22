@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Film extends Model
@@ -46,12 +45,7 @@ class Film extends Model
         return $this->hasMany(Review::class);
     }
 
-    public function tags(): MorphToMany
-    {
-        return $this->morphToMany(Tag::class, 'taggable');
-    }
-
-    public function newTags(): BelongsToMany
+    public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
     }
@@ -60,7 +54,7 @@ class Film extends Model
     {
         $query->whereDoesntHave('tags', function ($query) use ($user) {
             $query->whereIn(
-                'id',
+                'tags.id',
                 $user->ignoredFilmTags->pluck('id')
             );
         })->orDoesntHave('tags');

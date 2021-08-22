@@ -61,11 +61,8 @@ class GetTrailersController extends Controller
                 ]
             );
 
-            $trailer->tags()->attach($tag);
-
             if (! $trailer->film->tags->contains($tag)) {
                 $trailer->film->tags()->attach($tag);
-                $trailer->film->newTags()->attach($tag);
             }
         }
     }

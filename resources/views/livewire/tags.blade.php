@@ -3,9 +3,6 @@
         <h2 class="font-bold text-2xl">Manage ignored tags</h2>
 
         @include ('livewire.partials._ignoredFilmTags')
-
-        @include ('livewire.partials._ignoredTrailerTags')
-
     </div>
 
     <div class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6">

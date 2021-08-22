@@ -185,26 +185,4 @@ class UserTest extends TestCase
 
         $this->assertEmpty($user->ignoredFilmTags);
     }
-
-    /** @test */
-    public function a_user_can_have_ignored_trailer_tags()
-    {
-        $user = User::factory()->create();
-
-        $tagA = Tag::factory()->create();
-        $tagB = Tag::factory()->create();
-
-        $user->ignoredTrailerTags()->attach($tagA);
-        $user->ignoredTrailerTags()->attach($tagB);
-
-        $this->assertCount(2, $user->ignoredTrailerTags);
-    }
-
-    /** @test */
-    public function a_user_can_have_no_ignored_trailer_tags()
-    {
-        $user = User::factory()->create();
-
-        $this->assertEmpty($user->ignoredTrailerTags);
-    }
 }
