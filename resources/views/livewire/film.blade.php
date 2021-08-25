@@ -11,6 +11,20 @@
             </section>
 
             <div class="w-1/2">
+                @switch ($status)
+                    @case (\App\Models\Film::TO_SHORTLIST)
+                        <div>View film on list to shortlist</div>
+                        @break
+                    @case (\App\Models\Film::SHORTLISTED)
+                        <div>View film on shortlist</div>
+                        @break
+                    @case (\App\Models\Film::WATCHED)
+                        <div>View film review</div>
+                        @break
+                    @case (\App\Models\Film::IGNORED)
+                        <div>View film on ignored list</div>
+                        @break
+                @endswitch
                 <section>
                     <h3 class="font-bold text-lg">Tags</h3>
 
