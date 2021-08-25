@@ -115,7 +115,6 @@ https://trello.com/b/Xxo9CwvF/movies
 - Add/remove trailer text filter strings
 - Delete account
 - Move ignore/unignore tags and text strings to settings
-- Add an individual film view
 - Pagination
 - Add ignore/unignore to the individual tag view
 - Add search to each main view

@@ -44,8 +44,8 @@ class ShowIgnoredFilmsTest extends TestCase
 
         $response = Livewire::actingAs($user)->test(Ignored::class);
 
-        $this->assertCount(1, $response->ignoredFilms);
-        $this->assertEquals($response->ignoredFilms[0]->id, $ignoredFilm->id);
+        $this->assertCount(1, $response->films);
+        $this->assertEquals($response->films[0]->id, $ignoredFilm->id);
     }
 
     /** @test */

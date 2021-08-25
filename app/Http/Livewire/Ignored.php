@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 class Ignored extends Component
 {
     /** @var Collection */
-    public $ignoredFilms;
+    public $films;
 
     /** @var Collection */
     public $filmsWithIgnoredTags;
@@ -32,7 +32,7 @@ class Ignored extends Component
 
     public function refreshFilms()
     {
-        $this->ignoredFilms = Auth::user()
+        $this->films = Auth::user()
             ->ignoredFilms()
             ->with('tags')
             ->get()

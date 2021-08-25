@@ -23,6 +23,11 @@ class Tag extends Component
     /** @var Collection */
     public $watchedFilms;
 
+    /** @var array */
+    protected $listeners = [
+        'refresh-film-list' => 'refreshFilms',
+    ];
+
     public function mount(TagModel $tag)
     {
         $this->tag = $tag;
@@ -32,6 +37,23 @@ class Tag extends Component
             ->withPivot('status')
             ->whereHas('tags', function (Builder $query) use ($tag) {
                 $query->where('tags.id', $tag->id);
+            })
+            ->get()
+            ->groupBy('pivot.status')
+        ;
+
+        $this->filmsToShortlist = Arr::exists($films, Film::TO_SHORTLIST) ? $films[Film::TO_SHORTLIST] : [];
+        $this->shortlistedFilms = Arr::exists($films, Film::SHORTLISTED) ? $films[Film::SHORTLISTED] : [];
+        $this->watchedFilms = Arr::exists($films, Film::WATCHED) ? $films[Film::WATCHED] : [];
+    }
+
+    public function refreshFilms()
+    {
+        $films = Auth::user()
+            ->films()
+            ->withPivot('status')
+            ->whereHas('tags', function (Builder $query) {
+                $query->where('tags.id', $this->tag->id);
             })
             ->get()
             ->groupBy('pivot.status')
