@@ -65,6 +65,7 @@ class ShowTagTest extends TestCase
         $user = User::factory()->create();
 
         $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
+        $user->priorities()->create(['film_id' => $film->id, 'rating' => 3]);
 
         $response = Livewire::actingAs($user)
             ->test(LivewireTag::class, ['tag' => $tag])
@@ -85,6 +86,8 @@ class ShowTagTest extends TestCase
         $user = User::factory()->create();
 
         $user->films()->updateExistingPivot($film, ['status' => Film::WATCHED]);
+        $user->priorities()->create(['film_id' => $film->id, 'rating' => 2]);
+        $user->reviews()->create(['film_id' => $film->id, 'rating' => 2]);
 
         $response = Livewire::actingAs($user)
             ->test(LivewireTag::class, ['tag' => $tag])

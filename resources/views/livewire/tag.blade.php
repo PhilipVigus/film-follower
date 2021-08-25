@@ -8,16 +8,10 @@
 
         <div class="flex flex-wrap">
             @forelse ($filmsToShortlist as $film)
-                <div class="mt-4 border w-1/3" wire:key="{{ $loop->index }}">
-                    <a href="{{ route('film', ['film' => $film]) }}">
-                        <h4 class="font-bold pl-4 truncate">{{ $film->title }}</h4>
-
-                        <img class="object-contain p-4" src="{{ $film->trailers->first()->image }}" />
-                    </a>
-                </div>
+                @include ('livewire.partials._toShortlistFilm', ['film' => $film, 'loop' => $loop])
             @empty
-                <div class="mt-4 border"">
-                    None
+                <div class="mt-4 border">
+                    <div class="font-bold text-lg">You have no films to shortlist</div>
                 </div>
             @endforelse
         </div>
@@ -28,16 +22,10 @@
 
         <div class="flex flex-wrap">
             @forelse ($shortlistedFilms as $film)
-                <div class="mt-4 border w-1/3" wire:key="{{ $loop->index }}">
-                    <h4 class="font-bold pl-4 truncate">{{ $film->title }}</h4>
-
-                    <a href="{{ $film->trailers->first()->link }}" target="_blank">
-                        <img class="object-contain p-4" src="{{ $film->trailers->first()->image }}" />
-                    </a>
-                </div>
+                @include ('livewire.partials._shortlistedFilm', ['film' => $film, 'loop' => $loop])
             @empty
-                <div class="mt-4 border"">
-                    None
+                <div class="mt-4 border">
+                    <div class="font-bold text-lg">You have not shortlisted any films</div>
                 </div>
             @endforelse
         </div>
@@ -47,19 +35,13 @@
         <h3 class="font-bold text-xl">Watched</h2>
 
         <div class="flex flex-wrap">
-            @forelse ($watchedFilms as $film)
-                <div class="mt-4 border w-1/3" wire:key="{{ $loop->index }}">
-                    <h4 class="font-bold pl-4 truncate">{{ $film->title }}</h4>
-
-                    <a href="{{ $film->trailers->first()->link }}" target="_blank">
-                        <img class="object-contain p-4" src="{{ $film->trailers->first()->image }}" />
-                    </a>
-                </div>
-            @empty
-                <div class="mt-4 border"">
-                    None
-                </div>
-            @endforelse
+        @forelse ($watchedFilms as $film)
+            @include ('livewire.partials._watchedFilm', ['film' => $film, 'loop' => $loop])
+        @empty
+            <div class="mt-4 border">
+                <div class="font-bold text-lg">You have not reviewed any films</div>
+            </div>
+        @endforelse
         </div>
     </div>
 </div>
