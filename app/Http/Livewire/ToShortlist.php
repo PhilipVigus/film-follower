@@ -17,17 +17,23 @@ class ToShortlist extends Component
         'refresh-film-list' => 'refreshFilms',
     ];
 
+    public $rules = [
+        'films' => 'required',
+    ];
+
+    /** @var array */
     public function mount()
     {
         $this->refreshFilms();
     }
+
 
     public function refreshFilms()
     {
         $this->films = Auth::user()
             ->filmsToShortlist()
             ->withoutIgnoredTags(Auth::user())
-            ->with('tags')
+            ->with('tags', 'trailers')
             ->get()
             ->filter(function ($film) {
                 return $film->trailers->isNotEmpty();
