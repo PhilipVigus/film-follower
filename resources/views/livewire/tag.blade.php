@@ -1,6 +1,16 @@
-<div class="max-w-6xl mx-auto">
-    <div class="mt-8 bg-gray-200 h-auto shadow-md rounded-md p-6">
+<div 
+    class="max-w-6xl mx-auto" 
+    x-data="{ 
+        ignored: '{{ $ignored }}',
+        toggleIgnore() {
+            this.ignored = !this.ignored;
+            this.$wire.toggleIgnoreTag();
+        }
+    }"
+>
+    <div class="mt-8 bg-gray-200 h-auto shadow-md rounded-md p-6 flex justify-between">
         <h2 class="font-bold text-2xl">Films tagged with '{{ $tag->name }}'</h2>
+        <button class="bg-blue-800 text-gray-100 p-2 rounded-md hover:bg-blue-900 w-32" x-on:click="toggleIgnore()" x-text="ignored ? 'Unignore' : 'Ignore'"></button>
     </div>
 
     <div class="mt-8 bg-gray-200 h-auto shadow-md rounded-md p-6">

@@ -14,6 +14,9 @@ class Tag extends Component
     /** @var Tag */
     public $tag;
 
+    /** @var bool */
+    public $ignored;
+
     /** @var Collection */
     public $filmsToShortlist;
 
@@ -31,6 +34,8 @@ class Tag extends Component
     public function mount(TagModel $tag)
     {
         $this->tag = $tag;
+
+        $this->ignored = Auth::user()->ignoredTags->contains($tag);
 
         $films = Auth::user()
             ->films()
@@ -62,6 +67,17 @@ class Tag extends Component
         $this->filmsToShortlist = Arr::exists($films, Film::TO_SHORTLIST) ? $films[Film::TO_SHORTLIST] : [];
         $this->shortlistedFilms = Arr::exists($films, Film::SHORTLISTED) ? $films[Film::SHORTLISTED] : [];
         $this->watchedFilms = Arr::exists($films, Film::WATCHED) ? $films[Film::WATCHED] : [];
+    }
+
+    public function toggleIgnoreTag()
+    {
+        $this->ignored = ! $this->ignored;
+
+        if ($this->ignored) {
+            Auth::user()->ignoredTags()->attach($this->tag);
+        } else {
+            Auth::user()->ignoredTags()->detach($this->tag);
+        }
     }
 
     public function render()

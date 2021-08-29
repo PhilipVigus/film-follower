@@ -96,4 +96,55 @@ class ShowTagTest extends TestCase
         $this->assertCount(1, $response->watchedFilms);
         $this->assertEquals($film->id, $response->watchedFilms->first()->id);
     }
+
+    /** @test */
+    public function you_can_ignore_a_tag()
+    {
+        $film = Film::factory()->hasTrailers()->create();
+        $tag = Tag::factory()->create();
+
+        $film->tags()->attach($tag);
+
+        $user = User::factory()->create();
+
+        Livewire::actingAs($user)
+            ->test(LivewireTag::class, ['tag' => $tag])
+            ->call('toggleIgnoreTag')
+        ;
+
+        $user->refresh();
+
+        $this->assertCount(1, $user->ignoredTags);
+        $this->assertEquals($tag->id, $user->ignoredTags->first()->id);
+    }
+
+    /** @test */
+    public function you_can_unignore_a_tag()
+    {
+        $film = Film::factory()->hasTrailers()->create();
+        $tag = Tag::factory()->create();
+
+        $film->tags()->attach($tag);
+
+        $user = User::factory()->create();
+
+        Livewire::actingAs($user)
+            ->test(LivewireTag::class, ['tag' => $tag])
+            ->call('toggleIgnoreTag')
+        ;
+
+        $user->refresh();
+
+        $this->assertCount(1, $user->ignoredTags);
+        $this->assertEquals($tag->id, $user->ignoredTags->first()->id);
+
+        Livewire::actingAs($user)
+            ->test(LivewireTag::class, ['tag' => $tag])
+            ->call('toggleIgnoreTag')
+        ;
+
+        $user->refresh();
+
+        $this->assertEmpty($user->ignoredTags);
+    }
 }
