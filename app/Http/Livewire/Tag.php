@@ -14,6 +14,9 @@ class Tag extends Component
     /** @var Tag */
     public $tag;
 
+    /** @var bool */
+    public $ignored;
+
     /** @var Collection */
     public $filmsToShortlist;
 
@@ -32,19 +35,9 @@ class Tag extends Component
     {
         $this->tag = $tag;
 
-        $films = Auth::user()
-            ->films()
-            ->withPivot('status')
-            ->whereHas('tags', function (Builder $query) use ($tag) {
-                $query->where('tags.id', $tag->id);
-            })
-            ->get()
-            ->groupBy('pivot.status')
-        ;
+        $this->ignored = Auth::user()->ignoredTags->contains($tag);
 
-        $this->filmsToShortlist = Arr::exists($films, Film::TO_SHORTLIST) ? $films[Film::TO_SHORTLIST] : [];
-        $this->shortlistedFilms = Arr::exists($films, Film::SHORTLISTED) ? $films[Film::SHORTLISTED] : [];
-        $this->watchedFilms = Arr::exists($films, Film::WATCHED) ? $films[Film::WATCHED] : [];
+        $this->refreshFilms();
     }
 
     public function refreshFilms()
@@ -62,6 +55,16 @@ class Tag extends Component
         $this->filmsToShortlist = Arr::exists($films, Film::TO_SHORTLIST) ? $films[Film::TO_SHORTLIST] : [];
         $this->shortlistedFilms = Arr::exists($films, Film::SHORTLISTED) ? $films[Film::SHORTLISTED] : [];
         $this->watchedFilms = Arr::exists($films, Film::WATCHED) ? $films[Film::WATCHED] : [];
+    }
+
+    public function toggleIgnoreTag()
+    {
+        $this->ignored = ! $this->ignored;
+
+        $this->ignored
+            ? Auth::user()->ignoredTags()->attach($this->tag)
+            : Auth::user()->ignoredTags()->detach($this->tag)
+        ;
     }
 
     public function render()
