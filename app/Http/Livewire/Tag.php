@@ -37,19 +37,7 @@ class Tag extends Component
 
         $this->ignored = Auth::user()->ignoredTags->contains($tag);
 
-        $films = Auth::user()
-            ->films()
-            ->withPivot('status')
-            ->whereHas('tags', function (Builder $query) use ($tag) {
-                $query->where('tags.id', $tag->id);
-            })
-            ->get()
-            ->groupBy('pivot.status')
-        ;
-
-        $this->filmsToShortlist = Arr::exists($films, Film::TO_SHORTLIST) ? $films[Film::TO_SHORTLIST] : [];
-        $this->shortlistedFilms = Arr::exists($films, Film::SHORTLISTED) ? $films[Film::SHORTLISTED] : [];
-        $this->watchedFilms = Arr::exists($films, Film::WATCHED) ? $films[Film::WATCHED] : [];
+        $this->refreshFilms();
     }
 
     public function refreshFilms()
