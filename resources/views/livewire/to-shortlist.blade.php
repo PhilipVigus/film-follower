@@ -3,10 +3,11 @@
     x-data="{ 
         films: {{ $films }},
         filteredFilms: {{ $films }},
-        searchTerm: '',
+        filterTerm: '',
         updateFilter() {
             this.filteredFilms = this.films.filter((film) => {
-                return film['title'].toLowerCase().includes(this.searchTerm.toLowerCase());
+                tags = film.tags;
+                return film.title.toLowerCase().includes(this.filterTerm.toLowerCase());
             });
         }
     }"
@@ -17,17 +18,17 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
 
-        <input class="w-full" type="search" placeholder="Search..." x-model="searchTerm" x-on:input="updateFilter()"></input>
+        <input class="w-full" type="search" placeholder="Search..." x-model="filterTerm" x-on:input="updateFilter()"></input>
     </div>
 
     <template x-for="(film, index) in filteredFilms" :key="index">
         <article class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6">
-            <h2 class="font-bold text-2xl" x-text="film['title']"></h2>
+            <h2 class="font-bold text-2xl" x-text="film.title"></h2>
 
             <div class="flex space-x-6 mt-4">
                 <section class="w-1/2">
-                    <a :href="film['trailers'][0]['link']" target="_blank">
-                        <img class="flex-grow-0" :src="film['trailers'][0]['image']" />
+                    <a :href="film.trailers[0].link" target="_blank">
+                        <img class="flex-grow-0" :src="film.trailers[0].image" />
                     </a>
 
 
@@ -42,8 +43,8 @@
                         <h3 class="font-bold text-lg">Tags</h3>
 
                         <div class="mt-2">
-                            <template x-for="(tag, index) in film['tags']" :key="index">
-                                <a class="whitespace-nowrap hover:underline" :href="'/tags/' + tag['slug']" x-text="tag['name']"></a>
+                            <template x-for="(tag, index) in film.tags" :key="index">
+                                <a class="whitespace-nowrap hover:underline" :href="'/tags/' + tag.slug" x-text="tag.name"></a>
                             </template>
                         </div>
                     </section>
@@ -52,9 +53,9 @@
                         <h3 class="font-bold text-lg">Trailers</h3>
 
                         <ul>
-                            <template x-for="(trailer, index) in film['trailers']" :key="index">
-                                <a :href="trailer['link']" target="_blank">
-                                    <li class="hover:underline" x-text="trailer['type']"></li>
+                            <template x-for="(trailer, index) in film.trailers" :key="index">
+                                <a :href="trailer.link" target="_blank">
+                                    <li class="hover:underline" x-text="trailer.type"></li>
                                 </a>
                             </template>
                         </ul>
