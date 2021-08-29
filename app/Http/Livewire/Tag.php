@@ -73,11 +73,10 @@ class Tag extends Component
     {
         $this->ignored = ! $this->ignored;
 
-        if ($this->ignored) {
-            Auth::user()->ignoredTags()->attach($this->tag);
-        } else {
-            Auth::user()->ignoredTags()->detach($this->tag);
-        }
+        $this->ignored
+            ? Auth::user()->ignoredTags()->attach($this->tag)
+            : Auth::user()->ignoredTags()->detach($this->tag)
+        ;
     }
 
     public function render()
