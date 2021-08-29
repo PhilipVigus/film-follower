@@ -2,14 +2,7 @@
     class="max-w-6xl mx-auto" 
     x-data="{ 
         films: {{ $films }},
-        filteredFilms: {{ $films }},
-        filterTerm: '',
-        updateFilter() {
-            this.filteredFilms = this.films.filter((film) => {
-                tags = film.tags;
-                return film.title.toLowerCase().includes(this.filterTerm.toLowerCase());
-            });
-        }
+        filterTerm: ''
     }"
 >
     <div class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6 flex items-center relative">
@@ -18,10 +11,10 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
 
-        <input class="w-full" type="search" placeholder="Search..." x-model="filterTerm" x-on:input="updateFilter()"></input>
+        <input class="w-full" type="search" placeholder="Search..." x-model="filterTerm"></input>
     </div>
 
-    <template x-for="(film, index) in filteredFilms" :key="index">
+    <template x-for="(film, index) in films.filter(film => film.title.toLowerCase().includes(filterTerm.toLowerCase()))" :key="index">
         <article class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6">
             <h2 class="font-bold text-2xl" x-text="film.title"></h2>
 
