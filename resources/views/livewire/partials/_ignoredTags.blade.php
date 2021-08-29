@@ -33,7 +33,7 @@
         <button class="inline-flex bg-green-300 rounded-full px-2 py-1 mr-2 mt-1.5" x-text="tag.name" x-on:click="toggleIgnoredFilmTag(tag)"></button>
     </template>
     
-    <input class="w-full mb-2 mt-4" type="search" placeholder="Search tags to add/remove from the list" x-model="filterTerm" x-on:input="updateFilter()"></input>
+    <input class="w-full mt-4" type="search" placeholder="Search tags to add/remove from the list" x-model="filterTerm" x-on:input="updateFilter()"></input>
 
     <div class="bg-white border border-black rounded absolute w-full p-4 z-10" x-show="filterTerm !=''">
         <template x-for="tag in filteredTags" :key="tag.slug">
