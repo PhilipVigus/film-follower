@@ -11,7 +11,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
 
-        <input class="w-full" type="search" placeholder="Search..." x-model="filterTerm"></input>
+        <input class="w-full" type="search" placeholder="Search film titles" x-model="filterTerm"></input>
     </div>
 
     <template x-for="(film, index) in films.filter(film => film.title.toLowerCase().includes(filterTerm.toLowerCase()))" :key="index">
@@ -35,9 +35,9 @@
                     <section>
                         <h3 class="font-bold text-lg">Tags</h3>
 
-                        <div class="mt-2">
+                        <div>
                             <template x-for="(tag, index) in film.tags" :key="index">
-                                <a class="whitespace-nowrap hover:underline" :href="'/tags/' + tag.slug" x-text="tag.name"></a>
+                                <a class="whitespace-nowrap hover:bg-green-400 inline-flex bg-green-300 rounded-full px-2 py-1 mt-1.5" :href="'/tags/' + tag.slug" x-text="tag.name"></a>
                             </template>
                         </div>
                     </section>
