@@ -34,7 +34,9 @@ class RemoveFromShortlist extends Component
             )
         ;
 
-        $this->emit('refresh-film-list');
+        $this->emitTo('modal', 'close');
+
+        return redirect()->to(request()->header('Referer'));
     }
 
     public function render()

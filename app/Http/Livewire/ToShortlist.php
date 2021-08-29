@@ -13,22 +13,7 @@ class ToShortlist extends Component
     public $films;
 
     /** @var array */
-    protected $listeners = [
-        'refresh-film-list' => 'refreshFilms',
-    ];
-
-    public $rules = [
-        'films' => 'required',
-    ];
-
-    /** @var array */
     public function mount()
-    {
-        $this->refreshFilms();
-    }
-
-
-    public function refreshFilms()
     {
         $this->films = Auth::user()
             ->filmsToShortlist()
@@ -51,7 +36,7 @@ class ToShortlist extends Component
             )
         ;
 
-        $this->refreshFilms();
+        return redirect()->to(request()->header('Referer'));
     }
 
     public function render()
