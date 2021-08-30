@@ -2,10 +2,11 @@
     class="max-w-6xl mx-auto" 
     x-data="{ 
         films: {{ $films }},
-        filterTerm: '',
+        searchTerm: '',
+        currentTerm: '',
         fuse: null,
-        filmsPerSlice: 20,
-        filmsShowing: 20
+        filmsPerSlice: 10,
+        filmsShowing: 10
     }"
     x-init="
         fuse = new Fuse(films, { includeScore: true, useExtendedSearch: true, keys: ['title', 'tags.name', 'trailers.type'] });
@@ -15,15 +16,13 @@
     "
 
 >    <div class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6 flex items-center relative">
-
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 absolute right-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-
-        <input class="w-full" type="search" placeholder="Search film titles" x-model="filterTerm"></input>
+        <div class="flex w-full items-center space-x-2">
+            <input class="flex-1" type="search" placeholder="Search films" x-model="searchTerm"></input>
+            <button class="bg-blue-800 text-gray-100 p-2 rounded-md hover:bg-blue-900" x-on:click="currentTerm = searchTerm">Search</button>
+        </div>
     </div>
 
-    <template x-for="(result, index) in filterTerm ? fuse.search(filterTerm).slice(0, filmsShowing) : films.slice(0, filmsShowing)" :key="index">
+    <template x-for="(result, index) in currentTerm ? fuse.search(currentTerm).slice(0, filmsShowing) : films.slice(0, filmsShowing)" :key="index">
         <article class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6" :data="index">
             <h2 class="font-bold text-2xl" x-text="result.item.title"></h2>
 
@@ -83,7 +82,7 @@
                             root: null
                         })
 
-                        if ((parseInt(this.$el.parentNode.getAttribute('data')) + 10) % 20 === 0) {
+                        if ((parseInt(this.$el.parentNode.getAttribute('data')) + 10) % 10 === 0) {
                             this.observer.observe(this.$el);
                         }
                     }
