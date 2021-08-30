@@ -3,7 +3,9 @@
     x-data="{ 
         films: {{ $films }},
         filterTerm: '',
-        fuse: null
+        fuse: null,
+        filmsPerSlice: 20,
+        filmsShowing: 20
     }"
     x-init="
         fuse = new Fuse(films, { includeScore: true, useExtendedSearch: true, keys: ['title', 'tags.name', 'trailers.type'] });
@@ -21,8 +23,8 @@
         <input class="w-full" type="search" placeholder="Search film titles" x-model="filterTerm"></input>
     </div>
 
-    <template x-for="(result, index) in filterTerm ? fuse.search(filterTerm) : films" :key="index">
-        <article class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6">
+    <template x-for="(result, index) in filterTerm ? fuse.search(filterTerm).slice(0, filmsShowing) : films.slice(0, filmsShowing)" :key="index">
+        <article class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6" :data="index">
             <h2 class="font-bold text-2xl" x-text="result.item.title"></h2>
 
             <div class="flex space-x-6 mt-4">
@@ -66,6 +68,28 @@
             <div class="mt-4 border" x-show="!films.length">
                 <div class="font-bold text-lg">You have no films to shortlist</div>
             </div>
+            <div
+                x-data="{
+                    observer: null,
+                    observe () {
+                        this.observer = new IntersectionObserver((entries) => {
+                            entries.forEach(entry => {
+                                if (entry.isIntersecting) {
+                                    $parent.filmsShowing += $parent.filmsPerSlice;
+                                    this.observer.unobserve(entry.target);
+                                }
+                            })
+                        }, {
+                            root: null
+                        })
+
+                        if ((parseInt(this.$el.parentNode.getAttribute('data')) + 10) % 20 === 0) {
+                            this.observer.observe(this.$el);
+                        }
+                    }
+                }"
+                x-init="observe()"
+            ></div> 
         </article>
     </template>
 </div>
