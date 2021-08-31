@@ -9,7 +9,7 @@
         filmsShowing: 10
     }"
     x-init="
-        fuse = new Fuse(films, { includeScore: true, useExtendedSearch: true, keys: ['title', 'tags.name', 'trailers.type'] });
+        fuse = new Fuse(films, { includeScore: true, useExtendedSearch: true, keys: ['title', 'tags.name', 'trailers.type', 'priorities.comment'] });
         films = films.map((film) => {
             return { item: film };
         });
