@@ -16,7 +16,7 @@ class FilmSeeder extends Seeder
             throw new Exception("You can't run this seeder in production!");
         }
 
-        $films = Film::factory()->count(50)->create();
+        $films = Film::factory()->count(200)->create();
 
         foreach ($films as $film) {
             $user = User::first();

@@ -22,10 +22,7 @@
             <h2 class="font-bold text-2xl" x-text="result.item.title"></h2>
 
             <div class="flex space-x-6 mt-4">
-                <section class="w-1/2">
-                    <a :href="result.item.trailers[0].link" target="_blank">
-                        <img class="flex-grow-0" :src="result.item.trailers[0].image" />
-                    </a>
+                <section class="w-1/2">                   
                     @include('livewire.partials._image-link')
 
                     <div class="mt-4 flex space-x-4">
@@ -40,10 +37,7 @@
                 </div>
             </div>
 
-            <div class="mt-4 border" x-show="!films.length">
-                <div class="font-bold text-lg">None</div>
-            </div>
-
+            @include('livewire.partials._empty-list')
             @include('livewire.partials._element-in-view-trigger')
         </article>
     </template>
