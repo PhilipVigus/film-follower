@@ -13,7 +13,7 @@
                 root: null
             })
 
-            if ((parseInt(this.$el.parentNode.getAttribute('index')) + 10) % 10 === 0) {
+            if ((parseInt(this.$el.parentNode.getAttribute('index')) + 5) % 10 === 0) {
                 this.observer.observe(this.$el);
             }
         }
