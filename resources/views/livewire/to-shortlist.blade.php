@@ -18,7 +18,7 @@
     @include('livewire.partials._search')
 
     <template x-for="(result, index) in currentTerm ? fuse.search(currentTerm).slice(0, filmsShowing) : films.slice(0, filmsShowing)" :key="index">
-        <article class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6" :data="index">
+        <article class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-6" :index="index">
             <h2 class="font-bold text-2xl" x-text="result.item.title"></h2>
 
             <div class="flex space-x-6 mt-4">
@@ -26,6 +26,7 @@
                     <a :href="result.item.trailers[0].link" target="_blank">
                         <img class="flex-grow-0" :src="result.item.trailers[0].image" />
                     </a>
+                    @include('livewire.partials._image-link')
 
                     <div class="mt-4 flex space-x-4">
                         <button class="w-full bg-gray-300 p-2 rounded-md hover:bg-gray-400" x-on:click="$wire.ignoreFilm(result.item)">Ignore</button>
@@ -43,7 +44,7 @@
                 <div class="font-bold text-lg">None</div>
             </div>
 
-            @include('livewire.partials._elementInViewTrigger')
+            @include('livewire.partials._element-in-view-trigger')
         </article>
     </template>
 </div>
