@@ -18,15 +18,20 @@ class Ignored extends Component
     /** @var Collection */
     public $ignoredTagsIds;
 
+    /** @var Collection */
+    public $searchKeys;
+
     public function mount()
     {
-        $this->ignoredTagsIds = Auth::user()->ignoredTags->pluck('id');
-
         $this->films = Auth::user()
             ->ignoredFilms()
             ->with('tags', 'trailers')
             ->get()
         ;
+
+        $this->ignoredTagsIds = Auth::user()->ignoredTags->pluck('id');
+
+        $this->searchKeys = collect(['title', 'tags.name', 'trailers.type']);
     }
 
     public function unignoreFilm(Film $film)

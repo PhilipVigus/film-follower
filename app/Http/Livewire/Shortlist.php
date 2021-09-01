@@ -11,17 +11,10 @@ class Shortlist extends Component
     /** @var Collection */
     public $films;
 
-    /** @var array */
-    protected $listeners = [
-        'refresh-film-list' => 'refreshFilms',
-    ];
+    /** @var Collection */
+    public $searchKeys;
 
     public function mount()
-    {
-        $this->refreshFilms();
-    }
-
-    public function refreshFilms()
     {
         $this->films = Auth::user()
             ->shortlistedFilms()
@@ -34,6 +27,8 @@ class Shortlist extends Component
                 return $film->priorities->first()->rating;
             })
         ;
+
+        $this->searchKeys = collect(['title', 'tags.name', 'trailers.type', 'priorities.comment']);
     }
 
     public function render()

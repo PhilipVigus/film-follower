@@ -12,6 +12,9 @@ class ToShortlist extends Component
     /** @var Collection */
     public $films;
 
+    /** @var Collection */
+    public $searchKeys;
+
     /** @var array */
     public function mount()
     {
@@ -24,6 +27,8 @@ class ToShortlist extends Component
                 return $film->trailers->isNotEmpty();
             })
         ;
+
+        $this->searchKeys = collect(['title', 'tags.name', 'trailers.type']);
     }
 
     public function ignoreFilm(Film $film)

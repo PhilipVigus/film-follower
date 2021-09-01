@@ -11,17 +11,10 @@ class Watched extends Component
     /** @var Collection */
     public $films;
 
-    /** @var array */
-    protected $listeners = [
-        'refresh-film-list' => 'refreshFilms',
-    ];
+    /** @var Collection */
+    public $searchKeys;
 
     public function mount()
-    {
-        $this->refreshFilms();
-    }
-
-    public function refreshFilms()
     {
         $this->films = Auth::user()
             ->watchedFilms()
@@ -31,6 +24,8 @@ class Watched extends Component
             ->with('tags', 'trailers', 'priorities', 'reviews')
             ->get()
         ;
+
+        $this->searchKeys = collect(['title', 'tags.name', 'trailers.type', 'priorities.comment', 'reviews.comment']);
     }
 
     public function render()
