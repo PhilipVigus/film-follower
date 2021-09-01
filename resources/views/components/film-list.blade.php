@@ -29,7 +29,7 @@
                     {{ $buttons }}
                 </section>
 
-                {{ $userData }}
+                {{ $rightColumn }}
             </div>
 
             @include('livewire.partials._empty-list')

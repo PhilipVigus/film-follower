@@ -6,7 +6,7 @@
         </div>
     </x-slot>
 
-    <x-slot name="userData">
+    <x-slot name="rightColumn">
         <div class="w-1/2">
             @include('livewire.partials._tags')
             @include('livewire.partials._trailers')
