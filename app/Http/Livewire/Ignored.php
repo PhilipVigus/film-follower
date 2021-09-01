@@ -18,23 +18,13 @@ class Ignored extends Component
     /** @var Collection */
     public $ignoredTagsIds;
 
-    /** @var array */
-    protected $listeners = [
-        'refresh-film-list' => 'refreshFilms',
-    ];
-
     public function mount()
     {
         $this->ignoredTagsIds = Auth::user()->ignoredTags->pluck('id');
 
-        $this->refreshFilms();
-    }
-
-    public function refreshFilms()
-    {
         $this->films = Auth::user()
             ->ignoredFilms()
-            ->with('tags')
+            ->with('tags', 'trailers')
             ->get()
         ;
     }
@@ -49,7 +39,7 @@ class Ignored extends Component
             )
         ;
 
-        $this->refreshFilms();
+        return redirect()->to(request()->header('Referer'));
     }
 
     public function render()
