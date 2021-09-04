@@ -40,7 +40,15 @@ class Tag extends Component
         $this->searchKeys = collect(['title', 'tags.name', 'trailers.type', 'priorities.comment', 'reviews.comment']);
     }
 
-    public function toggleIgnoreTag()
+    public function toggleIgnoreTag(bool $ignored)
+    {
+        $ignored
+            ? Auth::user()->ignoredTags()->attach($this->tag)
+            : Auth::user()->ignoredTags()->detach($this->tag)
+        ;
+    }
+
+    public function hydrate()
     {
         $this->films = Auth::user()
             ->films()
@@ -51,15 +59,6 @@ class Tag extends Component
             })
             ->get()
         ;
-
-        $this->ignored = ! $this->ignored;
-
-        $this->ignored
-            ? Auth::user()->ignoredTags()->attach($this->tag)
-            : Auth::user()->ignoredTags()->detach($this->tag)
-        ;
-
-        return redirect()->to(request()->header('Referer'));
     }
 
     public function render()

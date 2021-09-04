@@ -8,7 +8,7 @@
         ignored: '{{ $ignored }}',
         toggleIgnore() {
             this.ignored = !this.ignored;
-            this.$wire.toggleIgnoreTag();
+            this.$wire.toggleIgnoreTag(this.ignored);
         },
     }"
     x-init="
