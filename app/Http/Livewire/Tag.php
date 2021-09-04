@@ -35,9 +35,6 @@ class Tag extends Component
                 $query->where('tags.id', $this->tag->id);
             })
             ->get()
-            // ->map(function ($film) {
-            //     return ['item' => $film];
-            // })
         ;
 
         $this->searchKeys = collect(['title', 'tags.name', 'trailers.type', 'priorities.comment', 'reviews.comment']);
@@ -53,9 +50,6 @@ class Tag extends Component
                 $query->where('tags.id', $this->tag->id);
             })
             ->get()
-            // ->map(function ($film) {
-            //     return ['item' => $film];
-            // })
         ;
 
         $this->ignored = ! $this->ignored;
