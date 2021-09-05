@@ -14,9 +14,21 @@ class Watched extends Component
     /** @var Collection */
     public $searchKeys;
 
+    /** @var string */
+    public $highlightedFilmId;
+
     public function mount()
     {
-        $this->films = Auth::user()
+        $this->highlightedFilmId = (int) request('film');
+
+        $this->films = $this->highlightedFilmId ? $this->getFilmsWithHighlightedFilm() : $this->getFilmsWithoutHighlightedFilm();
+
+        $this->searchKeys = collect(['title', 'tags.name', 'trailers.type', 'priorities.comment', 'reviews.comment']);
+    }
+
+    public function getFilmsWithHighlightedFilm()
+    {
+        $films = Auth::user()
             ->watchedFilms()
             ->with(['reviews' => function ($query) {
                 $query->where('user_id', '=', Auth::id());
@@ -25,7 +37,23 @@ class Watched extends Component
             ->get()
         ;
 
-        $this->searchKeys = collect(['title', 'tags.name', 'trailers.type', 'priorities.comment', 'reviews.comment']);
+        return $this->films = $films->where('id', '=', $this->highlightedFilmId)
+            ->merge(
+                $films->where('id', '!==', $this->highlightedFilmId)
+            )
+        ;
+    }
+
+    public function getFilmsWithoutHighlightedFilm()
+    {
+        return Auth::user()
+            ->watchedFilms()
+            ->with(['reviews' => function ($query) {
+                $query->where('user_id', '=', Auth::id());
+            }])
+            ->with('tags', 'trailers', 'priorities', 'reviews')
+            ->get()
+        ;
     }
 
     public function render()
