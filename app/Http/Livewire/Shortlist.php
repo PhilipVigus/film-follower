@@ -14,9 +14,21 @@ class Shortlist extends Component
     /** @var Collection */
     public $searchKeys;
 
+    /** @var string */
+    public $highlightedFilmId;
+
     public function mount()
     {
-        $this->films = Auth::user()
+        $this->highlightedFilmId = (int) request('film');
+
+        $this->films = $this->highlightedFilmId ? $this->getFilmsWithHighlightedFilm() : $this->getFilmsWithoutHighlightedFilm();
+
+        $this->searchKeys = collect(['title', 'tags.name', 'trailers.type', 'priorities.comment']);
+    }
+
+    public function getFilmsWithHighlightedFilm()
+    {
+        $films = Auth::user()
             ->shortlistedFilms()
             ->with(['priorities' => function ($query) {
                 $query->where('user_id', '=', Auth::id());
@@ -28,7 +40,26 @@ class Shortlist extends Component
             })
         ;
 
-        $this->searchKeys = collect(['title', 'tags.name', 'trailers.type', 'priorities.comment']);
+        return $this->films = $films->where('id', '=', $this->highlightedFilmId)
+            ->merge(
+                $films->where('id', '!==', $this->highlightedFilmId)
+            )
+        ;
+    }
+
+    public function getFilmsWithoutHighlightedFilm()
+    {
+        return Auth::user()
+            ->shortlistedFilms()
+            ->with(['priorities' => function ($query) {
+                $query->where('user_id', '=', Auth::id());
+            }])
+            ->with('tags', 'trailers')
+            ->get()
+            ->sortByDesc(function ($film, $key) {
+                return $film->priorities->first()->rating;
+            })
+        ;
     }
 
     public function render()

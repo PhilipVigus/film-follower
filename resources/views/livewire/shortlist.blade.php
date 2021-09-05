@@ -1,4 +1,4 @@
-<x-film-list :films="$films" :searchKeys="$searchKeys">
+<x-film-list :films="$films" :searchKeys="$searchKeys" :highlightedFilmId="$highlightedFilmId">
     <x-slot name="buttons">
         <div class="mt-4 flex space-x-4">
             <button class="w-full bg-gray-300 p-2 rounded-md hover:bg-gray-400" x-on:click="$wire.emitTo('modal', 'open', 'remove-from-shortlist', { film: result.item })">Remove from shortlist</button>
