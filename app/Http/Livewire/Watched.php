@@ -21,12 +21,15 @@ class Watched extends Component
     {
         $this->highlightedFilmId = (int) request('film');
 
-        $this->films = $this->highlightedFilmId ? $this->getFilmsWithHighlightedFilm() : $this->getFilmsWithoutHighlightedFilm();
+        $this->films = $this->highlightedFilmId
+            ? $this->getFilmsWithHighlightedFilm()
+            : $this->getFilmsWithoutHighlightedFilm()
+        ;
 
         $this->searchKeys = collect(['title', 'tags.name', 'trailers.type', 'priorities.comment', 'reviews.comment']);
     }
 
-    public function getFilmsWithHighlightedFilm()
+    public function getFilmsWithHighlightedFilm(): Collection
     {
         $films = Auth::user()
             ->watchedFilms()
@@ -44,7 +47,7 @@ class Watched extends Component
         ;
     }
 
-    public function getFilmsWithoutHighlightedFilm()
+    public function getFilmsWithoutHighlightedFilm(): Collection
     {
         return Auth::user()
             ->watchedFilms()

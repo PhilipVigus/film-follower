@@ -23,12 +23,15 @@ class ToShortlist extends Component
     {
         $this->highlightedFilmId = (int) request('film');
 
-        $this->films = $this->highlightedFilmId ? $this->getFilmsWithHighlightedFilm() : $this->getFilmsWithoutHighlightedFilm();
+        $this->films = $this->highlightedFilmId
+            ? $this->getFilmsWithHighlightedFilm()
+            : $this->getFilmsWithoutHighlightedFilm()
+        ;
 
         $this->searchKeys = collect(['title', 'tags.name', 'trailers.type']);
     }
 
-    public function getFilmsWithHighlightedFilm()
+    public function getFilmsWithHighlightedFilm(): Collection
     {
         $films = Auth::user()
             ->filmsToShortlist()
@@ -47,7 +50,7 @@ class ToShortlist extends Component
         ;
     }
 
-    public function getFilmsWithoutHighlightedFilm()
+    public function getFilmsWithoutHighlightedFilm(): Collection
     {
         return $this->films = Auth::user()
             ->filmsToShortlist()
