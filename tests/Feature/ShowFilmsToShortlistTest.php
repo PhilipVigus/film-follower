@@ -99,4 +99,19 @@ class ShowFilmsToShortlistTest extends TestCase
         $this->assertEmpty($user->filmsToShortlist);
         $this->assertCount(1, $user->ignoredFilms);
     }
+
+    /** @test */
+    public function the_highlighted_film_displays_first_in_the_list()
+    {
+        Film::factory(5)->hasTrailers()->create();
+        $highlightedFilm = Film::factory()->hasTrailers()->create();
+
+        $user = User::factory()->create();
+
+        $response = Livewire::actingAs($user)->withQueryParams(['film' => $highlightedFilm->id])
+            ->test(ToShortlist::class)
+        ;
+
+        $this->assertEquals($highlightedFilm->id, $response->films->first()->id);
+    }
 }

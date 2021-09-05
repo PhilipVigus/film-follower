@@ -37,12 +37,13 @@ class ShowTagTest extends TestCase
     }
 
     /** @test */
-    public function it_shows_all_films_to_shortlist_with_the_specified_tag()
+    public function it_shows_all_films_with_the_specified_tag()
     {
-        $film = Film::factory()->hasTrailers()->create();
+        $filmWithTag = Film::factory()->hasTrailers()->create();
+        $filmWithoutTag = Film::factory()->hasTrailers()->create();
         $tag = Tag::factory()->create();
 
-        $film->tags()->attach($tag);
+        $filmWithTag->tags()->attach($tag);
 
         $user = User::factory()->create();
 
@@ -50,101 +51,7 @@ class ShowTagTest extends TestCase
             ->test(LivewireTag::class, ['tag' => $tag])
         ;
 
-        $this->assertCount(1, $response->filmsToShortlist);
-        $this->assertEquals($film->id, $response->filmsToShortlist->first()->id);
-    }
-
-    /** @test */
-    public function it_shows_all_shortlisted_films_with_the_specified_tag()
-    {
-        $film = Film::factory()->hasTrailers()->create();
-        $tag = Tag::factory()->create();
-
-        $film->tags()->attach($tag);
-
-        $user = User::factory()->create();
-
-        $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
-        $user->priorities()->create(['film_id' => $film->id, 'rating' => 3]);
-
-        $response = Livewire::actingAs($user)
-            ->test(LivewireTag::class, ['tag' => $tag])
-        ;
-
-        $this->assertCount(1, $response->shortlistedFilms);
-        $this->assertEquals($film->id, $response->shortlistedFilms->first()->id);
-    }
-
-    /** @test */
-    public function it_shows_all_watched_films_with_the_specified_tag()
-    {
-        $film = Film::factory()->hasTrailers()->create();
-        $tag = Tag::factory()->create();
-
-        $film->tags()->attach($tag);
-
-        $user = User::factory()->create();
-
-        $user->films()->updateExistingPivot($film, ['status' => Film::WATCHED]);
-        $user->priorities()->create(['film_id' => $film->id, 'rating' => 2]);
-        $user->reviews()->create(['film_id' => $film->id, 'rating' => 2]);
-
-        $response = Livewire::actingAs($user)
-            ->test(LivewireTag::class, ['tag' => $tag])
-        ;
-
-        $this->assertCount(1, $response->watchedFilms);
-        $this->assertEquals($film->id, $response->watchedFilms->first()->id);
-    }
-
-    /** @test */
-    public function you_can_ignore_a_tag()
-    {
-        $film = Film::factory()->hasTrailers()->create();
-        $tag = Tag::factory()->create();
-
-        $film->tags()->attach($tag);
-
-        $user = User::factory()->create();
-
-        Livewire::actingAs($user)
-            ->test(LivewireTag::class, ['tag' => $tag])
-            ->call('toggleIgnoreTag')
-        ;
-
-        $user->refresh();
-
-        $this->assertCount(1, $user->ignoredTags);
-        $this->assertEquals($tag->id, $user->ignoredTags->first()->id);
-    }
-
-    /** @test */
-    public function you_can_unignore_a_tag()
-    {
-        $film = Film::factory()->hasTrailers()->create();
-        $tag = Tag::factory()->create();
-
-        $film->tags()->attach($tag);
-
-        $user = User::factory()->create();
-
-        Livewire::actingAs($user)
-            ->test(LivewireTag::class, ['tag' => $tag])
-            ->call('toggleIgnoreTag')
-        ;
-
-        $user->refresh();
-
-        $this->assertCount(1, $user->ignoredTags);
-        $this->assertEquals($tag->id, $user->ignoredTags->first()->id);
-
-        Livewire::actingAs($user)
-            ->test(LivewireTag::class, ['tag' => $tag])
-            ->call('toggleIgnoreTag')
-        ;
-
-        $user->refresh();
-
-        $this->assertEmpty($user->ignoredTags);
+        $this->assertCount(1, $response->films);
+        $this->assertEquals($filmWithTag->id, $response->films->first()->id);
     }
 }

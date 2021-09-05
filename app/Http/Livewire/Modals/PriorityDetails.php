@@ -58,7 +58,8 @@ class PriorityDetails extends Component
         ;
 
         $this->emitTo('modal', 'close');
-        $this->emit('refresh-film-list');
+
+        return redirect()->to(request()->header('Referer'));
     }
 
     public function render()

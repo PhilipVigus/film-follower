@@ -74,4 +74,29 @@ class ShowShortlistedFilmsTest extends TestCase
         $this->assertEquals($response->films[1]->id, $fourStarFilm->id);
         $this->assertEquals($response->films[2]->id, $threeStarFilm->id);
     }
+
+    /** @test */
+    public function the_highlighted_film_displays_first_in_the_list()
+    {
+        $firstFilm = Film::factory()->hasTrailers()->create();
+        $secondFilm = Film::factory()->hasTrailers()->create();
+        $highlightedFilm = Film::factory()->hasTrailers()->create();
+
+        $user = User::factory()->create();
+
+        $user->films()->updateExistingPivot($firstFilm, ['status' => Film::SHORTLISTED]);
+        $user->priorities()->create(['film_id' => $firstFilm->id, 'rating' => 5]);
+
+        $user->films()->updateExistingPivot($secondFilm, ['status' => Film::SHORTLISTED]);
+        $user->priorities()->create(['film_id' => $secondFilm->id, 'rating' => 5]);
+
+        $user->films()->updateExistingPivot($highlightedFilm, ['status' => Film::SHORTLISTED]);
+        $user->priorities()->create(['film_id' => $highlightedFilm->id, 'rating' => 5]);
+
+        $response = Livewire::actingAs($user)->withQueryParams(['film' => $highlightedFilm->id])
+            ->test(Shortlist::class)
+        ;
+
+        $this->assertEquals($highlightedFilm->id, $response->films->first()->id);
+    }
 }

@@ -1,9 +1,16 @@
-<div class="max-w-6xl mx-auto">
-    @forelse ($films as $film)
-        @include ('livewire.partials._shortlistedFilm', ['film' => $film, 'loop' => $loop])
-    @empty
-        <div class="mt-4 border">
-            <div class="font-bold text-lg">You have not shortlisted any films</div>
+<x-film-list :films="$films" :searchKeys="$searchKeys" :highlightedFilmId="$highlightedFilmId">
+    <x-slot name="buttons">
+        <div class="mt-4 flex space-x-4">
+            <button class="w-full bg-gray-300 p-2 rounded-md hover:bg-gray-400" x-on:click="$wire.emitTo('modal', 'open', 'remove-from-shortlist', { film: result.item })">Remove from shortlist</button>
+            <button class="w-full bg-blue-800 text-gray-100 p-2 rounded-md hover:bg-blue-900" x-on:click="$wire.emitTo('modal', 'open', 'review-details', { film: result.item })">Review film</button>
         </div>
-    @endforelse
-</div>
+    </x-slot>
+
+    <x-slot name="rightColumn">
+        <div class="w-1/2">
+            @include('livewire.partials._priority-details')
+            @include('livewire.partials._tags')
+            @include('livewire.partials._trailers')
+        </div>
+    </x-slot>
+</x-film-list>

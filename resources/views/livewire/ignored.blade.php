@@ -1,9 +1,14 @@
-<div class="max-w-7xl mx-auto px-4">
-    @forelse ($films as $film)
-        @include ('livewire.partials._ignoredFilm', ['film' => $film, 'loop' => $loop])
-    @empty
-        <div class="mt-4 border">
-            <div class="font-bold text-lg">You have not ignored any films</div>
+<x-film-list :films="$films" :searchKeys="$searchKeys">
+    <x-slot name="buttons">
+        <div class="mt-4 flex space-x-4">
+            <button class="w-full bg-blue-800 text-gray-100 p-2 rounded-md hover:bg-blue-900" x-on:click="$wire.unignoreFilm(result.item)">Unignore</button>
         </div>
-    @endforelse
-</div>
+    </x-slot>
+
+    <x-slot name="rightColumn">
+        <div class="w-1/2">
+            @include('livewire.partials._tags')
+            @include('livewire.partials._trailers')
+        </div>
+    </x-slot>
+</x-film-list>
