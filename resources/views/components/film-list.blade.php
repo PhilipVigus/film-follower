@@ -1,4 +1,4 @@
-@props(['searchKeys', 'films', 'highlightedFilmId'])
+@props(['searchKeys', 'films', 'highlightedFilmId' => 0])
 
 <div 
     class="max-w-6xl mx-auto" 
