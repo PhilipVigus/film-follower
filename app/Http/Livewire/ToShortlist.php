@@ -15,10 +15,22 @@ class ToShortlist extends Component
     /** @var Collection */
     public $searchKeys;
 
+    /** @var string */
+    public $highlightedFilmId;
+
     /** @var array */
     public function mount()
     {
-        $this->films = Auth::user()
+        $this->highlightedFilmId = (int) request('film');
+
+        $this->films = $this->highlightedFilmId ? $this->getFilmsWithHighlightedFilm() : $this->getFilmsWithoutHighlightedFilm();
+
+        $this->searchKeys = collect(['title', 'tags.name', 'trailers.type']);
+    }
+
+    public function getFilmsWithHighlightedFilm()
+    {
+        $films = Auth::user()
             ->filmsToShortlist()
             ->withoutIgnoredTags(Auth::user())
             ->with('tags', 'trailers')
@@ -28,7 +40,24 @@ class ToShortlist extends Component
             })
         ;
 
-        $this->searchKeys = collect(['title', 'tags.name', 'trailers.type']);
+        return $this->films = $films->where('id', '=', $this->highlightedFilmId)
+            ->merge(
+                $films->where('id', '!==', $this->highlightedFilmId)
+            )
+        ;
+    }
+
+    public function getFilmsWithoutHighlightedFilm()
+    {
+        return $this->films = Auth::user()
+            ->filmsToShortlist()
+            ->withoutIgnoredTags(Auth::user())
+            ->with('tags', 'trailers')
+            ->get()
+            ->filter(function ($film) {
+                return $film->trailers->isNotEmpty();
+            })
+        ;
     }
 
     public function ignoreFilm(Film $film)

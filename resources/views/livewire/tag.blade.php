@@ -15,15 +15,15 @@
             const filmStatus = film.pivot.status;
 
             if (filmStatus === '{{ App\Models\Film::TO_SHORTLIST }}') {
-                return `{{ route('to-shortlist') }}?film=${film.slug}`;
+                return `{{ route('to-shortlist') }}?film=${film.id}`;
             }
 
             if (filmStatus === '{{ App\Models\Film::SHORTLISTED }}') {
-                return `{{ route('shortlist') }}?film=${film.slug}`;
+                return `{{ route('shortlist') }}?film=${film.id}`;
             }
 
             if (filmStatus === '{{ App\Models\Film::WATCHED }}') {
-                return `{{ route('watched') }}?film=${film.slug}`;
+                return `{{ route('watched') }}?film=${film.id}`;
             }
         }
     }"
