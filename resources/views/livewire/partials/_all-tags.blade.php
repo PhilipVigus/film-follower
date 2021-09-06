@@ -14,6 +14,8 @@
         }
     }"
 >   
+    <p>Search all tags currently used by films in the database.</p>
+
     <input class="w-full mt-2" type="search" placeholder="Search tags" x-model="filterTerm" x-on:input="updateFilter()"></input>
 
     <div class="bg-white border border-black rounded absolute w-full p-4 z-10" x-show="filterTerm !=''">
