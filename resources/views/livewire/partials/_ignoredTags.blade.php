@@ -25,7 +25,6 @@
         }
     }"
 >
-    <h3 class="font-bold text-lg">Film</h3>
 
     <p>Films with these tags will not be shown on your list of films to be shortlisted. Any films that you have already shortlisted or watched will still be displayed.</p>
 
