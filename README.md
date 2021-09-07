@@ -114,7 +114,6 @@ https://trello.com/b/Xxo9CwvF/movies
 ## Sprint 7
 - Add/remove trailer text filter strings
 - Delete account
-- Move ignore/unignore tags and text strings to settings
 - Pagination
 - Add ignore/unignore to the individual tag view
 - Add search to each main view
