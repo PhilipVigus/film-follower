@@ -6,7 +6,7 @@
             <x-input-error for="name" class="mt-2" />
         </div>
 
-        <div>
+        <div class="mt-4">
             <x-label for="email" value="Email" />
             <x-input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" />
             <x-input-error for="email" class="mt-2" />
@@ -18,7 +18,7 @@
             Saved
         </x-action-message>
 
-        <x-auth-button wire:loading.attr="disabled" wire:target="photo">
+        <x-auth-button wire:loading.attr="disabled" wire:target="photo" class="mt-4">
             Save
         </x-auth-button>
     </x-slot>
