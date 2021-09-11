@@ -16,7 +16,7 @@ class Tags extends Component
     public $ignoredFilmTagIds;
 
     /** @var Collection */
-    public $ignoredTrailerTagIds;
+    public $ignoredTrailerTitlePhrases;
 
     public function mount()
     {
@@ -30,6 +30,11 @@ class Tags extends Component
             ->withCount('films')
             ->orderByDesc('films_count')
             ->orderBy('name')
+            ->get()
+        ;
+
+        $this->ignoredTrailerTitlePhrases = Auth::user()
+            ->ignoredTrailerTitlePhrases()
             ->get()
         ;
     }
