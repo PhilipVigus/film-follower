@@ -117,3 +117,11 @@ https://trello.com/b/Xxo9CwvF/movies
 - Pagination
 - Add ignore/unignore to the individual tag view
 - Add search to each main view
+
+## Sprint 8
+- Rework edit buttons for reviews and priorities
+- Fix validation text error in details modals
+- Reword all uses of 'watch' to 'review'
+- Investigate directly rendering Livewire components from routes file
+- Do a general gui polish pass
+- Protect the 'get-trailers' route
