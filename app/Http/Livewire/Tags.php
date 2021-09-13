@@ -36,6 +36,7 @@ class Tags extends Component
         $this->ignoredTrailerTitlePhrases = Auth::user()
             ->ignoredTrailerTitlePhrases()
             ->get()
+            ->pluck('phrase')
         ;
     }
 
