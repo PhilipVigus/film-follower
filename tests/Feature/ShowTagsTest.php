@@ -35,7 +35,7 @@ class ShowTagsTest extends TestCase
     }
 
     /** @test */
-    public function you_can_ignore_a_film_tag()
+    public function you_can_ignore_a_tag()
     {
         $user = User::factory()->create();
 
@@ -51,7 +51,7 @@ class ShowTagsTest extends TestCase
     }
 
     /** @test */
-    public function you_can_unignore_a_film_tag()
+    public function you_can_unignore_a_tag()
     {
         $user = User::factory()->create();
 
@@ -64,5 +64,33 @@ class ShowTagsTest extends TestCase
         ;
 
         $this->assertEmpty($user->ignoredTags);
+    }
+
+    /** @test */
+    public function you_can_add_a_trailer_phrase_to_ignore()
+    {
+        $user = User::factory()->create();
+
+        Livewire::actingAs($user)
+            ->test(Tags::class)
+            ->call('addPhrase', 'test phrase')
+        ;
+
+        $this->assertCount(1, $user->ignoredTrailerTitlePhrases);
+        $this->assertEquals('test phrase', $user->ignoredTrailerTitlePhrases->first()->phrase);
+    }
+
+    /** @test */
+    public function you_can_remove_a_trailer_phrase()
+    {
+        $user = User::factory()->create();
+        $user->ignoredTrailerTitlePhrases()->create(['phrase' => 'test phrase']);
+
+        Livewire::actingAs($user)
+            ->test(Tags::class)
+            ->call('removePhrase', 'test phrase')
+        ;
+
+        $this->assertEmpty($user->ignoredTrailerTitlePhrases);
     }
 }

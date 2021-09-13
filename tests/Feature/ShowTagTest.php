@@ -37,12 +37,13 @@ class ShowTagTest extends TestCase
     }
 
     /** @test */
-    public function it_shows_all_films_to_shortlist_with_the_specified_tag()
+    public function it_shows_all_films_with_the_specified_tag()
     {
-        $film = Film::factory()->hasTrailers()->create();
+        $filmWithTag = Film::factory()->hasTrailers()->create();
+        $filmWithoutTag = Film::factory()->hasTrailers()->create();
         $tag = Tag::factory()->create();
 
-        $film->tags()->attach($tag);
+        $filmWithTag->tags()->attach($tag);
 
         $user = User::factory()->create();
 
@@ -50,47 +51,7 @@ class ShowTagTest extends TestCase
             ->test(LivewireTag::class, ['tag' => $tag])
         ;
 
-        $this->assertCount(1, $response->filmsToShortlist);
-        $this->assertEquals($film->id, $response->filmsToShortlist->first()->id);
-    }
-
-    /** @test */
-    public function it_shows_all_shortlisted_films_with_the_specified_tag()
-    {
-        $film = Film::factory()->hasTrailers()->create();
-        $tag = Tag::factory()->create();
-
-        $film->tags()->attach($tag);
-
-        $user = User::factory()->create();
-
-        $user->films()->updateExistingPivot($film, ['status' => Film::SHORTLISTED]);
-
-        $response = Livewire::actingAs($user)
-            ->test(LivewireTag::class, ['tag' => $tag])
-        ;
-
-        $this->assertCount(1, $response->shortlistedFilms);
-        $this->assertEquals($film->id, $response->shortlistedFilms->first()->id);
-    }
-
-    /** @test */
-    public function it_shows_all_watched_films_with_the_specified_tag()
-    {
-        $film = Film::factory()->hasTrailers()->create();
-        $tag = Tag::factory()->create();
-
-        $film->tags()->attach($tag);
-
-        $user = User::factory()->create();
-
-        $user->films()->updateExistingPivot($film, ['status' => Film::WATCHED]);
-
-        $response = Livewire::actingAs($user)
-            ->test(LivewireTag::class, ['tag' => $tag])
-        ;
-
-        $this->assertCount(1, $response->watchedFilms);
-        $this->assertEquals($film->id, $response->watchedFilms->first()->id);
+        $this->assertCount(1, $response->films);
+        $this->assertEquals($filmWithTag->id, $response->films->first()->id);
     }
 }

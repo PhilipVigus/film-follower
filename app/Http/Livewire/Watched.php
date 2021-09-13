@@ -11,24 +11,50 @@ class Watched extends Component
     /** @var Collection */
     public $films;
 
-    /** @var array */
-    protected $listeners = [
-        'refresh-film-list' => 'refreshFilms',
-    ];
+    /** @var Collection */
+    public $searchKeys;
+
+    /** @var string */
+    public $highlightedFilmId;
 
     public function mount()
     {
-        $this->refreshFilms();
+        $this->highlightedFilmId = (int) request('film');
+
+        $this->films = $this->highlightedFilmId
+            ? $this->getFilmsWithHighlightedFilm()
+            : $this->getFilmsWithoutHighlightedFilm()
+        ;
+
+        $this->searchKeys = collect(['title', 'tags.name', 'trailers.type', 'priorities.comment', 'reviews.comment']);
     }
 
-    public function refreshFilms()
+    public function getFilmsWithHighlightedFilm(): Collection
     {
-        $this->films = Auth::user()
+        $films = Auth::user()
             ->watchedFilms()
             ->with(['reviews' => function ($query) {
                 $query->where('user_id', '=', Auth::id());
             }])
-            ->with('tags')
+            ->with('tags', 'trailers', 'priorities', 'reviews')
+            ->get()
+        ;
+
+        return $this->films = $films->where('id', '=', $this->highlightedFilmId)
+            ->merge(
+                $films->where('id', '!==', $this->highlightedFilmId)
+            )
+        ;
+    }
+
+    public function getFilmsWithoutHighlightedFilm(): Collection
+    {
+        return Auth::user()
+            ->watchedFilms()
+            ->with(['reviews' => function ($query) {
+                $query->where('user_id', '=', Auth::id());
+            }])
+            ->with('tags', 'trailers', 'priorities', 'reviews')
             ->get()
         ;
     }

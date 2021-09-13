@@ -21,6 +21,7 @@
         "tailwindcss": "^2.0.1"
     },
     "dependencies": {
-        "alpine-magic-helpers": "^1.2.2"
+        "alpine-magic-helpers": "^1.2.2",
+        "fuse.js": "^6.4.6"
     }
 }

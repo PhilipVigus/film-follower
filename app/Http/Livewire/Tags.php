@@ -10,34 +10,34 @@ use Illuminate\Support\Facades\Auth;
 class Tags extends Component
 {
     /** @var Collection */
-    public $mostCommonTags;
-
-    /** @var Collection */
     public $allTags;
 
     /** @var Collection */
     public $ignoredFilmTagIds;
 
     /** @var Collection */
-    public $ignoredTrailerTagIds;
+    public $ignoredTrailerTitlePhrases;
 
     public function mount()
     {
-        $this->mostCommonTags = Tag::query()
-            ->withCount('films')
-            ->orderByDesc('films_count')
-            ->orderBy('name')
-            ->limit(50)
-            ->get()
-        ;
-
         $this->ignoredFilmTagIds = Auth::user()
             ->ignoredTags()
             ->get()
             ->pluck('id')
         ;
 
-        $this->allTags = Tag::orderBy('name')->get();
+        $this->allTags = Tag::query()
+            ->withCount('films')
+            ->orderByDesc('films_count')
+            ->orderBy('name')
+            ->get()
+        ;
+
+        $this->ignoredTrailerTitlePhrases = Auth::user()
+            ->ignoredTrailerTitlePhrases()
+            ->get()
+            ->pluck('phrase')
+        ;
     }
 
     public function toggleIgnoredFilmTag(Tag $tag)
@@ -48,20 +48,24 @@ class Tags extends Component
         ;
     }
 
+    public function addPhrase(string $phrase)
+    {
+        Auth::user()->ignoredTrailerTitlePhrases()->create(['phrase' => $phrase]);
+    }
+
+    public function removePhrase(string $phrase)
+    {
+        Auth::user()->ignoredTrailerTitlePhrases()->where('phrase', $phrase)->delete();
+    }
+
     public function hydrate()
     {
-        $this->mostCommonTags = Tag::query()
+        $this->allTags = Tag::query()
             ->withCount('films')
             ->orderByDesc('films_count')
             ->orderBy('name')
-            ->limit(50)
             ->get()
         ;
-    }
-
-    public function updating()
-    {
-        info('updating');
     }
 
     public function render()

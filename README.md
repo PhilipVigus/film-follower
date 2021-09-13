@@ -107,7 +107,13 @@ https://trello.com/b/Xxo9CwvF/movies
 
 - Add a tags view
 - List the most common tags
-- Show ignored film tags
-- Show ignored trailer tags
-- Allow users to add/remove tags
+- Show ignored tags
+- Allow users to add/remove ignored tags
 - Allow users to filter by trailer text
+
+## Sprint 7
+- Add/remove trailer text filter strings
+- Delete account
+- Pagination
+- Add ignore/unignore to the individual tag view
+- Add search to each main view

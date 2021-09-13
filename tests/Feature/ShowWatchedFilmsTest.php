@@ -49,4 +49,32 @@ class ShowWatchedFilmsTest extends TestCase
         $this->assertCount(1, $response->films);
         $this->assertEquals($response->films[0]->id, $watchedFilm->id);
     }
+
+    /** @test */
+    public function the_highlighted_film_displays_first_in_the_list()
+    {
+        $firstFilm = Film::factory()->hasTrailers()->create();
+        $secondFilm = Film::factory()->hasTrailers()->create();
+        $highlightedFilm = Film::factory()->hasTrailers()->create();
+
+        $user = User::factory()->create();
+
+        $user->films()->updateExistingPivot($firstFilm, ['status' => Film::WATCHED]);
+        $user->priorities()->create(['film_id' => $firstFilm->id, 'rating' => 5]);
+        $user->reviews()->create(['film_id' => $firstFilm->id, 'rating' => 2]);
+
+        $user->films()->updateExistingPivot($secondFilm, ['status' => Film::WATCHED]);
+        $user->priorities()->create(['film_id' => $secondFilm->id, 'rating' => 5]);
+        $user->reviews()->create(['film_id' => $secondFilm->id, 'rating' => 2]);
+
+        $user->films()->updateExistingPivot($highlightedFilm, ['status' => Film::WATCHED]);
+        $user->priorities()->create(['film_id' => $highlightedFilm->id, 'rating' => 5]);
+        $user->reviews()->create(['film_id' => $highlightedFilm->id, 'rating' => 2]);
+
+        $response = Livewire::actingAs($user)->withQueryParams(['film' => $highlightedFilm->id])
+            ->test(Watched::class)
+        ;
+
+        $this->assertEquals($highlightedFilm->id, $response->films->first()->id);
+    }
 }

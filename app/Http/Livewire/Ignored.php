@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 class Ignored extends Component
 {
     /** @var Collection */
-    public $ignoredFilms;
+    public $films;
 
     /** @var Collection */
     public $filmsWithIgnoredTags;
@@ -18,25 +18,20 @@ class Ignored extends Component
     /** @var Collection */
     public $ignoredTagsIds;
 
-    /** @var array */
-    protected $listeners = [
-        'refresh-film-list' => 'refreshFilms',
-    ];
+    /** @var Collection */
+    public $searchKeys;
 
     public function mount()
     {
-        $this->ignoredTagsIds = Auth::user()->ignoredTags->pluck('id');
-
-        $this->refreshFilms();
-    }
-
-    public function refreshFilms()
-    {
-        $this->ignoredFilms = Auth::user()
+        $this->films = Auth::user()
             ->ignoredFilms()
-            ->with('tags')
+            ->with('tags', 'trailers')
             ->get()
         ;
+
+        $this->ignoredTagsIds = Auth::user()->ignoredTags->pluck('id');
+
+        $this->searchKeys = collect(['title', 'tags.name', 'trailers.type']);
     }
 
     public function unignoreFilm(Film $film)
@@ -49,7 +44,7 @@ class Ignored extends Component
             )
         ;
 
-        $this->refreshFilms();
+        return redirect()->to(request()->header('Referer'));
     }
 
     public function render()
