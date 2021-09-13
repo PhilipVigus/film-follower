@@ -48,6 +48,16 @@ class Tags extends Component
         ;
     }
 
+    public function addPhrase(string $phrase)
+    {
+        Auth::user()->ignoredTrailerTitlePhrases()->create(['phrase' => $phrase]);
+    }
+
+    public function removePhrase(string $phrase)
+    {
+        Auth::user()->ignoredTrailerTitlePhrases()->where('phrase', $phrase)->delete();
+    }
+
     public function hydrate()
     {
         $this->allTags = Tag::query()

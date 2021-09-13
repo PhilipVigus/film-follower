@@ -5,6 +5,7 @@
         addPhrase() {
             if (this.phraseText.trim() !== '' && ! this.ignoredTrailerTitlePhrases.includes(this.phraseText.toLowerCase())) {
                 this.ignoredTrailerTitlePhrases.push(this.phraseText.toLowerCase());
+                this.$wire.addPhrase(this.phraseText);
             }
 
             this.phraseText = '';
@@ -14,6 +15,8 @@
             this.ignoredTrailerTitlePhrases = this.ignoredTrailerTitlePhrases.filter((phrase) => {
                 return phrase !== phraseToRemove.toLowerCase();   
             });
+
+            this.$wire.removePhrase(phraseToRemove);
         }
     }"
 >
