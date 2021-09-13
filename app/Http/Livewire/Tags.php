@@ -16,7 +16,7 @@ class Tags extends Component
     public $ignoredFilmTagIds;
 
     /** @var Collection */
-    public $ignoredTrailerTagIds;
+    public $ignoredTrailerTitlePhrases;
 
     public function mount()
     {
@@ -32,6 +32,12 @@ class Tags extends Component
             ->orderBy('name')
             ->get()
         ;
+
+        $this->ignoredTrailerTitlePhrases = Auth::user()
+            ->ignoredTrailerTitlePhrases()
+            ->get()
+            ->pluck('phrase')
+        ;
     }
 
     public function toggleIgnoredFilmTag(Tag $tag)
@@ -40,6 +46,16 @@ class Tags extends Component
             Auth::user()->ignoredTags()->detach($tag) :
             Auth::user()->ignoredTags()->attach($tag)
         ;
+    }
+
+    public function addPhrase(string $phrase)
+    {
+        Auth::user()->ignoredTrailerTitlePhrases()->create(['phrase' => $phrase]);
+    }
+
+    public function removePhrase(string $phrase)
+    {
+        Auth::user()->ignoredTrailerTitlePhrases()->where('phrase', $phrase)->delete();
     }
 
     public function hydrate()
