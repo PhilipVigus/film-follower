@@ -23,40 +23,31 @@ class ToShortlist extends Component
     {
         $this->highlightedFilmId = (int) request('film');
 
-        $this->films = $this->highlightedFilmId
-            ? $this->getFilmsWithHighlightedFilm()
-            : $this->getFilmsWithoutHighlightedFilm()
-        ;
+        $this->films = $this->getFilms();
 
         $this->searchKeys = collect(['title', 'tags.name', 'trailers.type']);
     }
 
-    public function getFilmsWithHighlightedFilm(): Collection
+    public function getFilms(): Collection
     {
-        $films = Auth::user()
+        return Auth::user()
             ->filmsToShortlist()
             ->withoutIgnoredTags(Auth::user())
-            ->with('tags', 'trailers')
+            ->where('films.id', '<>', $this->highlightedFilmId)
+            ->with('tags')
+            ->with(['trailers' => function ($query) {
+                $query->withoutIgnoredPhrases(Auth::user());
+            }])
             ->get()
-            ->filter(function ($film) {
-                return $film->trailers->isNotEmpty();
+            ->when($this->highlightedFilmId, function ($collection) {
+                return $collection->prepend(
+                    Film::query()
+                        ->where('id', $this->highlightedFilmId)
+                        ->with('tags', 'trailers')
+                        ->get()
+                        ->first()
+                );
             })
-        ;
-
-        return $this->films = $films->where('id', '=', $this->highlightedFilmId)
-            ->merge(
-                $films->where('id', '!==', $this->highlightedFilmId)
-            )
-        ;
-    }
-
-    public function getFilmsWithoutHighlightedFilm(): Collection
-    {
-        return $this->films = Auth::user()
-            ->filmsToShortlist()
-            ->withoutIgnoredTags(Auth::user())
-            ->with('tags', 'trailers')
-            ->get()
             ->filter(function ($film) {
                 return $film->trailers->isNotEmpty();
             })
