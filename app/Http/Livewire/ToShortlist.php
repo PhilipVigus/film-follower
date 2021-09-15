@@ -33,23 +33,21 @@ class ToShortlist extends Component
         return Auth::user()
             ->filmsToShortlist()
             ->withoutIgnoredTags(Auth::user())
-            ->where('films.id', '<>', $this->highlightedFilmId)
-            ->with('tags')
-            ->with(['trailers' => function ($query) {
-                $query->withoutIgnoredPhrases(Auth::user());
-            }])
+            ->with([
+                'trailers' => function ($query) {
+                    $query->withoutIgnoredPhrases(Auth::user());
+                },
+                'tags',
+            ])
             ->get()
-            ->when($this->highlightedFilmId, function ($collection) {
-                return $collection->prepend(
-                    Film::query()
-                        ->where('id', $this->highlightedFilmId)
-                        ->with('tags', 'trailers')
-                        ->get()
-                        ->first()
-                );
-            })
             ->filter(function ($film) {
                 return $film->trailers->isNotEmpty();
+            })
+            ->sort(function ($a, $b) {
+                return $this->highlightedFilmId && $this->isHighlightedFilm($b)
+                    ? $this->bringHighlightedFilmToTop()
+                    : $this->sortByCreatedAt($a, $b)
+                ;
             })
         ;
     }
@@ -65,6 +63,21 @@ class ToShortlist extends Component
         ;
 
         return redirect()->to(request()->header('Referer'));
+    }
+
+    private function isHighlightedFilm(Film $film)
+    {
+        return $film->id === $this->highlightedFilmId;
+    }
+
+    private function bringHighlightedFilmToTop()
+    {
+        return 1;
+    }
+
+    private function sortByCreatedAt($a, $b)
+    {
+        return $a->created_at->timestamp <=> $b->created_at->timestamp;
     }
 
     public function render()
