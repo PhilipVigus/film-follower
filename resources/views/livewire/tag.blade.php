@@ -22,8 +22,8 @@
                 return `{{ route('shortlist') }}?film=${film.id}`;
             }
 
-            if (filmStatus === '{{ App\Models\Film::WATCHED }}') {
-                return `{{ route('watched') }}?film=${film.id}`;
+            if (filmStatus === '{{ App\Models\Film::REVIEWED }}') {
+                return `{{ route('reviewed') }}?film=${film.id}`;
             }
         }
     }"
@@ -78,9 +78,9 @@
     </article>
 
     <article class="mt-8 bg-gray-200 h-auto shadow-md overflow-hidden rounded-md p-4">
-        <h2 class="text-2xl font-bold px-2 pt-2">Watched films</h2>
+        <h2 class="text-2xl font-bold px-2 pt-2">Reviewed films</h2>
         <div class="flex flex-wrap">
-            <template x-for="(result, index) in currentTerm ? fuse.search(currentTerm).filter((film) => film.item.pivot.status === '{{ App\Models\Film::WATCHED }}') : films.filter((film) => film.item.pivot.status === '{{ App\Models\Film::WATCHED }}')" :key="index">
+            <template x-for="(result, index) in currentTerm ? fuse.search(currentTerm).filter((film) => film.item.pivot.status === '{{ App\Models\Film::REVIEWED }}') : films.filter((film) => film.item.pivot.status === '{{ App\Models\Film::REVIEWED }}')" :key="index">
                 <div :index="index" class="w-1/3 p-2">
                     <h3 class="truncate" x-text="result.item.title"></h2>   
 

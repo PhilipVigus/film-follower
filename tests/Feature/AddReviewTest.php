@@ -27,7 +27,7 @@ class AddReviewTest extends TestCase
         ;
 
         $this->assertEmpty($user->filmsToShortlist);
-        $this->assertCount(1, $user->watchedFilms);
+        $this->assertCount(1, $user->reviewedFilms);
     }
 
     /** @test */

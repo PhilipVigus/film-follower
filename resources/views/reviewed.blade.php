@@ -1,3 +1,3 @@
 <x-app-layout>
-    <livewire:watched />
+    <livewire:reviewed />
 </x-app-layout>

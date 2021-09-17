@@ -17,8 +17,8 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link href="{{ route('watched') }}" :active="request()->routeIs('watched')">
-                        Watched
+                    <x-nav-link href="{{ route('reviewed') }}" :active="request()->routeIs('reviewed')">
+                        Reviewed
                     </x-nav-link>
                 </div>
 
@@ -92,8 +92,8 @@
         </div>
 
         <div class="pt-2">
-            <x-responsive-nav-link href="{{ route('watched') }}" :active="request()->routeIs('watched')">
-                Watched
+            <x-responsive-nav-link href="{{ route('reviewed') }}" :active="request()->routeIs('reviewed')">
+                Reviewed
             </x-responsive-nav-link>
         </div>
 
