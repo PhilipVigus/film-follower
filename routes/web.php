@@ -16,7 +16,7 @@ Route::get('/get-trailers', Controllers\GetTrailersController::class)->name('get
 Route::middleware(['auth'])->group(function () {
     Route::get('/to-shortlist', Controllers\ShowFilmsToShortlistController::class)->name('to-shortlist');
     Route::get('/shortlist', Controllers\ShowFilmsShortlistController::class)->name('shortlist');
-    Route::get('/watched', Controllers\ShowFilmsWatchedController::class)->name('watched');
+    Route::get('/reviewed', Controllers\ShowFilmsReviewedController::class)->name('reviewed');
     Route::get('/ignored', Controllers\ShowFilmsIgnoredController::class)->name('ignored');
     Route::get('/tags/{tag:slug}', Controllers\ShowTagController::class)->name('tag');
     Route::get('/tags', Controllers\ShowTagsController::class)->name('tags');

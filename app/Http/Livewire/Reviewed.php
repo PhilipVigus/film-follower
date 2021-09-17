@@ -7,7 +7,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
 
-class Watched extends Component
+class Reviewed extends Component
 {
     /** @var Collection */
     public $films;
@@ -30,7 +30,7 @@ class Watched extends Component
     public function getFilms(): Collection
     {
         return Auth::user()
-            ->watchedFilms()
+            ->reviewedFilms()
             ->with([
                 'trailers' => function ($query) {
                     $query->withoutIgnoredPhrases(Auth::user());
@@ -73,6 +73,6 @@ class Watched extends Component
 
     public function render()
     {
-        return view('livewire.watched');
+        return view('livewire.reviewed');
     }
 }

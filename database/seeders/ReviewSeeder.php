@@ -25,7 +25,7 @@ class ReviewSeeder extends Seeder
                 $user->films()
                     ->updateExistingPivot(
                         $film,
-                        ['status' => Film::WATCHED]
+                        ['status' => Film::REVIEWED]
                     )
                 ;
             }

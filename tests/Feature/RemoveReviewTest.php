@@ -22,7 +22,7 @@ class RemoveReviewTest extends TestCase
         $user->films()
             ->updateExistingPivot(
                 $film,
-                ['status' => Film::WATCHED]
+                ['status' => Film::REVIEWED]
             )
         ;
 
@@ -39,7 +39,7 @@ class RemoveReviewTest extends TestCase
             ->call('removeReview', $film, true)
         ;
 
-        $this->assertEmpty($user->watchedFilms);
+        $this->assertEmpty($user->reviewedFilms);
         $this->assertCount(1, $user->shortlistedFilms);
     }
 
@@ -52,7 +52,7 @@ class RemoveReviewTest extends TestCase
         $user->films()
             ->updateExistingPivot(
                 $film,
-                ['status' => Film::WATCHED]
+                ['status' => Film::REVIEWED]
             )
         ;
 
@@ -81,7 +81,7 @@ class RemoveReviewTest extends TestCase
         $user->films()
             ->updateExistingPivot(
                 $film,
-                ['status' => Film::WATCHED]
+                ['status' => Film::REVIEWED]
             )
         ;
 
