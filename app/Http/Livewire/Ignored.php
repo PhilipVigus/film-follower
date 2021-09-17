@@ -13,25 +13,28 @@ class Ignored extends Component
     public $films;
 
     /** @var Collection */
-    public $filmsWithIgnoredTags;
-
-    /** @var Collection */
-    public $ignoredTagsIds;
-
-    /** @var Collection */
     public $searchKeys;
 
     public function mount()
     {
-        $this->films = Auth::user()
-            ->ignoredFilms()
-            ->with('tags', 'trailers')
-            ->get()
-        ;
-
-        $this->ignoredTagsIds = Auth::user()->ignoredTags->pluck('id');
+        $this->films = $this->getFilms();
 
         $this->searchKeys = collect(['title', 'tags.name', 'trailers.type']);
+    }
+
+    public function getFilms(): Collection
+    {
+        return Auth::user()
+            ->ignoredFilms()
+            ->with('tags')
+            ->with(['trailers' => function ($query) {
+                $query->withoutIgnoredPhrases(Auth::user());
+            }])
+            ->get()
+            ->filter(function ($film) {
+                return $film->trailers->isNotEmpty();
+            })
+        ;
     }
 
     public function unignoreFilm(Film $film)
