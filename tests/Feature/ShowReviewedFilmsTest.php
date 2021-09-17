@@ -21,7 +21,7 @@ class ShowReviewedFilmsTest extends TestCase
         $response = $this->actingAs($user)->get(route('reviewed'));
 
         $response->assertSuccessful();
-        $response->assertViewIs('reviewed');
+        $response->assertSeeLivewire('reviewed');
     }
 
     /** @test */

@@ -21,7 +21,7 @@ class ShowTagsTest extends TestCase
         $response = $this->actingAs($user)->get(route('tags'));
 
         $response->assertSuccessful();
-        $response->assertViewIs('tags');
+        $response->assertSeeLivewire('tags');
     }
 
     /** @test */
