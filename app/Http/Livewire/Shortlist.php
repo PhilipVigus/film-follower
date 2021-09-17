@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Film;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
@@ -21,48 +22,50 @@ class Shortlist extends Component
     {
         $this->highlightedFilmId = (int) request('film');
 
-        $this->films = $this->highlightedFilmId
-            ? $this->getFilmsWithHighlightedFilm()
-            : $this->getFilmsWithoutHighlightedFilm()
-        ;
+        $this->films = $this->getFilms();
 
         $this->searchKeys = collect(['title', 'tags.name', 'trailers.type', 'priorities.comment']);
     }
 
-    public function getFilmsWithHighlightedFilm(): Collection
-    {
-        $films = Auth::user()
-            ->shortlistedFilms()
-            ->with(['priorities' => function ($query) {
-                $query->where('user_id', '=', Auth::id());
-            }])
-            ->with('tags', 'trailers')
-            ->get()
-            ->sortByDesc(function ($film, $key) {
-                return $film->priorities->first()->rating;
-            })
-        ;
-
-        return $this->films = $films->where('id', '=', $this->highlightedFilmId)
-            ->merge(
-                $films->where('id', '!==', $this->highlightedFilmId)
-            )
-        ;
-    }
-
-    public function getFilmsWithoutHighlightedFilm(): Collection
+    public function getFilms(): Collection
     {
         return Auth::user()
             ->shortlistedFilms()
-            ->with(['priorities' => function ($query) {
-                $query->where('user_id', '=', Auth::id());
-            }])
-            ->with('tags', 'trailers')
+            ->with([
+                'trailers' => function ($query) {
+                    $query->withoutIgnoredPhrases(Auth::user());
+                },
+                'priorities' => function ($query) {
+                    $query->where('user_id', '=', Auth::id());
+                },
+                'tags',
+            ])
             ->get()
-            ->sortByDesc(function ($film, $key) {
-                return $film->priorities->first()->rating;
+            ->filter(function ($film) {
+                return $film->trailers->isNotEmpty();
+            })
+            ->sort(function ($a, $b) {
+                return $this->highlightedFilmId && $this->isHighlightedFilm($b)
+                    ? $this->bringHighlightedFilmToTop()
+                    : $this->sortByCreatedAt($a, $b)
+                ;
             })
         ;
+    }
+
+    private function isHighlightedFilm(Film $film)
+    {
+        return $film->id === $this->highlightedFilmId;
+    }
+
+    private function bringHighlightedFilmToTop()
+    {
+        return 1;
+    }
+
+    private function sortByCreatedAt($a, $b)
+    {
+        return $a->created_at->timestamp <=> $b->created_at->timestamp;
     }
 
     public function render()
