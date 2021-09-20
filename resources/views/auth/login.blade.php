@@ -3,7 +3,7 @@
         <div class="bg-gray-200 p-4 rounded shadow-sm w-1/5">
             <x-auth-heading>Log in</x-auth-heading>
 
-            <x-auth-errors />
+            <x-errors />
             
             @if (session('status'))
                 <div class="mb-4 font-medium text-sm text-green-600">
@@ -16,12 +16,12 @@
 
                 <div class="mt-4">
                     <x-label for="email" value="Email" />
-                    <x-input id="email" class="block mt-1 w-full" type="email" name="email" required autofocus :value="old('email')"/>
+                    <x-input id="email" type="email" name="email" required autofocus :value="old('email')"/>
                 </div>
 
                 <div class="mt-4">
                     <x-label for="password" value="Password" />
-                    <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+                    <x-input id="password" type="password" name="password" required autocomplete="current-password" />
                 </div>
 
                 <div class="block mt-4 flex items-center justify-between">
@@ -32,7 +32,7 @@
                 </div>
 
                 <div>
-                    <x-auth-button class="mt-4 w-full justify-center">
+                    <x-auth-button type="submit" class="mt-4 w-full justify-center">
                         Log in
                     </x-auth-button>
                 </div>
