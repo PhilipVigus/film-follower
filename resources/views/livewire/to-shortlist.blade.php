@@ -1,8 +1,8 @@
 <x-film-list :films="$films" :searchKeys="$searchKeys" :highlightedFilmId="$highlightedFilmId">
     <x-slot name="buttons">
         <div class="mt-4 flex space-x-4">
-            <button class="w-full bg-gray-300 p-2 rounded-md hover:bg-gray-400" x-on:click="$wire.ignoreFilm(result.item)">Ignore</button>
-            <button class="w-full bg-blue-800 text-gray-100 p-2 rounded-md hover:bg-blue-900" x-on:click="$wire.emitTo('modal', 'open', 'priority-details', { film: result.item })">Shortlist</button>
+            <x-button styling="secondary" x-on:click="$wire.ignoreFilm(result.item)">Ignore</x-button>
+            <x-button styling="primary" x-on:click="$wire.emitTo('modal', 'open', 'priority-details', { film: result.item })">Shortlist</x-button>
         </div>
     </x-slot>
 
