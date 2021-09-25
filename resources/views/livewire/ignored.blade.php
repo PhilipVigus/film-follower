@@ -1,7 +1,7 @@
 <x-film-list :films="$films" :searchKeys="$searchKeys">
     <x-slot name="buttons">
         <div class="mt-4 flex space-x-4">
-            <x-button styling="primary" x-on:click="$wire.unignoreFilm(result.item)">Unignore</x-button>
+            <x-button class="w-full" styling="primary" x-on:click="$wire.unignoreFilm(result.item)">Unignore</x-button>
         </div>
     </x-slot>
 
