@@ -5,4 +5,5 @@ return [
     'rss-items-per-request' => 20,
     'guest-email' => env('GUEST_EMAIL', 'guest@user.com'),
     'guest-password' => env('GUEST_PASSWORD', 'password'),
+    'admin-email' => env('ADMIN_EMAIL', 'admin@email.com'),
 ];
