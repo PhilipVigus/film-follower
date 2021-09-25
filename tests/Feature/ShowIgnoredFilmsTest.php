@@ -21,7 +21,7 @@ class ShowIgnoredFilmsTest extends TestCase
         $response = $this->actingAs($user)->get(route('ignored'));
 
         $response->assertSuccessful();
-        $response->assertViewIs('ignored');
+        $response->assertSeeLivewire('ignored');
     }
 
     /** @test */

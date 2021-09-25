@@ -53,7 +53,7 @@ class ReviewDetails extends Component
             ->films()
             ->updateExistingPivot(
                 $this->film['id'],
-                ['status' => Film::WATCHED]
+                ['status' => Film::REVIEWED]
             )
         ;
 

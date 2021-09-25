@@ -22,7 +22,7 @@ class ShowFilmsToShortlistTest extends TestCase
         $response = $this->actingAs($user)->get(route('to-shortlist'));
 
         $response->assertSuccessful();
-        $response->assertViewIs('to-shortlist');
+        $response->assertSeeLivewire('to-shortlist');
     }
 
     /** @test */

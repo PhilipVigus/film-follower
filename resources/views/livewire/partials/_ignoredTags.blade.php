@@ -26,7 +26,7 @@
     }"
 >
 
-    <p>Films with these tags will not be shown on your list of films to be shortlisted. Any films that you have already shortlisted or watched will still be displayed.</p>
+    <p>Films with these tags will not be shown on your list of films to be shortlisted. Any films that you have already shortlisted or reviewed will still be displayed.</p>
 
     <template x-for="tag in tags.filter((t) => ignoredFilmTagIds.includes(t.id))" :key="tag.slug">
         <button class="inline-flex bg-green-300 rounded-full px-2 py-1 mr-2 mt-1.5" x-text="tag.name" x-on:click="toggleIgnoredFilmTag(tag)"></button>

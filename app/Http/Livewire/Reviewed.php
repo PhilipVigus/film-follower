@@ -7,7 +7,7 @@ use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Collection;
 
-class ToShortlist extends Component
+class Reviewed extends Component
 {
     /** @var Collection */
     public $films;
@@ -18,24 +18,28 @@ class ToShortlist extends Component
     /** @var string */
     public $highlightedFilmId;
 
-    /** @var array */
     public function mount()
     {
         $this->highlightedFilmId = (int) request('film');
 
         $this->films = $this->getFilms();
 
-        $this->searchKeys = collect(['title', 'tags.name', 'trailers.type']);
+        $this->searchKeys = collect(['title', 'tags.name', 'trailers.type', 'priorities.comment', 'reviews.comment']);
     }
 
     public function getFilms(): Collection
     {
         return Auth::user()
-            ->filmsToShortlist()
-            ->withoutIgnoredTags(Auth::user())
+            ->reviewedFilms()
             ->with([
                 'trailers' => function ($query) {
                     $query->withoutIgnoredPhrases(Auth::user());
+                },
+                'priorities' => function ($query) {
+                    $query->where('user_id', '=', Auth::id());
+                },
+                'reviews' => function ($query) {
+                    $query->where('user_id', '=', Auth::id());
                 },
                 'tags',
             ])
@@ -50,19 +54,6 @@ class ToShortlist extends Component
                 ;
             })
         ;
-    }
-
-    public function ignoreFilm(Film $film)
-    {
-        Auth::user()
-            ->films()
-            ->updateExistingPivot(
-                $film,
-                ['status' => Film::IGNORED]
-            )
-        ;
-
-        return redirect()->to(request()->header('Referer'));
     }
 
     private function isHighlightedFilm(Film $film)
@@ -82,6 +73,6 @@ class ToShortlist extends Component
 
     public function render()
     {
-        return view('livewire.to-shortlist');
+        return view('livewire.reviewed');
     }
 }
