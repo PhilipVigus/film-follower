@@ -65,7 +65,7 @@ class Shortlist extends Component
 
     private function sortByCreatedAt($a, $b)
     {
-        return $a->created_at->timestamp <=> $b->created_at->timestamp;
+        return $b->priorities->first()->rating <=> $a->priorities->first()->rating;
     }
 
     public function render()
