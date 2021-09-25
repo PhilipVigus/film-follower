@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class ImportLegacyData extends Command
 {
@@ -20,19 +21,9 @@ class ImportLegacyData extends Command
     /** @var int */
     public function handle()
     {
-        $filename = $this->argument('file');
-        $handle = fopen($filename, 'r');
-        $header = true;
-
-        while ($csvLine = fgetcsv($handle)) {
-            if ($header) {
-                $header = false;
-
-                continue;
-            }
-
-            $this->info(json_encode($csvLine[0]));
-        }
+        $trailers = DB::connection('mongodb')->table('trailers')->get();
+        dd($trailers->first());
+        $this->info(json_encode($trailers->first()));
 
         return 0;
     }
