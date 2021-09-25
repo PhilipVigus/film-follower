@@ -1,7 +1,7 @@
 <x-film-list :films="$films" :searchKeys="$searchKeys" :highlightedFilmId="$highlightedFilmId">
     <x-slot name="buttons">
         <div class="mt-4 flex space-x-4">
-            <button class="w-full bg-blue-800 text-gray-100 p-2 rounded-md hover:bg-blue-900" x-on:click="$wire.emitTo('modal', 'open', 'remove-review', { film: result.item })">Remove review</button>
+            <x-button class="w-full" styling="primary" x-on:click="$wire.emitTo('modal', 'open', 'remove-review', { film: result.item })">Remove review</x-button>
         </div>
     </x-slot>
 
