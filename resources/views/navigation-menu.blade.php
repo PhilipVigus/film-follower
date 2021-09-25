@@ -51,9 +51,11 @@
                         </x-slot>
 
                         <x-slot name="content">
-                            <x-dropdown-link href="{{ route('profile.show') }}">
-                                Profile
-                            </x-dropdown-link>
+                            @if (Auth::user()->isNotGuest())
+                                <x-dropdown-link href="{{ route('profile.show') }}">
+                                    Profile
+                                </x-dropdown-link>
+                            @endif
 
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf

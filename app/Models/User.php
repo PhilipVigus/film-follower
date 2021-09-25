@@ -96,7 +96,7 @@ class User extends Authenticatable
         return $this->hasMany(IgnoredTrailerTitlePhrase::class);
     }
 
-    public function canManageProfile(): bool
+    public function isNotGuest(): bool
     {
         return self::TYPE_GUEST !== $this->type;
     }

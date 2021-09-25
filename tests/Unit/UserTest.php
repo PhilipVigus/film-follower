@@ -187,18 +187,18 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function a_guest_user_cannot_manage_their_profile()
+    public function a_user_can_tell_you_if_they_are_a_guest()
     {
         $user = User::factory()->create(['type' => User::TYPE_GUEST]);
 
-        $this->assertFalse($user->canManageProfile());
+        $this->assertFalse($user->isNotGuest());
     }
 
     /** @test */
-    public function a_guest_user_can_manage_their_profile()
+    public function a_user_can_tell_you_if_they_are_a_not_a_guest()
     {
         $user = User::factory()->create(['type' => User::TYPE_NORMAL]);
 
-        $this->assertTrue($user->canManageProfile());
+        $this->assertTrue($user->isNotGuest());
     }
 }
