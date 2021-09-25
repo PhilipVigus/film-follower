@@ -64,7 +64,7 @@ class ImportLegacyData extends Command
                 }
             }
 
-            $me = $users->first();
+            $me = User::where('email', config('film-follower.admin-email'))->firstOrFail();
 
             if (isset($trailer['rating'])) {
                 $rating = $this->ratingMapping[$trailer['rating']];
