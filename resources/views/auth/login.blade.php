@@ -31,10 +31,10 @@
                     </label>
                 </div>
 
-                <div>
-                    <x-auth-button type="submit" class="mt-4 w-full justify-center">
+                <div class="mt-4">
+                    <x-button styling="primary" type="submit">
                         Log in
-                    </x-auth-button>
+                    </x-button>
                 </div>
             </form>
 
@@ -46,15 +46,16 @@
                     <x-input id="guest_password" type="text" name="password" value="{{ config('film-follower.guest-password') }}"/>
                 </div>
 
-                <x-auth-button class="mt-4 w-full justify-center">
+                <x-button styling="secondary" class="mt-4">
                     Log in as guest
-                </x-auth-button>
+                </x-button>
             </form>
 
             <div class="flex items-center justify-between mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
                     Forgot your password?
                 </a>
+                
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">
                     Don't have an account?
                 </a>

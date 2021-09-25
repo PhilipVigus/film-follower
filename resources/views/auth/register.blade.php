@@ -28,10 +28,10 @@
                     <x-input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" />
                 </div>
 
-                <div>
-                    <x-auth-button type="submit" class="mt-6 w-full justify-center">
+                <div class="mt-6">
+                    <x-button type="submit">
                         Register
-                    </x-auth-button>
+                    </x-button>
                 </div>
     
                 <div class="flex items-center justify-end mt-4">
