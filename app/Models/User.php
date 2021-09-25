@@ -20,6 +20,9 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    const TYPE_NORMAL = 'normal';
+    const TYPE_GUEST = 'guest';
+
     protected $fillable = [
         'name',
         'email',
@@ -91,5 +94,10 @@ class User extends Authenticatable
     public function ignoredTrailerTitlePhrases(): HasMany
     {
         return $this->hasMany(IgnoredTrailerTitlePhrase::class);
+    }
+
+    public function canManageProfile(): bool
+    {
+        return self::TYPE_GUEST !== $this->type;
     }
 }

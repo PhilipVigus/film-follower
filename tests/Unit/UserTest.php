@@ -185,4 +185,20 @@ class UserTest extends TestCase
 
         $this->assertEmpty($user->ignoredTags);
     }
+
+    /** @test */
+    public function a_guest_user_cannot_manage_their_profile()
+    {
+        $user = User::factory()->create(['type' => User::TYPE_GUEST]);
+
+        $this->assertFalse($user->canManageProfile());
+    }
+
+    /** @test */
+    public function a_guest_user_can_manage_their_profile()
+    {
+        $user = User::factory()->create(['type' => User::TYPE_NORMAL]);
+
+        $this->assertTrue($user->canManageProfile());
+    }
 }

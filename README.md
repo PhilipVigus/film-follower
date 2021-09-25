@@ -130,5 +130,3 @@ https://trello.com/b/Xxo9CwvF/movies
 - Import legacy data
 - Implement simple account types
 - Set up seeding
-
-mongoexport --uri mongodb+srv://PortfolioAdmin:<PASSWORD>@portfolio-databases.ndtpo.mongodb.net/trailers --collection trailers --type json --out test.json
