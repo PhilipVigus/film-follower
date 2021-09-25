@@ -15,5 +15,6 @@ class UserSeeder extends Seeder
         }
 
         User::factory()->create(['name' => 'guest', 'email' => 'guest@user.com']);
+        User::factory()->create(['name' => 'Phil', 'email' => config('film-follower.admin-email')]);
     }
 }
