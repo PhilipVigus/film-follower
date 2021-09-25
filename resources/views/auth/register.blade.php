@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="mt-6">
-                    <x-button type="submit">
+                    <x-button class="w-full" type="submit">
                         Register
                     </x-button>
                 </div>

@@ -18,8 +18,8 @@
             Saved
         </x-action-message>
 
-        <x-auth-button wire:loading.attr="disabled" wire:target="photo" class="mt-4">
+        <x-button wire:loading.attr="disabled" wire:target="photo" class="mt-4 px-4">
             Save
-        </x-auth-button>
+        </x-button>
     </x-slot>
 </x-form-section>

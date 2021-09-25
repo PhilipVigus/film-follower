@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="mt-4">
-                    <x-button styling="primary" type="submit">
+                    <x-button class="w-full" styling="primary" type="submit">
                         Log in
                     </x-button>
                 </div>
@@ -46,9 +46,11 @@
                     <x-input id="guest_password" type="text" name="password" value="{{ config('film-follower.guest-password') }}"/>
                 </div>
 
-                <x-button styling="secondary" class="mt-4">
-                    Log in as guest
-                </x-button>
+                <div class="mt-4">
+                    <x-button class="w-full" styling="secondary">
+                        Log in as guest
+                    </x-button>
+                </div>
             </form>
 
             <div class="flex items-center justify-between mt-4">
