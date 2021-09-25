@@ -5,7 +5,7 @@
         {{ $form }}
 
         @if (isset($actions))
-        {{ $actions }}
+            {{ $actions }}
         @endif
     </form>
 </div>
