@@ -48,10 +48,17 @@ class Reviewed extends Component
                 return $film->trailers->isNotEmpty();
             })
             ->sort(function ($a, $b) {
-                return $this->highlightedFilmId && $this->isHighlightedFilm($b)
-                    ? $this->bringHighlightedFilmToTop()
-                    : $this->sortByCreatedAt($a, $b)
-                ;
+                if ($this->highlightedFilmId) {
+                    if ($this->isHighlightedFilm($b)) {
+                        return 1;
+                    }
+
+                    if ($this->isHighlightedFilm($a)) {
+                        return -1;
+                    }
+                }
+
+                return $this->sortByTitle($a, $b);
             })
         ;
     }
@@ -66,9 +73,9 @@ class Reviewed extends Component
         return 1;
     }
 
-    private function sortByCreatedAt($a, $b)
+    private function sortByTitle($a, $b)
     {
-        return $a->created_at->timestamp <=> $b->created_at->timestamp;
+        return $a->title <=> $b->title;
     }
 
     public function render()
