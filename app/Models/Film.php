@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Film extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
 
     const TO_SHORTLIST = 'to_shortlist';
     const SHORTLISTED = 'shortlisted';
@@ -24,6 +25,15 @@ class Film extends Model
     ];
 
     protected $guarded = [];
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title',
+            ],
+        ];
+    }
 
     public function trailers(): HasMany
     {
