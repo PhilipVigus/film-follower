@@ -59,8 +59,9 @@
                 {{ $rightColumn }}
             </div>
 
-            @include('livewire.partials._empty-list')
             @include('livewire.partials._element-in-view-trigger')
         </article>
     </template>
+    
+    @include('livewire.partials._empty-list')
 </div>
