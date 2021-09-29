@@ -35,6 +35,7 @@ class Tag extends Component
                 $query->where('tags.id', $this->tag->id);
             })
             ->get()
+            ->toArray()
         ;
 
         $this->searchKeys = collect(['title', 'tags.name', 'trailers.type', 'priorities.comment', 'reviews.comment']);
@@ -45,19 +46,6 @@ class Tag extends Component
         $ignored
             ? Auth::user()->ignoredTags()->attach($this->tag)
             : Auth::user()->ignoredTags()->detach($this->tag)
-        ;
-    }
-
-    public function hydrate()
-    {
-        $this->films = Auth::user()
-            ->films()
-            ->with('trailers', 'priorities', 'reviews')
-            ->withPivot('status')
-            ->whereHas('tags', function (Builder $query) {
-                $query->where('tags.id', $this->tag->id);
-            })
-            ->get()
         ;
     }
 
