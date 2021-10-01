@@ -19,13 +19,16 @@
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-400">
+        <div class="min-h-screen bg-gray-400 flex flex-col">
             <livewire:navigation-menu />
 
-            <main>
+            <main class="flex-grow">
                 {{ $slot }}
             </main>
+
+            @include('livewire.partials._footer')
         </div>
+
 
         <livewire:modal />
 
