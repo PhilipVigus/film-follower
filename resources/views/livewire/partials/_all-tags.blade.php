@@ -20,7 +20,7 @@
 
     <div class="bg-white border border-black rounded absolute w-full p-4 z-10" x-show="filterTerm !=''" x-cloak>
         <template x-for="(tag, index) in filteredTags" :key="tag.slug">
-            <a :index="index" :href="getTagLink(tag)" class="inline-flex bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5" x-text="tag.name + ' x ' + tag.films_count"></a>
+            <a :index="index" :href="getTagLink(tag)" class="inline-flex bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5 hover:bg-green-300" x-text="tag.name + ' x ' + tag.films_count"></a>
         </template>
     </div>
 
