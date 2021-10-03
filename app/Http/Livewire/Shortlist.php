@@ -45,10 +45,17 @@ class Shortlist extends Component
                 return $film->trailers->isNotEmpty();
             })
             ->sort(function ($a, $b) {
-                return $this->highlightedFilmId && $this->isHighlightedFilm($b)
-                    ? $this->bringHighlightedFilmToTop()
-                    : $this->sortByCreatedAt($a, $b)
-                ;
+                if ($this->highlightedFilmId) {
+                    if ($this->isHighlightedFilm($b)) {
+                        return 1;
+                    }
+
+                    if ($this->isHighlightedFilm($a)) {
+                        return -1;
+                    }
+                }
+
+                return $this->sortByRating($a, $b);
             })
         ;
     }
@@ -63,9 +70,9 @@ class Shortlist extends Component
         return 1;
     }
 
-    private function sortByCreatedAt($a, $b)
+    private function sortByRating($a, $b)
     {
-        return $a->created_at->timestamp <=> $b->created_at->timestamp;
+        return $b->priorities->first()->rating <=> $a->priorities->first()->rating;
     }
 
     public function render()

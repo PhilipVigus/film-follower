@@ -185,4 +185,20 @@ class UserTest extends TestCase
 
         $this->assertEmpty($user->ignoredTags);
     }
+
+    /** @test */
+    public function a_user_can_tell_you_if_they_are_a_guest()
+    {
+        $user = User::factory()->create(['type' => User::TYPE_GUEST]);
+
+        $this->assertFalse($user->isNotGuest());
+    }
+
+    /** @test */
+    public function a_user_can_tell_you_if_they_are_a_not_a_guest()
+    {
+        $user = User::factory()->create(['type' => User::TYPE_NORMAL]);
+
+        $this->assertTrue($user->isNotGuest());
+    }
 }

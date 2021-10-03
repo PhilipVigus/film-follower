@@ -52,6 +52,6 @@ class ShowTagTest extends TestCase
         ;
 
         $this->assertCount(1, $response->films);
-        $this->assertEquals($filmWithTag->id, $response->films->first()->id);
+        $this->assertEquals($filmWithTag->id, $response->films[0]['id']);
     }
 }

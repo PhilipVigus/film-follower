@@ -14,6 +14,7 @@ class UserSeeder extends Seeder
             throw new Exception("You can't run this seeder in production!");
         }
 
-        User::factory()->create(['name' => 'guest', 'email' => 'guest@user.com']);
+        User::factory()->create(['name' => 'guest', 'email' => 'guest@user.com', 'type' => User::TYPE_GUEST]);
+        User::factory()->create(['name' => 'Phil', 'email' => config('film-follower.admin-email')]);
     }
 }

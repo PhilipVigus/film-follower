@@ -24,7 +24,7 @@
     <p>Trailers with titles containing these phrases will not be shown. Films with no trailers visible will not show on any lists.</p>
 
     <template x-for="phrase in ignoredTrailerTitlePhrases" :key="phrase">
-        <button class="inline-flex bg-green-300 rounded-full px-2 py-1 mr-2 mt-1.5" x-text="phrase" x-on:click="removePhrase(phrase)"></button>
+        <button class="inline-flex bg-green-300 hover:bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5" x-text="phrase" x-on:click="removePhrase(phrase)"></button>
     </template>
 
     <div class="flex mt-4 space-x-2">

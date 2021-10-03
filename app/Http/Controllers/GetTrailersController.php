@@ -24,7 +24,6 @@ class GetTrailersController extends Controller
                 ],
                 [
                     'title' => $itemData['film']['title'],
-                    'slug' => $itemData['film']['slug'],
                 ]
             );
 

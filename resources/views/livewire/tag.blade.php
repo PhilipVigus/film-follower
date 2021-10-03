@@ -1,7 +1,7 @@
 <div 
     class="max-w-6xl mx-auto" 
     x-data="{ 
-        films: {{ $films }},
+        films: {{ json_encode($films) }},
         baseUrl: '{{ url('/') }}',
         searchTerm: '',
         currentTerm: '',

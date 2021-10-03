@@ -44,9 +44,17 @@ class ToShortlist extends Component
                 return $film->trailers->isNotEmpty();
             })
             ->sort(function ($a, $b) {
-                return $this->highlightedFilmId && $this->isHighlightedFilm($b)
-                    ? $this->bringHighlightedFilmToTop()
-                    : $this->sortByCreatedAt($a, $b)
+                if ($this->highlightedFilmId) {
+                    if ($this->isHighlightedFilm($b)) {
+                        return 1;
+                    }
+
+                    if ($this->isHighlightedFilm($a)) {
+                        return -1;
+                    }
+                }
+
+                return $this->sortByCreatedAt($a, $b)
                 ;
             })
         ;
@@ -68,11 +76,6 @@ class ToShortlist extends Component
     private function isHighlightedFilm(Film $film)
     {
         return $film->id === $this->highlightedFilmId;
-    }
-
-    private function bringHighlightedFilmToTop()
-    {
-        return 1;
     }
 
     private function sortByCreatedAt($a, $b)

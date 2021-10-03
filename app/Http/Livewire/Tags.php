@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Tags extends Component
 {
-    /** @var Collection */
+    /** @var string */
     public $allTags;
 
     /** @var Collection */
@@ -26,11 +26,12 @@ class Tags extends Component
             ->pluck('id')
         ;
 
-        $this->allTags = Tag::query()
+        $this->allTags = json_encode(Tag::query()
             ->withCount('films')
             ->orderByDesc('films_count')
             ->orderBy('name')
             ->get()
+            ->toArray())
         ;
 
         $this->ignoredTrailerTitlePhrases = Auth::user()
@@ -56,16 +57,6 @@ class Tags extends Component
     public function removePhrase(string $phrase)
     {
         Auth::user()->ignoredTrailerTitlePhrases()->where('phrase', $phrase)->delete();
-    }
-
-    public function hydrate()
-    {
-        $this->allTags = Tag::query()
-            ->withCount('films')
-            ->orderByDesc('films_count')
-            ->orderBy('name')
-            ->get()
-        ;
     }
 
     public function render()
