@@ -21,7 +21,7 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::get('/get-trailers', Controllers\GetTrailersController::class)->name('get-trailers');
+// Route::get('/get-trailers', Controllers\GetTrailersController::class)->name('get-trailers');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/to-shortlist', ToShortlist::class)->name('to-shortlist');
