@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Tag;
 use App\Models\Film;
 use App\Models\User;
+use App\Models\Trailer;
 use Illuminate\Support\Str;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -76,16 +77,18 @@ class ImportLegacyData extends Command
 
             $trailerType = trim(Str::afterLast($trailer['title'], ':'));
 
-            $film->trailers()->create([
-                'guid' => $trailer['guid'],
-                'title' => $trailer['title'],
-                'type' => $trailerType,
-                'image' => $trailer['imageURL'],
-                'link' => $trailer['trailerLink'],
-                'uploaded_at' => $date,
-                'created_at' => $date,
-                'updated_at' => $date,
-            ]);
+            if (! Trailer::where('guid', $trailer['guid'])->exists()) {
+                $film->trailers()->create([
+                    'guid' => $trailer['guid'],
+                    'title' => $trailer['title'],
+                    'type' => $trailerType,
+                    'image' => $trailer['imageURL'],
+                    'link' => $trailer['trailerLink'],
+                    'uploaded_at' => $date,
+                    'created_at' => $date,
+                    'updated_at' => $date,
+                ]);
+            }
 
             $tags = explode(', ', $trailer['tags']);
 
