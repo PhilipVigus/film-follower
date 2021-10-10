@@ -9,7 +9,6 @@ use App\Http\Livewire\Shortlist;
 use Laravel\Jetstream\Jetstream;
 use App\Http\Livewire\ToShortlist;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers as Controllers;
 use Laravel\Fortify\Http\Controllers as AuthControllers;
 use Laravel\Jetstream\Http\Controllers\Livewire as AuthLivewireControllers;
 
@@ -20,8 +19,6 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
-
-// Route::get('/get-trailers', Controllers\GetTrailersController::class)->name('get-trailers');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/to-shortlist', ToShortlist::class)->name('to-shortlist');
