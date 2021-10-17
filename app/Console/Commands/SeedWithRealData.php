@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Http\Request;
+use App\Jobs\GetTrailers;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
@@ -34,11 +34,7 @@ class SeedWithRealData extends Command
         Artisan::call('db:seed --class=UserSeeder');
         $this->info('Admin and guest users created');
 
-        $request = Request::create(route('get-trailers'), 'GET');
-        $response = app()->handle($request);
-
-        $responseBody = json_decode($response->getContent(), true);
-
-        $this->info($responseBody . ' films seeded');
+        GetTrailers::dispatch();
+        $this->info('Trailers retrieved');
     }
 }
