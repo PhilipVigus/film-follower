@@ -6,9 +6,9 @@
 
 [Film follower](https://filmfollower.philvigus.com) is a website designed and built to solve a problem my wife and I were having. We watch a lot of films through a service called [Cinema Paradiso](https://www.cinemaparadiso.co.uk/). We maintain a list of films we want to see, and they send us a random film from the list a couple of times a month.
 
-The way we keep up-to-date with films is to watch trailers from [Trailer Adddict](https://www.traileraddict.com/) using their RSS feed. Before film follower, we were subscribed to the feed through my email, and would manually track films we wanted to watch using a spreadsheet. This was fiddly, time-consuming and generally awkward.
+We keep up-to-date with available films by watching trailers from [Trailer Addict](https://www.traileraddict.com/) using their RSS feed. Before film follower, we were subscribed to the feed through my email, and would manually track films we wanted to watch using a spreadsheet. This was fiddly, time-consuming and generally awkward.
 
-Film follower is the second version of the site. The original version of film follower was the first full-stack site I built, before I had a job in software development. You can find it's repository [here](https://github.com/PhilipVigus/trailers-express).
+Film follower solves this problem, and is the second version of the site. The original was the first full-stack site I built, before I had a job in software development. You can find it's repository [here](https://github.com/PhilipVigus/trailers-express).
 
 The new version has enhanced features including authentication, a full suite of unit and feature tests, client-side infinite scrolling, and the ability to leave reviews and ignore films you aren't interested in.
 
@@ -25,13 +25,13 @@ The new version has enhanced features including authentication, a full suite of 
 
 The core functionality of the site allows you to watch film trailers, shortlisting films you are interested in. After watching a film, you can also leave a review.
 
-Trailers are automatically added to the site on a daily basis, and appended to all users' lists to watch.
+Trailers are automatically added to the site on a daily basis, and appended to all users' watch lists.
 
-Users can ignore types of film they aren't interested in using tags that every film is assigned by Trailer Addict, and you can see all films linked to a specific tag.
+You can ignore types of film you aren't interested in using tags that every film is assigned by Trailer Addict, and you can see all films linked to a specific tag.
 
-There is also a general search function on each of the lists you maintain, which utilises [fuse](https://fusejs.io/) to implement fuzzy results.
+There is general search functionality on each of the lists you maintain, which uses [fuse](https://fusejs.io/) to implement fuzzy results.
 
-Lastly, there is a guest user account is provided, with restricted ability to edit account details.
+There is also a guest user account with restricted ability to edit account details.
 
 ## Running the code locally
 
@@ -39,7 +39,7 @@ Lastly, there is a guest user account is provided, with restricted ability to ed
 
 2. Ensure you have PostgreSQL running, and create a database called film_follower
 
-3. Create a .env file, using .env.example as a template, paying particular attention to the database values.
+3. Create a .env file, using .env.example as a template, ensuring the database section reflects the username and password you use.
 
 4. Run the following commands
 
@@ -62,6 +62,7 @@ There are two options for seeding the database. The following will fill the data
 ```bash
 php artisan db:seed
 ```
+
 Alternatively, you can run the following command, which clears the database before pulling real data from the rss feed.
 
 ```bash
@@ -69,9 +70,15 @@ php artisan film-follower:clear-and-seed-real-data
 ```
 
 ## Tests
-There are 127 unit and feature tests. These include a mix of tests provided with Jetstream, and those written as part of development of the site itself. They can be run with the command `php artisan test`
+Including those provided by Jetstream, there are 127 unit and feature tests that can be run with the following command
+
+```
+php artisan test
+```
 
 ## User stories
+
+These stories formed the basis of the design and implementation of the site.
 
 - As a user, so that my lists can only be accessed by me, I want to be able to register an account on the site. 
 - As a user, so that only I can access my account, I want to be able to login to the site.
@@ -99,21 +106,26 @@ There are 127 unit and feature tests. These include a mix of tests provided with
 
 Development was dividing into rough 'sprints'. These were used more loosely than sprints in a full agile development team, just dividing up the user stories and development into logical chunks of roughly the same length.
 
-Being one of the main user of the site, my wife was able to help clarify questions I had, filling in gaps in user stories and general functionality.
+Being one of the main users of the site, my wife was able to help clarify questions I had, filling in gaps in user stories and general functionality.
 
-My choice of technologies was motivated by wanting to practice and demonstrate skills and knowledge used in my role as developer at Mumsnet. I chose to use Jetstream because it provided a starter application with all of the key, TALL stack technologies set up.
+My choice of technologies was motivated by wanting to practice and demonstrate skills and knowledge used in my role as developer at Mumsnet. I chose to use Jetstream because it provided a starter application with all of the key, TALL stack technologies integrated.
 
 Regularly pulling trailers from the RSS feed is implemented as a job, set to run every 24 hours. This is checked for using a cron-job on the server.
 
-Infinite scrolling prevents the site attempting to load too many images at once on initial load.
+Infinite scrolling prevents the site from loading too many images at once on initial load.
 
 ## Database
 
 ![ERD Diagram](/docs/erd-diagram.png "ERD Diagram")
 
+The database design went through various iterations
+- Initially there was no separation between films and trailers, closely matching the structure of the data in the RSS feed. Splitting them out, and gathering related trailers under their films was one of the early, key decisions that clarified the design and made it significantly simpler.
+- Recording the list each film is currently on for each user on a separate table from the notes and ratings was another important change. This made it simple to keep the notes/ratings even if a user changes the list the film is on, functionality my wife specifically asked for.
+- As mentioned elsewhere, early designs had separate film and trailer tags. Removing trailer tags happened quite late in the implementation process. This was done as they added very little functionality that film tags didn't already provide, but added significant complexity to the design and code.
+
 ## Deployment
 
-The site is deployed to AWS using an EC2 instance. The instance includes both the Laravel application and PostgreSQL database. I am aware that using an RDS managed database would provide a more resilient setup, but was keen to explore setting up the application, Apache server and database together.
+The site is deployed to AWS using an EC2 instance. The instance includes both the Laravel application and PostgreSQL database. I am aware that using an RDS managed database would provide a more resilient setup, but was keen to explore setting up the application, an Apache server and PostgreSQL database together.
 
 ## Challenges
 
@@ -124,24 +136,19 @@ I started development with an MVP consisting of the following functionality:
 -   Display all films and trailers
 -   Allow you to watch the trailers on the list
 
-This seemed relatively straightforward. However, partway through implementation I found that my database design had a number of issues with it.
-- I had not accounted for the fact that when a film was moved back, for example from reviews to the shortlist, my wife wanted to keep any data related to the film at that stage in case the move was by accident. For example, a reviewed film has a rating and optional comment. When moving the film from the reviews to shortlist, she wanted to have the option to keep those in the database.
-
-  This led to a redesign of the database, separating out data relating to the different lists into its own tables.
-
-- I generally found that my database design was not quite fully formed enough, which led to a number of smaller issues that I had to resolve as I worked through the implementation.
+This seemed relatively straightforward. However, partway through implementation I found that my database design was not quite fully formed enough, which led to a number of smaller issues that I had to resolve as I worked through the implementation. On future projects I will spend more time thinking through initial database structure to try to limit problems such as these.
 
 ### Laravel Jetstream
 
-I chose to start with Jetstream as it had all of the necessary elements of the TALL stack set up. However, as I progressed through the project I realised that it contained a lot of functionality I just didn't need. It also made it more difficult to implement certain features such as additional middleware.
+I chose to start with Jetstream as it had all of the necessary elements of the TALL stack set up. However, as I progressed through the project I found it contained a lot of functionality I just didn't need. It also made it more difficult to implement certain features such as additional middleware on authenticated routes.
 
 If I were to work on a similar project in the future, I would probably start with a more stripped-down setup, adding and implementing features and technologies myself. This would result in a much cleaner codebase containing only what was absolutely necessary.
 
 ### RSS feed encoding
 
-I had a lot of problems with the way that the RSS feed was encoded. Based on the information provided in the feed itself I initially assumed it was utf-8. However, there were still issues with saving certain characters to the database.
+I had a lot of problems with the way that the RSS feed was encoded. Based on the information provided in the feed itself I initially assumed it was utf-8. However, there were still issues with saving strings containing certain characters to the database.
 
-After a lot of experimentation and debugging, I eventually resorted to a backup function that manually converted any remaining 'difficult' characters.
+After a lot of experimentation and debugging, I eventually used a function that converts any remaining 'difficult' characters. This is not an ideal solution and feels 'hacky', but it will do until I can find a cleaner solution.
 
 ### Film tags and trailer tags
 
@@ -149,14 +156,28 @@ My initial implementation included tags for both films and trailers, set up as a
 
 ### Livewire hydration
 
-Livewire provides a link between the PHP backend and JS frontend. On the frontend, whenever changes are made to livewire component properties, the JS representation is rehydrated, recreating the object. During implementation of the tags view I discovered an issue where the tags were not hydrating correctly, and were missing the number of films that each tag was associated with.
+Livewire provides a link between the Laravel backend and JS frontend. Whenever changes are made to livewire component properties in Laravel, the JS representation is rehydrated, recreating and updating the JS representation of the object. During implementation of the tags view I discovered an issue where the tags were not hydrating correctly, missing the number of films that each tag was associated with.
 
-Fixing this proved to be quite difficult. After raising the issue on the Livewire Github page, it was suggested that I change from using a Laravel collection to an array, which fixed the problem. I have since seen similar issues on other projects, both personal and professional and my understanding helped a lot with resolving them.
+Fixing this proved to be challenging. After raising the issue on the Livewire Github page, it was suggested that I change from using a Laravel collection to an array, which fixed the problem as Livewire hydration sometimes struggles with more complex Laravel collections and database queries. I have since seen similar issues on other projects, both personal and professional, and my understanding helped a lot with resolving them.
 
 ### Importing data from the first version of the site
 
-We had a lot of shortlisted films stored on the site's first version in a MongoDB database, and this information had to be imported into PosgreSQL. The main issue I had with this was needing to clean up the imported data before storing it in the new database. In particular, there was a section of corrupted data that I could not import at all, as it was missing key fields.
+We had a lot of shortlisted films stored on the site's first version in a MongoDB database, and this information had to be imported into PostgreSQL. The main issue I had with this was needing to clean up the migrated data. In particular, I discovered a section of data that I could not import at all, as it was missing key fields.
 
 ### Deployment
 
 The main issue I had during deployment was associating the `https://filmfollower.philvigus.com/` subdomain with the EC2 instance. Due to the way I had setup my portfolio site on Netlify, I effectively had to delete my entire DNS setup and start again, which took a bit of research and experimentation.
+
+## Additions and improvements
+
+- Allow users to add watched films that haven't come from Trailer Addict
+
+  It would be useful to be able to add films to your lists that aren't from Trailer Addict, particularly those we've seen and want to remember. This would help keep a record to make up for our terrible memories when it comes to what films we have and haven't watched!
+
+- Better responsiveness
+
+  We only ever use the site on a large computer monitor so although there is some responsive design, it was never a priority. In particular, I would like to improve user experience on mobile phones.
+
+- Frontend design
+
+  There are a number of improvements I want to make in this area around transitions and user feedback.
