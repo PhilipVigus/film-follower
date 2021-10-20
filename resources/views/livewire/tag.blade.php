@@ -45,7 +45,7 @@
         <h2 class="text-2xl font-bold px-2 pt-2">Films to shortlist</h2>
         <div class="flex flex-wrap">
             <template x-for="(result, index) in currentTerm ? fuse.search(currentTerm).filter((film) => film.item.pivot.status === '{{ App\Models\Film::TO_SHORTLIST }}') : films.filter((film) => film.item.pivot.status === '{{ App\Models\Film::TO_SHORTLIST }}')" :key="index">
-                <div :index="index" class="w-1/3 p-2">
+                <div :index="index" class="sm:w-1/2 lg:w-1/3 w-full p-2">
                     <h3 class="truncate" x-text="result.item.title"></h2>
 
                     <div class="mt-4">

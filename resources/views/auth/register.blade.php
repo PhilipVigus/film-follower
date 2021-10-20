@@ -1,6 +1,6 @@
 <x-guest-layout>
     <x-auth-card>
-        <div class="bg-gray-200 p-4 rounded shadow-sm w-1/5">
+        <div class="bg-gray-200 p-4 rounded shadow-sm lg:w-1/4 w-3/5">
             <x-auth-heading>Register</x-auth-heading>
 
             <x-errors />

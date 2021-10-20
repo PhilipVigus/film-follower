@@ -50,8 +50,8 @@
                 </svg>
             </div>
 
-            <div class="flex space-x-6 mt-4">
-                <section class="w-1/2">                   
+            <div class="flex flex-col sm:flex-row space-x-6 mt-4">
+                <section class="w-full sm:w-1/2">                   
                     @include('livewire.partials._image-link')
                     {{ $buttons }}
                 </section>

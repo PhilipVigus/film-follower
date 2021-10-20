@@ -39,7 +39,7 @@
             <a :index="index" :href="getTagLink(tag)" class="inline-flex bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5 hover:bg-green-300" x-text="tag.name + ' x ' + tag.films_count"></a>
         </template>
 
-        <span class="bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5" x-show="numberOfExcessTags > 0" x-text="`+ ${numberOfExcessTags} tag(s)`"></span>
+        <span class="bg-gray-400 rounded-full px-2 py-1 mr-2 mt-1.5 inline-block" x-show="numberOfExcessTags > 0" x-text="`+ ${numberOfExcessTags} tag(s)`"></span>
     </div>
 
 </div>
